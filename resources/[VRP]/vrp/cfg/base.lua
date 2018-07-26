@@ -25,6 +25,8 @@ cfg.ping_timeout = 5 -- number of minutes after a client should be kicked if not
 cfg.ignore_ip_identifier = true
 
 cfg.lang = "en"
+cfg.permlang = "pt-br"
+cfg.serverlang = "pt-br"
 
 cfg.debug = false
 

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <setting key="MySQL:UseConvars">false</setting>
+  <setting key="MySQL:Server">216.172.172.199</setting>
+  <setting key="MySQL:Port">3306</setting>
+  <setting key="MySQL:Database">muulf670_fivemteste</setting>
+  <setting key="MySQL:Username">muulf670_fivemM</setting>
+  <setting key="MySQL:Password">macaco123</setting>
+  <setting key="MySQL:Debug">false</setting>
+</configuration>

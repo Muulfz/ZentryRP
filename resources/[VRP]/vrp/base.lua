@@ -2,7 +2,7 @@ local Proxy = module("lib/Proxy")
 local Tunnel = module("lib/Tunnel")
 local Luang = module("lib/Luang")
 --local ServerLuang = module("lib/ServerLang")
-local PermLang = module("lib/Permlang")
+local PermLang = module("lib/Permluang")
 
 Debug = module("lib/Debug")
 

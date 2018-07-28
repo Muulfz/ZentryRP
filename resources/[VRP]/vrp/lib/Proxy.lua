@@ -1,4 +1,4 @@
-w-- Proxy interface system, used to add/call functions between resources
+-- Proxy interface system, used to add/call functions between resources
 
 local Debug = module("lib/Debug") 
 local Tools = module("lib/Tools")

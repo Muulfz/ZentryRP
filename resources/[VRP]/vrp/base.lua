@@ -1,8 +1,8 @@
 local Proxy = module("lib/Proxy")
 local Tunnel = module("lib/Tunnel")
 local Luang = module("lib/Luang")
-local PermLuang = module("lib/PermLuang")
-local ServerLuang = module("lib/ServerLuang")
+local Permluang = module("lib/PermlLuang")
+local Serverluang = module("lib/Serverluang")
 
 
 Debug = module("lib/Debug")
@@ -20,13 +20,13 @@ local Lang = Luang()
 Lang:loadLocale(config.lang, module("cfg/lang/"..config.lang) or {})
 vRP.lang = Lang.lang[config.lang]
 
-local PermLang = PermLuang()
-PermLang:loadLocale(config.permlang, module("cfg/permlang/"..config.permlang) or {})
-vRP.permLang = PermLang.permlang[config.permlang]
+local Permlang = Permluang()
+Permlang:loadLocale(config.permlang, module("cfg/permlang/"..config.permlang) or {})
+vRP.permlang = Permlang.permlang[config.permlang]
 
-local ServerLang = ServerLuang()
-ServerLang:loadLocale(config.serverlang, module("cfg/serverlang/"..config.permlang) or {})
-vRP.serverLang = PermLang.serverlang[config.permlang]
+local Serverlang = Serverluang()
+Serverlang:loadLocale(config.serverlang, module("cfg/serverlang/"..config.permlang) or {})
+vRP.serverlang = Permlang.serverlang[config.permlang]
 
 
 -- init

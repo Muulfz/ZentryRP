@@ -1,6 +1,6 @@
 
-local ServerLuang = {}
-local ServerLang = {}
+local Serverluang = {}
+local Serverlang = {}
 
 -- dict resolve functions
 
@@ -38,32 +38,32 @@ end
 -- Lang object methods
 
 -- load a dict table to the lang dict
-function ServerLang:load(dict)
+function Serverlang:load(dict)
   if dict then
-    ServerLuang.inject(self.dict, dict)
+    Serverluang.inject(self.dict, dict)
   end
 end
 
 -- load a dict table to the lang dict for a specific locale
-function ServerLang:loadLocale(locale, dict)
+function Serverlang:loadLocale(locale, dict)
   self:load({[locale] = dict})
 end
 
 -- construct Lang object
-setmetatable(ServerLuang, { __call = function(t)
+setmetatable(Serverluang, { __call = function(t)
   local obj = {}
   obj.dict = {}
   obj.lang = setmetatable({}, { __index = function(t,k) return resolve_path(obj.dict,"",t,k) end })
-  return setmetatable(obj, { __index = ServerLang })
+  return setmetatable(obj, { __index = Serverlang })
 end})
 
 -- inject recursively the itable (insert table) properties into the btable (base table)
-function ServerLuang.inject(btable, itable)
+function Serverluang.inject(btable, itable)
   if type(itable) == "table" then
     for k,v in pairs(itable) do
       local bv = btable[k]
       if type(bv) == "table" then
-        ServerLuang.inject(bv, v) -- recursive, don't replace table
+        Serverluang.inject(bv, v) -- recursive, don't replace table
       else
         btable[k] = itable[k] -- replace property
       end
@@ -71,4 +71,4 @@ function ServerLuang.inject(btable, itable)
   end
 end
 
-return ServerLuang
+return Serverluang

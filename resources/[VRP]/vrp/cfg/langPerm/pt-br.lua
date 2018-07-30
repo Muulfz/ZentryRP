@@ -1,7 +1,0 @@
-local Permlang = {
-
-
-
-}
-
-return Permlang

@@ -1,6 +1,9 @@
 local Proxy = module("lib/Proxy")
 local Tunnel = module("lib/Tunnel")
 local Luang = module("lib/Luang")
+--local ServerLuang = module("lib/ServerLang")
+local PermLang = module("lib/Permluang")
+
 Debug = module("lib/Debug")
 
 local config = module("cfg/base")
@@ -15,6 +18,14 @@ Tunnel.bindInterface("vRP",tvRP) -- listening for client tunnel
 local Lang = Luang()
 Lang:loadLocale(config.lang, module("cfg/lang/"..config.lang) or {})
 vRP.lang = Lang.lang[config.lang]
+
+-- load permission language
+local PermLang = PermLang()
+PermLang:loadLocale(config.permlang, module("cfg/lang"..config.permlang) or {})
+vRP.permlang = PermLang.permlang[config.permlang]
+
+-- load server language
+--local Serverlang --PARA COMPLETAR
 
 -- init
 vRPclient = Tunnel.getInterface("vRP") -- server -> client tunnel
@@ -53,7 +64,7 @@ function vRP.registerDBDriver(name, on_init, on_prepare, on_query)
 
       local ok = on_init(config.db)
       if ok then
-        print("[vRP] Connected to DB using driver \""..name.."\".")
+        print("[Console] Conectando a DB usando driver \""..name.."\".")
         db_initialized = true
         -- execute cached prepares
         for _,prepare in pairs(cached_prepares) do
@@ -70,11 +81,11 @@ function vRP.registerDBDriver(name, on_init, on_prepare, on_query)
         cached_prepares = nil
         cached_queries = nil
       else
-        error("[vRP] Connection to DB failed using driver \""..name.."\".")
+        error("[Console] Conexão com DB usando drive falhou \""..name.."\".")
       end
     end
   else
-    error("[vRP] DB driver \""..name.."\" already registered.")
+    error("[Console] DB driver \""..name.."\" já foi registrado.")
   end
 end
 
@@ -83,7 +94,7 @@ end
 --- query: SQL string with @params notation
 function vRP.prepare(name, query)
   if Debug.active then
-    Debug.log("prepare "..name.." = \""..query.."\"")
+    Debug.log("preparando "..name.." = \""..query.."\"")
   end
 
   prepared_queries[name] = true
@@ -104,7 +115,7 @@ end
 ---- "scalar": should return a scalar
 function vRP.query(name, params, mode)
   if not prepared_queries[name] then
-    error("[vRP] query "..name.." doesn't exist.")
+    error("[Console] query "..name.." não existe.")
   end
 
   if not mode then mode = "query" end
@@ -135,12 +146,12 @@ end
 -- DB driver error/warning
 
 if not config.db or not config.db.driver then
-  error("[vRP] Missing DB config driver.")
+  error("[Console] Faltando configuração da DB.")
 end
 
 Citizen.CreateThread(function()
   while not db_initialized do
-    print("[vRP] DB driver \""..config.db.driver.."\" not initialized yet ("..#cached_prepares.." prepares cached, "..#cached_queries.." queries cached).")
+    print("[Console] DB driver \""..config.db.driver.."\" ainda não iniciou ("..#cached_prepares.." preparando cached, "..#cached_queries.." queries cached).")
     Citizen.Wait(5000)
   end
 end)
@@ -195,7 +206,7 @@ vRP.prepare("vRP/set_last_login","UPDATE vrp_users SET last_login = @last_login 
 vRP.prepare("vRP/get_last_login","SELECT last_login FROM vrp_users WHERE id = @user_id")
 
 -- init tables
-print("[vRP] init base tables")
+print("[Console] Iniciando tabelas ")
 async(function()
   vRP.execute("vRP/base_tables")
 end)
@@ -368,7 +379,7 @@ function vRP.ban(source,reason)
 
   if user_id then
     vRP.setBanned(user_id,true)
-    vRP.kick(source,"[Banned] "..reason)
+    vRP.kick(source,"[Banido]\n"..reason)
   end
 end
 
@@ -390,7 +401,7 @@ function vRP.dropPlayer(source)
     -- save user data table
     vRP.setUData(user_id,"vRP:datatable",json.encode(vRP.getUserDataTable(user_id)))
 
-    print("[vRP] "..endpoint.." disconnected (user_id = "..user_id..")")
+    print("[Console] "..endpoint.." desconectou (user_id = "..user_id..")")
     vRP.users[vRP.rusers[user_id]] = nil
     vRP.rusers[user_id] = nil
     vRP.user_tables[user_id] = nil
@@ -420,7 +431,7 @@ function task_timeout()
   local users = vRP.getUsers()
   for k,v in pairs(users) do
     if GetPlayerPing(v) <= 0 then
-      vRP.kick(v,"[vRP] Ping timeout.")
+      vRP.kick(v,"[Console] Ping timeout.")
       vRP.dropPlayer(v)
     end
   end
@@ -439,17 +450,17 @@ AddEventHandler("playerConnecting",function(name,setMessage, deferrals)
   local ids = GetPlayerIdentifiers(source)
 
   if ids ~= nil and #ids > 0 then
-    deferrals.update("[vRP] Checking identifiers...")
+    deferrals.update("[Server] Checando numero de ID...")
     local user_id = vRP.getUserIdByIdentifiers(ids)
     -- if user_id ~= nil and vRP.rusers[user_id] == nil then -- check user validity and if not already connected (old way, disabled until playerDropped is sure to be called)
     if user_id then -- check user validity 
-      deferrals.update("[vRP] Checking banned...")
+      deferrals.update("[Server] Checando status da conta...")
       if not vRP.isBanned(user_id) then
-        deferrals.update("[vRP] Checking whitelisted...")
+        deferrals.update("[Server] Verificando se a conta está na whitelist...")
         if not config.whitelist or vRP.isWhitelisted(user_id) then
           if vRP.rusers[user_id] == nil then -- not present on the server, init
             -- load user data table
-            deferrals.update("[vRP] Loading datatable...")
+            deferrals.update("[Server] Carregando datatable...")
             local sdata = vRP.getUData(user_id, "vRP:datatable")
 
             -- init entries
@@ -465,7 +476,7 @@ AddEventHandler("playerConnecting",function(name,setMessage, deferrals)
             -- init user tmp table
             local tmpdata = vRP.getUserTmpTable(user_id)
 
-            deferrals.update("[vRP] Getting last login...")
+            deferrals.update("[Server] Pegando ultimo login...")
             local last_login = vRP.getLastLogin(user_id)
             tmpdata.last_login = last_login or ""
             tmpdata.spawns = 0
@@ -476,11 +487,11 @@ AddEventHandler("playerConnecting",function(name,setMessage, deferrals)
             vRP.execute("vRP/set_last_login", {user_id = user_id, last_login = last_login_stamp})
 
             -- trigger join
-            print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")")
+            print("[Console] "..name.." ("..vRP.getPlayerEndpoint(source)..") entrou (user_id = "..user_id..")")
             TriggerEvent("vRP:playerJoin", user_id, source, name, tmpdata.last_login)
             deferrals.done()
           else -- already connected
-            print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") re-joined (user_id = "..user_id..")")
+            print("[Console] "..name.." ("..vRP.getPlayerEndpoint(source)..") entrou novamente (user_id = "..user_id..")")
             -- reset first spawn
             local tmpdata = vRP.getUserTmpTable(user_id)
             tmpdata.spawns = 0
@@ -490,24 +501,24 @@ AddEventHandler("playerConnecting",function(name,setMessage, deferrals)
           end
 
         else
-          print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: not whitelisted (user_id = "..user_id..")")
+          print("[Console] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejeitado: não esta na whitelist (user_id = "..user_id..")")
           Citizen.Wait(1000)
-          deferrals.done("[vRP] Not whitelisted (user_id = "..user_id..").")
+          deferrals.done("[Console] Não esta na whitelist (user_id = "..user_id..").")
         end
       else
-        print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: banned (user_id = "..user_id..")")
+        print("[Console] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejeitado: usuario Banido (user_id = "..user_id..")")
         Citizen.Wait(1000)
-        deferrals.done("[vRP] Banned (user_id = "..user_id..").")
+        deferrals.done("[Console] Usuario banido (user_id = "..user_id..").")
       end
     else
-      print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: identification error")
+      print("[Console] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejeitado: erro de indentificação")
       Citizen.Wait(1000)
-      deferrals.done("[vRP] Identification error.")
+      deferrals.done("[Console] Error de indentificação.")
     end
   else
-    print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: missing identifiers")
+    print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejeitado: faltando indentificação")
     Citizen.Wait(1000)
-    deferrals.done("[vRP] Missing identifiers.")
+    deferrals.done("[Console] Indentidade faltando.")
   end
 end)
 

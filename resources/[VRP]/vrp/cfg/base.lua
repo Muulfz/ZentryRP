@@ -3,11 +3,11 @@ local cfg = {}
 
 -- mysql credentials
 cfg.db = {
-  driver = "ghmattimysql",
-  host = "216.172.172.199",
-  database = "muulf670_fivemteste",
-  user = "muulf670_fivemM",
-  password = "macaco123"
+  driver = "vrp_mysql",
+  host = "127.0.0.1",
+  database = "vRP",
+  user = "vRP",
+  password = "password"
 }
 
 cfg.save_interval = 60 -- seconds
@@ -24,7 +24,9 @@ cfg.ping_timeout = 5 -- number of minutes after a client should be kicked if not
 -- if enabled, steam auth should be forced in the FiveM server config
 cfg.ignore_ip_identifier = true
 
-cfg.lang = "pt-pt"
+cfg.lang = "pt-br"
+cfg.permlang = "pt-br"
+cfg.serverlang = "pt-br"
 
 cfg.debug = false
 

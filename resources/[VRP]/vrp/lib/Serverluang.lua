@@ -53,7 +53,7 @@ end
 setmetatable(Serverluang, { __call = function(t)
   local obj = {}
   obj.dict = {}
-  obj.lang = setmetatable({}, { __index = function(t,k) return resolve_path(obj.dict,"",t,k) end })
+  obj.serverlang = setmetatable({}, { __index = function(t,k) return resolve_path(obj.dict,"",t,k) end })
   return setmetatable(obj, { __index = Serverlang })
 end})
 

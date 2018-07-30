@@ -1,7 +1,7 @@
 local Proxy = module("lib/Proxy")
 local Tunnel = module("lib/Tunnel")
 local Luang = module("lib/Luang")
-local Permluang = module("lib/PermlLuang")
+local Permluang = module("lib/Permluang")
 local Serverluang = module("lib/Serverluang")
 
 
@@ -26,7 +26,7 @@ vRP.permlang = Permlang.permlang[config.permlang]
 
 local Serverlang = Serverluang()
 Serverlang:loadLocale(config.serverlang, module("cfg/serverlang/"..config.permlang) or {})
-vRP.serverlang = Permlang.serverlang[config.permlang]
+vRP.serverlang = Serverlang.serverlang[config.permlang]
 
 
 -- init

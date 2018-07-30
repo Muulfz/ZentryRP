@@ -27,7 +27,7 @@ vRP.permlang = Permlang.permlang[config.permlang]
 local Serverlang = Serverluang()
 Serverlang:loadLocale(config.serverlang, module("cfg/serverlang/"..config.permlang) or {})
 vRP.serverlang = Serverlang.serverlang[config.permlang]
-
+local serverInfoLang = vRP.serverlang
 
 -- init
 vRPclient = Tunnel.getInterface("vRP") -- server -> client tunnel
@@ -66,7 +66,7 @@ function vRP.registerDBDriver(name, on_init, on_prepare, on_query)
 
       local ok = on_init(config.db)
       if ok then
-        print("[vRP] Connected to DB using driver \""..name.."\".")
+        print(serverInfoLang.connectedToDBDrive..name..".")
         db_initialized = true
         -- execute cached prepares
         for _,prepare in pairs(cached_prepares) do

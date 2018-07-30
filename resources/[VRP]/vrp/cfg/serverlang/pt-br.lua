@@ -1,6 +1,12 @@
+local serverInfo = {
+    serverName = "New Life RP",
+    secondServerName = "Brasil New Life",
+    frameworkName = "ZRP"
+}
+
 local serverlang = {
 
-    --add
+    connectedToDBDrive = "["..serverInfo.frameworkName.."] Conectando a DB usando o Driver \""
 }
 
 

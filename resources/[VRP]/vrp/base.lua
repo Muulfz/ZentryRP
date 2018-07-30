@@ -1,6 +1,10 @@
 local Proxy = module("lib/Proxy")
 local Tunnel = module("lib/Tunnel")
 local Luang = module("lib/Luang")
+local PermLuang = module("lib/PermLuang")
+local ServerLuang = module("lib/ServerLuang")
+
+
 Debug = module("lib/Debug")
 
 local config = module("cfg/base")
@@ -15,6 +19,15 @@ Tunnel.bindInterface("vRP",tvRP) -- listening for client tunnel
 local Lang = Luang()
 Lang:loadLocale(config.lang, module("cfg/lang/"..config.lang) or {})
 vRP.lang = Lang.lang[config.lang]
+
+local PermLang = PermLuang()
+PermLang:loadLocale(config.permlang, module("cfg/permlang/"..config.permlang) or {})
+vRP.permLang = PermLang.permlang[config.permlang]
+
+local ServerLang = ServerLuang()
+ServerLang:loadLocale(config.serverlang, module("cfg/serverlang/"..config.permlang) or {})
+vRP.serverLang = PermLang.serverlang[config.permlang]
+
 
 -- init
 vRPclient = Tunnel.getInterface("vRP") -- server -> client tunnel

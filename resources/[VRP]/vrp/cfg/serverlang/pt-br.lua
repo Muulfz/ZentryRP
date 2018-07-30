@@ -1,0 +1,6 @@
+local serverlang = {
+
+}
+
+
+return serverlang

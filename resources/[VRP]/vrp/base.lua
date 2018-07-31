@@ -87,7 +87,7 @@ function vRP.registerDBDriver(name, on_init, on_prepare, on_query)
       end
     end
   else
-    error( serverLang.frameworkName.."DB driver \""..name..serverLang.alreadyRegistered)
+    error("[vRP] DB driver \""..name.."\" already registered.")
   end
 end
 
@@ -117,7 +117,7 @@ end
 ---- "scalar": should return a scalar
 function vRP.query(name, params, mode)
   if not prepared_queries[name] then
-    error( serverLang.frameworkName.. "query "..name..serverLang.dontexist)
+    error("[vRP] query "..name.." doesn't exist.")
   end
 
   if not mode then mode = "query" end
@@ -148,12 +148,12 @@ end
 -- DB driver error/warning
 
 if not config.db or not config.db.driver then
-  error( serverLang.frameworkName.. serverLang.missingDBConfig)
+  error("[vRP] Missing DB config driver.")
 end
 
 Citizen.CreateThread(function()
   while not db_initialized do
-    print(serverLang.frameworkName.."DB driver \""..config.db.driver.."\""..serverLang.notInitYet.. "("..#cached_prepares.." prepares cached, "..#cached_queries.." queries cached).")
+    print("[vRP] DB driver \""..config.db.driver.."\" not initialized yet ("..#cached_prepares.." prepares cached, "..#cached_queries.." queries cached).")
     Citizen.Wait(5000)
   end
 end)
@@ -206,9 +206,11 @@ vRP.prepare("vRP/get_whitelisted","SELECT whitelisted FROM vrp_users WHERE id = 
 vRP.prepare("vRP/set_whitelisted","UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id")
 vRP.prepare("vRP/set_last_login","UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id")
 vRP.prepare("vRP/get_last_login","SELECT last_login FROM vrp_users WHERE id = @user_id")
+vRP.prepare("vRP/user_id_exist", "SELECT id FROM vrp_users WHERE id = @user_id")
+vRP.prepare("vRP/user_whitelisted", "SELECT whitelisted FROM vrp_users WHERE id = @user_id")
 
 -- init tables
-print(serverLang.frameworkName .. serverLang.initBaseTables)
+print("[vRP] init base tables")
 async(function()
   vRP.execute("vRP/base_tables")
 end)
@@ -264,6 +266,28 @@ end
 function vRP.getPlayerName(player)
   return GetPlayerName(player) or "unknown"
 end
+
+--- sql
+function vRP.hasIDExist(user_id)
+  local rows = vRP.query("vRP/user_id_exist",{user_id = user_id})
+  if #rows > 0 then
+    return true
+  else
+    return false
+  end
+end
+
+--- sql
+function vRP.hasWhitelisted(user_id)
+  local rows = vRP.query("vRP/user_whitelisted",{user_id = user_id})
+  if #rows > 0 or #rows < 1 then
+      return rows[1].whitelisted
+  else
+    return nil
+  end
+end
+
+
 
 --- sql
 function vRP.isBanned(user_id, cbr)

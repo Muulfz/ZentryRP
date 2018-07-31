@@ -29,7 +29,7 @@ cfg.permlang = "pt-br"
 cfg.serverlang = "pt-br"
 
 
-cfg.debug = false
+cfg.debug = true
 
 -- time to wait before displaying async return warning (seconds)
 cfg.debug_async_time = 2

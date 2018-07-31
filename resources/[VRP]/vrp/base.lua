@@ -287,8 +287,6 @@ function vRP.hasWhitelisted(user_id)
   end
 end
 
-
-
 --- sql
 function vRP.isBanned(user_id, cbr)
   local rows = vRP.query("vRP/get_banned", {user_id = user_id})

@@ -36,6 +36,23 @@ function vRP.getUserGroups(user_id)
   end
 end
 
+-- check if group exists
+function vRP.getGroupCheck(group)
+  if groups[group] then
+    return true
+  end
+  return false
+end
+
+-- return group code
+function vRP.getGroupCode(group)
+    local g = groups[group]
+    if g and g._config and g._config.code then
+        return g._config.code
+    end
+    return g
+end
+
 -- add a group to a connected user
 function vRP.addUserGroup(user_id,group)
   if not vRP.hasGroup(user_id,group) then

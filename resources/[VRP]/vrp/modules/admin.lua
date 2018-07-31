@@ -91,12 +91,18 @@ end
 
 local function ch_unwhitelist(player,choice)
   local user_id = vRP.getUserId(player)
-  if user_id and vRP.hasPermission(user_id,"player.unwhitelist") then
-    local id = vRP.prompt(player,"User id to un-whitelist: ","")
-    id = parseInt(id)
-    vRP.setWhitelisted(id,false)
-    vRPclient._notify(player, "un-whitelisted user "..id)
-  end
+    if user_id and vRP.hasPermission(user_id,"player.unwhitelist") then
+        local id = vRP.prompt(player,"User id to un-whitelist: ","")
+        id = parseInt(id)
+        if vRP.hasWhitelisted(id) then
+            vRP.setWhitelisted(id,false)
+            vRPclient._notify(player, "un-whitelisted user "..id)
+        else
+            vRPclient._notify(player, "Whitelist ja esta removida")
+        end
+    else
+        vRPclient._notify(player, "ID nao encontrado")
+    end
 end
 
 local function ch_addgroupAdmin(player, choice)
@@ -104,11 +110,17 @@ local function ch_addgroupAdmin(player, choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.group.add") then
     local id = vRP.prompt(player,"User id: ","") 
     id = parseInt(id)
-    local group = vRP.prompt(player,"Group to add: ","")
-    if group then
-      vRP.addUserGroup(id,group)
-      vRPclient._notify(player, group.." added to user "..id)
-    end
+      if vRP.hasIDExist(id) then
+          local group = vRP.prompt(player,"Group to add: ","")
+          if group then
+              if vRP.getGroupCheck(group) then
+                  vRP.addUserGroup(id,group)
+                  vRPclient._notify(player, group.." added to user "..id)
+              else vRPclient._notify(player, "Groupo n existe")
+              end
+          end
+      else vRPclient._notify(player, "Id do usuario n existe")
+      end
   end
 end
 
@@ -123,6 +135,31 @@ local function ch_removegroupAdmin(player, choice)
       vRPclient._notify(player, group.." removed from user "..id)
     end
   end
+end
+
+local function ch_addgroupperm(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id ~= nil and vRP.hasPermission(user_id,"player.group.add") then
+        local id = vRP.prompt(player,"User id: ","")
+        id = parseInt(id)
+        if vRP.hasIDExist(id) then
+            local group = vRP.prompt(player,"Group to add: ","")
+            if group then
+                if vRP.getGroupCheck(group) then
+                    local groupcode = vRP.getGroupCode(group)
+                    if vRP.hasPermission(id,"add.group."..groupcode) then
+                        vRP.addUserGroup(id,group)
+                        vRPclient._notify(player, group.." added to user "..id)
+                    else
+                        vRPclient._notify(player, "Sem Permissao para colocar esse groupo")
+                    end
+                else
+                    vRPclient._notify(player, "Group invalido!")
+                end
+            end
+        else vRPclient._notify(player, "Id do usuario n existe")
+        end
+    end
 end
 
 local function ch_kick(player,choice)
@@ -336,6 +373,9 @@ vRP.registerMenuBuilder("main", function(add, data)
         if vRP.hasPermission(user_id, "player.whitelist") then menu["Admin Function"] = {ch_AdminFunctionCheck} end
         if vRP.hasPermission(user_id,"player.group.add") then
             menu["@Add group"] = { ch_addgroupAdmin }
+        end
+        if vRP.hasPermission(user_id,"player.group.addperm") then
+            menu["@Add group com permissao"] = { ch_addgroupperm }
         end
         if vRP.hasPermission(user_id,"player.group.remove") then
             menu["@Remove group"] = { ch_removegroupAdmin }

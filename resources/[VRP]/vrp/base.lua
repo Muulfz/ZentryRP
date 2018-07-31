@@ -66,7 +66,7 @@ function vRP.registerDBDriver(name, on_init, on_prepare, on_query)
 
       local ok = on_init(config.db)
       if ok then
-        print(serverInfoLang.connectedToDBDrive..name..".")
+        print(serverLang.connectedToDBDrive..name..".")
         db_initialized = true
         -- execute cached prepares
         for _,prepare in pairs(cached_prepares) do
@@ -83,11 +83,11 @@ function vRP.registerDBDriver(name, on_init, on_prepare, on_query)
         cached_prepares = nil
         cached_queries = nil
       else
-        error("[vRP] Connection to DB failed using driver \""..name.."\".")
+        error(serverLang.connectionDBFailed..name..".")
       end
     end
   else
-    error("[vRP] DB driver \""..name.."\" already registered.")
+    error( serverLang.frameworkName.."DB driver \""..name..serverLang.alreadyRegistered)
   end
 end
 
@@ -117,7 +117,7 @@ end
 ---- "scalar": should return a scalar
 function vRP.query(name, params, mode)
   if not prepared_queries[name] then
-    error("[vRP] query "..name.." doesn't exist.")
+    error( serverLang.frameworkName.. "query "..name..serverLang.dontexist)
   end
 
   if not mode then mode = "query" end
@@ -148,12 +148,12 @@ end
 -- DB driver error/warning
 
 if not config.db or not config.db.driver then
-  error("[vRP] Missing DB config driver.")
+  error( serverLang.frameworkName.. serverLang.missingDBConfig)
 end
 
 Citizen.CreateThread(function()
   while not db_initialized do
-    print("[vRP] DB driver \""..config.db.driver.."\" not initialized yet ("..#cached_prepares.." prepares cached, "..#cached_queries.." queries cached).")
+    print(serverLang.frameworkName.."DB driver \""..config.db.driver.."\""..serverLang.notInitYet.. "("..#cached_prepares.." prepares cached, "..#cached_queries.." queries cached).")
     Citizen.Wait(5000)
   end
 end)
@@ -208,7 +208,7 @@ vRP.prepare("vRP/set_last_login","UPDATE vrp_users SET last_login = @last_login 
 vRP.prepare("vRP/get_last_login","SELECT last_login FROM vrp_users WHERE id = @user_id")
 
 -- init tables
-print("[vRP] init base tables")
+print(serverLang.frameworkName .. serverLang.initBaseTables)
 async(function()
   vRP.execute("vRP/base_tables")
 end)

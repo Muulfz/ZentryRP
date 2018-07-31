@@ -27,7 +27,7 @@ vRP.permlang = Permlang.permlang[config.permlang]
 local Serverlang = Serverluang()
 Serverlang:loadLocale(config.serverlang, module("cfg/serverlang/"..config.permlang) or {})
 vRP.serverlang = Serverlang.serverlang[config.permlang]
-local serverInfoLang = vRP.serverlang
+local serverLang = module("cfg/serverlang/"..config.permlang)
 
 -- init
 vRPclient = Tunnel.getInterface("vRP") -- server -> client tunnel

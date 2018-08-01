@@ -5,6 +5,18 @@
 SERVER = not IsVehicleEngineStarting
 CLIENT = not SERVER
 
+
+--[[
+function uuid()
+  local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+  return string.gsub(template, '[xy]', function (c)
+    local v = (c == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
+    return string.format('%x', v)
+  end)
+end
+]]
+
+
 function table.maxn(t)
   local max = 0
   for k,v in pairs(t) do

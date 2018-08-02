@@ -15,7 +15,6 @@ local function build_market_menus()
             name = lang.market.title({ gtype }),
             css = { top = "75px", header_color = "rgba(0,255,125,0.75)" }
         }
-
         -- build market items
         local kitems = {}
 

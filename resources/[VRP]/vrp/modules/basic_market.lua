@@ -23,7 +23,7 @@ local function build_market_menus()
         local market_choice = function(player, choice)
             local idname = kitems[choice][1]
             local item_name, item_desc, item_weight = vRP.getItemDefinition(idname)
-            local price = kitems[choice][2]
+            local price = vRP.getBRLtoUSD() * kitems[choice][2]
 
             if item_name then
                 -- prompt amount

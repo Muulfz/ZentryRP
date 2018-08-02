@@ -34,7 +34,7 @@ vRPclient = Tunnel.getInterface("vRP") -- server -> client tunnel
 vRP.users = {} -- will store logged users (id) by first identifier
 vRP.rusers = {} -- store the opposite of users
 vRP.user_tables = {} -- user data tables (logger storage, saved to database)
-vRP.currency_table = {}
+vRP.currency_table = {} -- pode ser removido
 vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.user_sources = {} -- user sources 
 
@@ -281,14 +281,13 @@ vRP.prepare("vRP/create_srv_report", "INSERT INTO vrp_srv_report(user_id,report,
 
 -- init tables
 vRP.currency = {}
-vRP.currency_special ={}
+vRP.currencySpecial = {}
 
 print("[vRP] init base tables")
 async(function()
     vRP.execute("vRP/base_tables")
     vRP.getCurrency()
 end)
-
 
 function vRP.currencyUpdater()
     local currencyTime = vRP.getSCurrencyTime("vRP:currency")
@@ -310,7 +309,6 @@ function vRP.currencyUpdater()
     end
 end
 
-
 function vRP.updateCurrency()
     local url = "http://www.floatrates.com/daily/BRL.json"
     local method = "GET"
@@ -329,6 +327,13 @@ function vRP.updateCurrencyEspecials()
     end, method)
 end
 
+
+function vRP.stringToFunction(s)
+    local s = s
+    func = loadstring(s)
+    func()
+    print(func())
+end
 -- identification system
 
 --- sql.
@@ -463,10 +468,14 @@ function vRP.setSCurrency(key, value)
 end
 
 function vRP.getSCurrency(key, cbr)
+    print("AQUI")
     local rows = vRP.query("vRP/get_srvcurrency",{key = key})
+    print("AQUI 2")
     if #rows > 0 then
+        print("AQUI 3")
         return rows[1].dvalue
     else
+        print("AQUI 4")
         return ""
     end
 end

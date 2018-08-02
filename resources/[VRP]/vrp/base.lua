@@ -34,6 +34,7 @@ vRPclient = Tunnel.getInterface("vRP") -- server -> client tunnel
 vRP.users = {} -- will store logged users (id) by first identifier
 vRP.rusers = {} -- store the opposite of users
 vRP.user_tables = {} -- user data tables (logger storage, saved to database)
+vRP.currency_table = {}
 vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.user_sources = {} -- user sources 
 
@@ -157,6 +158,14 @@ if not config.db or not config.db.driver then
 end
 
 Citizen.CreateThread(function()
+    local loop = 1
+    while loop > 0 do
+        vRP.currencyUpdater()
+        Citizen.Wait(600000)
+    end
+end)
+
+Citizen.CreateThread(function()
     while not db_initialized do
         print("[vRP] DB driver \"" .. config.db.driver .. "\" not initialized yet (" .. #cached_prepares .. " prepares cached, " .. #cached_queries .. " queries cached).")
         Citizen.Wait(5000)
@@ -187,6 +196,19 @@ CREATE TABLE IF NOT EXISTS vrp_user_data(
   dvalue TEXT,
   CONSTRAINT pk_user_data PRIMARY KEY(user_id,dkey),
   CONSTRAINT fk_user_data_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS vrp_srv_data(
+  dkey VARCHAR(100),
+  dvalue TEXT,
+  CONSTRAINT pk_srv_data PRIMARY KEY(dkey)
+);
+
+CREATE TABLE IF NOT EXISTS vrp_srv_currency(
+  dkey VARCHAR(100),
+  dvalue TEXT,
+  last_time_update INTEGER,
+  CONSTRAINT pk_srv_data PRIMARY KEY(dkey)
 );
 
 CREATE TABLE IF NOT EXISTS vrp_srv_ticket
@@ -238,6 +260,10 @@ vRP.prepare("vRP/get_userdata", "SELECT dvalue FROM vrp_user_data WHERE user_id 
 vRP.prepare("vRP/set_srvdata", "REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)")
 vRP.prepare("vRP/get_srvdata", "SELECT dvalue FROM vrp_srv_data WHERE dkey = @key")
 
+vRP.prepare("vRP/set_srvcurrency", "REPLACE INTO vrp_srv_currency(dkey,dvalue,last_time_update) VALUES(@key,@value,@last_time_update)")
+vRP.prepare("vRP/get_srvcurrency", "SELECT dvalue FROM vrp_srv_currency WHERE dkey = @key")
+vRP.prepare("vRP/get_srvcurrency_time", "SELECT last_time_update FROM vrp_srv_currency WHERE dkey = @key")
+
 vRP.prepare("vRP/get_banned", "SELECT banned FROM vrp_users WHERE id = @user_id")
 vRP.prepare("vRP/set_banned", "UPDATE vrp_users SET banned = @banned WHERE id = @user_id")
 vRP.prepare("vRP/get_whitelisted", "SELECT whitelisted FROM vrp_users WHERE id = @user_id")
@@ -248,18 +274,60 @@ vRP.prepare("vRP/set_last_ip", "UPDATE vrp_users SET last_ip = @last_ip WHERE id
 vRP.prepare("vRP/get_last_ip", "SELECT last_ip FROM vrp_users WHERE id = @user_id")
 vRP.prepare("vRP/user_id_exist", "SELECT id FROM vrp_users WHERE id = @user_id")
 vRP.prepare("vRP/user_whitelisted", "SELECT whitelisted FROM vrp_users WHERE id = @user_id")
-vRP.prepare("vRP/create_srv_ticket","INSERT INTO vrp_srv_ticket(user_id,ticket,date,ingame_accept,solved) VALUE(@user_id,@ticket,@date,@ingame_accept,@solved)")
+vRP.prepare("vRP/create_srv_ticket", "INSERT INTO vrp_srv_ticket(user_id,ticket,date,ingame_accept,solved) VALUES(@user_id,@ticket,@date,@ingame_accept,@solved)")
 vRP.prepare("vRP/get_srv_ticket", "SELECT t.* FROM vrp.vrp_srv_ticket t WHERE ticket_id = 1 ")
 vRP.prepare("vRP/create_srv_report_player", "INSERT INTO vrp_srv_report_player(user_id,report,report_player,was_online,date,close) VALUE(@user_id,@report,@report_player,@was_online,@date,false)")
-vRP.prepare("vRP/create_srv_report", "INSERT INTO vrp_srv_report(user_id,report,date,close) VALUE(@user_id,@report,@date,false)")
-
-
+vRP.prepare("vRP/create_srv_report", "INSERT INTO vrp_srv_report(user_id,report,date,close) VALUES(@user_id,@report,@date,false)")
 
 -- init tables
+vRP.currency = {}
+vRP.currency_special ={}
+
 print("[vRP] init base tables")
 async(function()
     vRP.execute("vRP/base_tables")
+    vRP.getCurrency()
 end)
+
+
+function vRP.currencyUpdater()
+    local currencyTime = vRP.getSCurrencyTime("vRP:currency")
+    if currencyTime then
+        if os.time() >= currencyTime + config.currencyReset*60 then
+            vRP.updateCurrency()
+            vRP.updateCurrencyEspecials()
+            for k,v in pairs(vRP.currency) do
+                vRP.currency[k] = nil
+            end
+            for k,v in pairs(vRP.currency_special) do
+                vRP.currency_special[k] = nil
+            end
+            vRP.getCurrency()
+        end
+    else
+        vRP.updateCurrency()
+        vRP.updateCurrencyEspecials()
+    end
+end
+
+
+function vRP.updateCurrency()
+    local url = "http://www.floatrates.com/daily/BRL.json"
+    local method = "GET"
+    PerformHttpRequest(url, function(code, result, headers)
+        vRP.setSCurrency("vRP:currency", result)
+        cb(0, nil)
+    end, method)
+end
+
+function vRP.updateCurrencyEspecials()
+    local url = "data.fixer.io/api/latest?access_key=" .. config.fixerApikey
+    local method = "GET"
+    PerformHttpRequest(url, function(code, result, headers)
+        vRP.setSCurrency("vRP:currency_special", result)
+        cb(0, nil)
+    end, method)
+end
 
 -- identification system
 
@@ -386,6 +454,29 @@ function vRP.getUData(user_id, key, cbr)
         return rows[1].dvalue
     else
         return ""
+    end
+end
+
+function vRP.setSCurrency(key, value)
+    local time = os.time()
+    vRP.execute("vRP/set_srvcurrency",{key = key, value = value, last_time_update = time})
+end
+
+function vRP.getSCurrency(key, cbr)
+    local rows = vRP.query("vRP/get_srvcurrency",{key = key})
+    if #rows > 0 then
+        return rows[1].dvalue
+    else
+        return ""
+    end
+end
+
+function vRP.getSCurrencyTime(key, cbr)
+    local rows = vRP.query("vRP/get_srvcurrency_time",{key = key})
+    if #rows > 0 then
+        return rows[1].last_time_update
+    else
+        return false
     end
 end
 
@@ -579,7 +670,7 @@ AddEventHandler("playerConnecting", function(name, setMessage, deferrals)
                         local ep = vRP.getPlayerEndpoint(source)
                         local last_login_stamp = os.date("%H:%M:%S %d/%m/%Y")
                         vRP.execute("vRP/set_last_login", { user_id = user_id, last_login = last_login_stamp })
-                        vRP.execute("vRP/set_last_ip",{user_id = user_id, last_ip = ep})
+                        vRP.execute("vRP/set_last_ip", { user_id = user_id, last_ip = ep })
 
                         -- trigger join
                         print("[vRP] " .. name .. " (" .. vRP.getPlayerEndpoint(source) .. ") joined (user_id = " .. user_id .. ")")

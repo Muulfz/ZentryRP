@@ -28,7 +28,10 @@ cfg.lang = "pt-br"
 cfg.permlang = "pt-br"
 cfg.serverlang = "pt-br"
 
-
+-- default: reset every 12h
+cfg.currencyReset = 12*60
+cfg.currencyEspecialReset = 24*60
+cfg.fixerApikey = "85bfaa39fcdd1de13da51989a4c492ca"
 cfg.debug = true
 
 -- time to wait before displaying async return warning (seconds)

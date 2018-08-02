@@ -10,16 +10,13 @@ local player_lists = {}
 local function ch_AdminFunctionCheck(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id and vRP.hasPermission(user_id, "player.whitelist") then
-        print(uuid())
-        local teste = vRP.getUsersOnline()
-        local user = vRP.prompt(player, "ID PARA VERIFICAR", "ID")
-        local userID = parseInt(user)
-        local isOnline = vRP.playerIsOnline(userID)
-        if isOnline then
-            vRPclient._notify(player, "Esta Online")
-        else
-            vRPclient._notify(player, "Player offline")
-        end
+--[[        local data = vRP.getSData("vRP:currency")
+        local currency = json.decode(data) or {}
+        print(currency)
+        print(currency[1])
+        print(currency.usd.inverseRate .. "TESTE FODAO")]]
+        local promp = vRP.prompt(player,"DIGITE O COMANDO","")
+        print(promp)
     end
 end
 
@@ -356,7 +353,7 @@ local function ch_givemoney(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
         local amount = vRP.prompt(player, "Amount:", "")
-        amount = parseInt(amount)
+        amount = parseDouble(amount)
         if amount <= 2147483647 then
             vRP.giveMoney(user_id, amount)
         else

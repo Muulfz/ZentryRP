@@ -24,6 +24,7 @@ server_scripts{
   "modules/home_components.lua",
   "modules/mission.lua",
   "modules/aptitude.lua",
+  "modules/economy_utils.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",

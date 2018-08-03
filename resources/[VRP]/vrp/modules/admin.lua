@@ -109,6 +109,8 @@ local function ch_unwhitelist(player, choice)
             else
                 vRPclient._notify(player, "Whitelist ja esta removida")
             end
+        else
+            vRPclient._notify(player, "ID nao cadastrado")
         end
     end
 end
@@ -154,6 +156,8 @@ local function ch_removegroupAdmin(player, choice)
                 end
 
             end
+        else
+            vRPclient._notify(player, "Id do usuario n existe")
         end
     end
 end
@@ -211,6 +215,8 @@ local function ch_removegroupperm(player, choice)
                 end
 
             end
+        else
+            vRPclient._notify(player, "Id do usuario n existe")
         end
     end
 end
@@ -362,6 +368,122 @@ local function ch_givemoney(player, choice)
     end
 end
 
+local function ch_player_givemoney(player, choice)
+    local user_id = vRP.getUserId(player)
+        if user_id and vRP.hasPermission(user_id, "admin.give.money") then
+        local player_id = vRP.prompt(player,"ID","")
+            if player_id then
+                local amount = vRP.prompt(player, "Amount:", "")
+                amount = parseDouble(amount)
+                if amount <= 2147483647 then
+                    vRP.giveMoney(player_id, amount)
+                else
+                    vRPclient._notify(player, "Valor acima do Permitido")
+                end
+            else
+                vRPclient._notify(platyer, "JOGADOR N EXISTE")
+            end
+
+    end
+end
+
+local function ch_givemoney_USD(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id then
+        local amount = vRP.prompt(player, "Amount:", "")
+        amount = parseDouble(amount)
+        if amount <= 2147483647 then
+            vRP.giveMoneyUSD(user_id, amount)
+        else
+            vRPclient._notify(player, "Valor acima do Permitido")
+        end
+    end
+end
+
+local function ch_player_givemoney_USD(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id and vRP.hasPermission(user_id, "admin.give.money") then
+        local player_id = vRP.prompt(player,"ID","")
+        if player_id then
+            local amount = vRP.prompt(player, "Amount:", "")
+            amount = parseDouble(amount)
+            if amount <= 2147483647 then
+                vRP.giveMoneyUSD(player_id, amount)
+            else
+                vRPclient._notify(player, "Valor acima do Permitido")
+            end
+        else
+            vRPclient._notify(platyer, "JOGADOR N EXISTE")
+        end
+
+    end
+end
+
+local function ch_givemoney_EUR(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id then
+        local amount = vRP.prompt(player, "Amount:", "")
+        amount = parseDouble(amount)
+        if amount <= 2147483647 then
+            vRP.giveMoneyEUR(user_id, amount)
+        else
+            vRPclient._notify(player, "Valor acima do Permitido")
+        end
+    end
+end
+
+local function ch_player_givemoney_EUR(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id and vRP.hasPermission(user_id, "admin.give.money") then
+        local player_id = vRP.prompt(player,"ID","")
+        if player_id then
+            local amount = vRP.prompt(player, "Amount:", "")
+            amount = parseDouble(amount)
+            if amount <= 2147483647 then
+                vRP.giveMoneyEUR(player_id, amount)
+            else
+                vRPclient._notify(player, "Valor acima do Permitido")
+            end
+        else
+            vRPclient._notify(platyer, "JOGADOR N EXISTE")
+        end
+
+    end
+end
+
+local function ch_givemoney_BTC(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id then
+        local amount = vRP.prompt(player, "Amount:", "")
+        amount = parseDouble(amount)
+        if amount <= 2147483647 then
+            vRP.giveMoneyBTC(user_id, amount)
+        else
+            vRPclient._notify(player, "Valor acima do Permitido")
+        end
+    end
+end
+
+local function ch_player_givemoney_BTC(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id and vRP.hasPermission(user_id, "admin.give.money") then
+        local player_id = vRP.prompt(player,"ID","")
+        if player_id then
+            local amount = vRP.prompt(player, "Amount:", "")
+            amount = parseDouble(amount)
+            if amount <= 2147483647 then
+                vRP.giveMoneyBTC(player_id, amount)
+            else
+                vRPclient._notify(player, "Valor acima do Permitido")
+            end
+        else
+            vRPclient._notify(platyer, "JOGADOR N EXISTE")
+        end
+
+    end
+end
+
+
 local function ch_giveitem(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
@@ -389,32 +511,36 @@ local function ch_calladmin(player, choice)
                     table.insert(players, player)
                 end
             end
-
-            -- send notify and alert to all listening players
-            for k, v in pairs(players) do
-                async(function()
-                    local ok = vRP.request(v, "Admin ticket (user_id = " .. user_id .. ") take/TP to ?: " .. htmlEntities.encode(desc), 60)
-                    if not ok then
-                        vRP.execute("vRP/create_srv_ticket", { user_id = user_id, ticket = desc, date = date, ingame_accept = answered, solved = answered })
-                        print(answered .. "ELSE LOCO")
-                        vRPclient._notify(player, "Seu ticket foi registrado e sera atualizado o mais rapido possivel")
-                    end
-                    if ok then
-                        -- take the call
-                        if not answered then
-                            -- answer the call
-                            vRPclient._notify(player, "An admin took your ticket.")
-                            vRPclient._teleport(v, vRPclient.getPosition(player))
-                            answered = true
+            if players == nil then
+                vRP.execute("vRP/create_srv_ticket", { user_id = user_id, ticket = desc, date = date})
+                vRPclient._notify(player, "Seu ticket foi registrado e sera atualizado o mais rapido possivel")
+            else
+                -- send notify and alert to all listening players
+                for k, v in pairs(players) do
+                    async(function()
+                        local ok = vRP.request(v, "Admin ticket (user_id = " .. user_id .. ") take/TP to ?: " .. htmlEntities.encode(desc), 60)
+                        if not ok then
                             vRP.execute("vRP/create_srv_ticket", { user_id = user_id, ticket = desc, date = date, ingame_accept = answered, solved = answered })
 
-                        else
-                            answered = false
-                            vRPclient._notify(v, "Ticket already taken.")
                         end
-                    end
-                end)
+                        if ok then
+                            -- take the call
+                            if not answered then
+                                -- answer the call
+                                vRPclient._notify(player, "An admin took your ticket.")
+                                vRPclient._teleport(v, vRPclient.getPosition(player))
+                                answered = true
+                                vRP.execute("vRP/create_srv_ticket", { user_id = user_id, ticket = desc, date = date, ingame_accept = answered, solved = answered })
+
+                            else
+                                answered = false
+                                vRPclient._notify(v, "Ticket already taken.")
+                            end
+                        end
+                    end)
+                end
             end
+
         end
     end
 end
@@ -560,6 +686,27 @@ vRP.registerMenuBuilder("main", function(add, data)
             end
             if vRP.hasPermission(user_id, "player.givemoney") then
                 menu["@Give money"] = { ch_givemoney }
+            end
+            if vRP.hasPermission(user_id, "player.givemoney") then
+                menu["@Give player money"] = { ch_player_givemoney }
+            end
+            if vRP.hasPermission(user_id, "player.givemoney") then
+                menu["@Give money USD "] = { ch_givemoney_USD() }
+            end
+            if vRP.hasPermission(user_id, "player.givemoney") then
+                menu["@Give player money"] = { ch_player_givemoney_USD }
+            end
+            if vRP.hasPermission(user_id, "player.givemoney") then
+                menu["@Give money EUR"] = { ch_givemoney_EUR }
+            end
+            if vRP.hasPermission(user_id, "player.givemoney") then
+                menu["@Give player money EUR"] = { ch_player_givemoney_EUR }
+            end
+            if vRP.hasPermission(user_id, "player.givemoney") then
+                menu["@Give money BTC"] = { ch_givemoney_BTC }
+            end
+            if vRP.hasPermission(user_id, "player.givemoney") then
+                menu["@Give player money BTC"] = { ch_player_givemoney_BTC }
             end
             if vRP.hasPermission(user_id, "player.giveitem") then
                 menu["@Give item"] = { ch_giveitem }

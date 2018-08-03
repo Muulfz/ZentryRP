@@ -36,7 +36,8 @@ vRP.rusers = {} -- store the opposite of users
 vRP.user_tables = {} -- user data tables (logger storage, saved to database)
 vRP.currency_table = {} -- pode ser removido
 vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
-vRP.user_sources = {} -- user sources 
+vRP.user_sources = {} -- user sources
+vRP.thread_list = {}
 
 -- db/SQL API
 local db_drivers = {}
@@ -158,6 +159,7 @@ if not config.db or not config.db.driver then
 end
 
 Citizen.CreateThread(function()
+    vRP.thread_list.currency_updater = GetIdOfThisThread()
     local loop = 1
     while loop > 0 do
         vRP.currencyUpdater()
@@ -166,6 +168,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+    vRP.thread_list.db_initialized = GetIdOfThisThread()
     while not db_initialized do
         print("[vRP] DB driver \"" .. config.db.driver .. "\" not initialized yet (" .. #cached_prepares .. " prepares cached, " .. #cached_queries .. " queries cached).")
         Citizen.Wait(5000)
@@ -285,6 +288,7 @@ vRP.currencySpecial = {}
 
 print("[vRP] init base tables")
 async(function()
+    vRP.thread_list.init_base_tables = GetIdOfThisThread()
     vRP.execute("vRP/base_tables")
     vRP.getCurrency()
 end)
@@ -295,11 +299,13 @@ function vRP.currencyUpdater()
         if os.time() >= currencyTime + config.currencyReset*60 then
             vRP.updateCurrency()
             vRP.updateCurrencyEspecials()
-            for k,v in pairs(vRP.currency) do
-                vRP.currency[k] = nil
+            for i=1, #vRP.currency do
+                vRP.currency[i]:removeSelf() -- Optional Display Object Removal
+                vRP.currency[i] = nil        -- Nil Out Table Instance
             end
-            for k,v in pairs(vRP.currency_special) do
-                vRP.currency_special[k] = nil
+            for i=1, #vRP.currencySpecial do
+                vRP.currencySpecial[i]:removeSelf() -- Optional Display Object Removal
+                vRP.currencySpecial[i] = nil        -- Nil Out Table Instance
             end
             vRP.getCurrency()
         end
@@ -322,7 +328,7 @@ function vRP.updateCurrencyEspecials()
     local url = "data.fixer.io/api/latest?access_key=" .. config.fixerApikey
     local method = "GET"
     PerformHttpRequest(url, function(code, result, headers)
-        vRP.setSCurrency("vRP:currency_special", result)
+        vRP.setSCurrency("vRP:currencyspecial", result)
         cb(0, nil)
     end, method)
 end
@@ -613,6 +619,7 @@ function task_save_datatables()
 end
 
 async(function()
+    vRP.thread_list.task_save_datatables = GetIdOfThisThread()
     task_save_datatables()
 end)
 

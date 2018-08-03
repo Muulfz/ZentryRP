@@ -15,7 +15,7 @@ end
 function vRP.getCurrencyTable()
     local data = vRP.getSCurrency("vRP:currency")
     vRP.currency = json.decode(data) or {}
-end
+    end
 
 function vRP.getCurrencyEspecialTable()
     local data = vRP.getSCurrency("vRP:currencyspecial")
@@ -84,7 +84,7 @@ function vRP.getXAUGramstoBR()
 end
 
 function vRP.getXAUGramstoUSD()
-    local cur = ((vRP.currencySpecial.rates.XAU/28.3495)*1000000)*(1/vRP.currencySpecial.rates.USD)
+    local cur = ((vRP.currencySpecial.rates.XAU/28.3495)*1000000)*vRP.currencySpecial.rates.USD
     return vRP.decimalRound(2,cur)
 end
 
@@ -99,7 +99,7 @@ function vRP.getXAGGramstoBR()
 end
 
 function vRP.getXAGGramstoUSD()
-    local cur = ((vRP.currencySpecial.rates.XAG/28.3495)*1000000)*(1/vRP.currencySpecial.rates.USD)
+    local cur = ((vRP.currencySpecial.rates.XAG/28.3495)*1000000)*vRP.currencySpecial.rates.USD
     return vRP.decimalRound(2,cur)
 end
 

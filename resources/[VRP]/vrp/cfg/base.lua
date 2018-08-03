@@ -10,6 +10,8 @@ cfg.db = {
   password = "macaco123"
 }
 
+cfg.home_dir = "C:/Zentry/Fivem/ZentryRP"
+
 cfg.save_interval = 60 -- seconds
 cfg.whitelist = false -- enable/disable whitelist
 

@@ -52,7 +52,8 @@ client_scripts{
   "client/police.lua",
   "client/admin.lua",
   "client/basic_phone.lua",
-  "client/basic_radio.lua"
+  "client/basic_radio.lua",
+  "client/weapons.lua"
 }
 
 -- client files

@@ -82,5 +82,5 @@ cfg.radio_voice_config = {
     biquad = { type = "bandpass", frequency = 1700, Q = 2, gain = 1.2 }
   }
 }
-
+cfg.client_lang = "en"
 return cfg

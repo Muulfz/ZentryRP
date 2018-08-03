@@ -78,7 +78,7 @@ local function ch_list(player, choice)
         end
     end
 end
--- Feito
+
 local function ch_whitelist(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id and vRP.hasPermission(user_id, "player.whitelist") then
@@ -96,7 +96,7 @@ local function ch_whitelist(player, choice)
         end
     end
 end
--- Feito
+
 local function ch_unwhitelist(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id and vRP.hasPermission(user_id, "player.unwhitelist") then
@@ -114,7 +114,7 @@ local function ch_unwhitelist(player, choice)
         end
     end
 end
--- Feito
+
 local function ch_addgroupAdmin(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id ~= nil and vRP.hasPermission(user_id, "player.group.add") then
@@ -135,7 +135,7 @@ local function ch_addgroupAdmin(player, choice)
         end
     end
 end
---Feito
+
 local function ch_removegroupAdmin(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id and vRP.hasPermission(user_id, "player.group.remove") then
@@ -161,7 +161,7 @@ local function ch_removegroupAdmin(player, choice)
         end
     end
 end
--- Feito
+
 local function ch_addgroupperm(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id ~= nil and vRP.hasPermission(user_id, "player.group.add") then
@@ -191,7 +191,7 @@ local function ch_addgroupperm(player, choice)
         end
     end
 end
---feito
+
 local function ch_removegroupperm(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id and vRP.hasPermission(user_id, "player.group.remove") then
@@ -220,7 +220,7 @@ local function ch_removegroupperm(player, choice)
         end
     end
 end
---feito
+
 local function ch_kick(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id and vRP.hasPermission(user_id, "player.kick") then
@@ -243,7 +243,7 @@ local function ch_kick(player, choice)
         end
     end
 end
---Feito
+
 local function ch_ban(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id and vRP.hasPermission(user_id, "player.ban") then
@@ -265,7 +265,7 @@ local function ch_ban(player, choice)
         end
     end
 end
--- feito
+
 local function ch_unban(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id and vRP.hasPermission(user_id, "player.unban") then
@@ -327,7 +327,7 @@ local function ch_tptome(player, choice)
         vRPclient._teleport(tplayer, x, y, z)
     end
 end
--- Feito
+
 local function ch_tpto(player, choice)
     local user_id = vRP.prompt(player, "User id:", "")
     local tplayer = vRP.getUserSource(tonumber(user_id))
@@ -348,11 +348,22 @@ end
 local function ch_tptocoords(player, choice)
     local fcoords = vRP.prompt(player, "Coords x,y,z:", "")
     local coords = {}
-    for coord in string.gmatch(fcoords or "0,0,0", "[^,]+") do
-        table.insert(coords, tonumber(coord))
+    if not fcoords == "" then
+        for coord in string.gmatch(fcoords or "0,0,0", "[^,]+") do
+            table.insert(coords, tonumber(coord))
+        end
+
+        vRPclient._teleport(player, coords[1] or 0, coords[2] or 0, coords[3] or 0)
+    else
+        vRPclient._notify(player,"CORDENADAS INVALIDAS")
     end
 
-    vRPclient._teleport(player, coords[1] or 0, coords[2] or 0, coords[3] or 0)
+end
+local function ch_tptowaypoint(player,choice)
+    local user_id = vRP.getUserId(player)
+    if user_id then
+        vRPclient._tpToWayPoint(player)
+    end
 end
 
 local function ch_givemoney(player, choice)
@@ -483,7 +494,6 @@ local function ch_player_givemoney_BTC(player, choice)
     end
 end
 
-
 local function ch_giveitem(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
@@ -610,6 +620,13 @@ local function ch_audiosource(player, choice)
     end
 end
 
+
+
+
+
+
+
+
 vRP.registerMenuBuilder("main", function(add, data)
     local user_id = vRP.getUserId(data.player)
     if user_id then
@@ -623,7 +640,9 @@ vRP.registerMenuBuilder("main", function(add, data)
             menu.onclose = function(player)
                 vRP.openMainMenu(player)
             end -- nest menu
-
+            if vRP.hasPermission(user_id, "player.list") then
+                menu["TELEPORTAR AO WAYPOINT"] = { ch_tptowaypoint, "Show/hide user list." }
+            end
             if vRP.hasPermission(user_id, "player.list") then
                 menu["@User list"] = { ch_list, "Show/hide user list." }
             end
@@ -724,6 +743,26 @@ vRP.registerMenuBuilder("main", function(add, data)
         add(choices)
     end
 end)
+
+
+--[[gods = {}
+function task_god()
+    SetTimeout(10000, task_god)
+
+    for k,v in pairs(gods) do
+        vRP.setHunger(v, 0)
+        vRP.setThirst(v, 0)
+
+        local player = vRP.getUserSource(v)
+        if player ~= nil then
+            vRPclient.setHealth(player, 200)
+        end
+    end
+end
+
+Citizen.CreateThread(function()
+    task_god()
+end)]]
 
 -- admin god mode
 function task_god()

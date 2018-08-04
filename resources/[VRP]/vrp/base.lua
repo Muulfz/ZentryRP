@@ -20,13 +20,14 @@ Lang:loadLocale(config.lang, module("cfg/lang/" .. config.lang) or {})
 vRP.lang = Lang.lang[config.lang]
 
 local Permlang = Permluang()
-Permlang:loadLocale(config.permlang, module("cfg/permlang/" .. config.permlang) or {})
+Permlang:loadLocale(config.permlang, module("cfg/lang/permlang/" .. config.permlang) or {})
 vRP.permlang = Permlang.permlang[config.permlang]
 
 local Serverlang = Serverluang()
-Serverlang:loadLocale(config.serverlang, module("cfg/serverlang/" .. config.permlang) or {})
+Serverlang:loadLocale(config.serverlang, module("cfg/lang/serverlang/" .. config.permlang) or {})
 vRP.serverlang = Serverlang.serverlang[config.permlang]
-local serverLang = module("cfg/serverlang/" .. config.permlang)
+
+local serverLang = module("cfg/lang/serverlang/" .. config.permlang)
 
 --[[local Itemlang = Itemluang()
 Itemlang:loadLocale(config.itemlang, module("cfg/lang/item" .. config.itemlang) or {})

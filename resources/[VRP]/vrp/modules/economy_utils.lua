@@ -1,6 +1,6 @@
 local config = module("cfg/base")
 local lang = vRP.lang
-local serverLang = module("cfg/serverlang/" .. config.permlang)
+local serverLang = module("cfg/lang/serverlang/" .. config.permlang)
 
 function vRP.decimalRound(decimal, valor)
     local mult = 10^(decimal or 0)

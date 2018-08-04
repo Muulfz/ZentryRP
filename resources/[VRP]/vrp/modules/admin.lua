@@ -415,7 +415,8 @@ local function ch_player_givemoney_USD(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id and vRP.hasPermission(user_id, "admin.give.money") then
         local player_id = vRP.prompt(player,"ID","")
-        if player_id then
+        player_id = parseInt(player_id)
+        if vRP.hasIDExist(player_id) then
             local amount = vRP.prompt(player, "Amount:", "")
             amount = parseDouble(amount)
             if amount <= 2147483647 then

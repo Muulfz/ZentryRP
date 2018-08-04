@@ -28,10 +28,10 @@ Serverlang:loadLocale(config.serverlang, module("cfg/serverlang/" .. config.perm
 vRP.serverlang = Serverlang.serverlang[config.permlang]
 local serverLang = module("cfg/serverlang/" .. config.permlang)
 
-local Itemlang = Itemluang()
+--[[local Itemlang = Itemluang()
 Itemlang:loadLocale(config.itemlang, module("cfg/lang/item" .. config.itemlang) or {})
 vRP.itemlang = Itemlang.itemlang[config.permlang]
-local itemLang = module("cfg/lang/item" .. config.itemlang)
+local itemLang = module("cfg/lang/item" .. config.itemlang)]]
 
 -- init
 vRPclient = Tunnel.getInterface("vRP") -- server -> client tunnel

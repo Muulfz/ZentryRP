@@ -161,7 +161,7 @@ local func_perms = {}
 -- register a special permission function
 -- name: name of the permission -> "!name.[...]"
 -- callback(user_id, parts) 
---- parts: parts (strings) of the permlang, ex "!name.param1.param2" -> ["name", "param1", "param2"]
+--- parts: parts (strings) of the permissions, ex "!name.param1.param2" -> ["name", "param1", "param2"]
 --- should return true or false/nil
 function vRP.registerPermissionFunction(name, callback)
   func_perms[name] = callback
@@ -277,7 +277,7 @@ function vRP.hasPermission(user_id, perm)
   return false
 end
 
--- check if the user has a specific list of permlang (all of them)
+-- check if the user has a specific list of permissions (all of them)
 function vRP.hasPermissions(user_id, perms)
   for k,v in pairs(perms) do
     if not vRP.hasPermission(user_id, v) then

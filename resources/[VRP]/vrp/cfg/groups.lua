@@ -3,7 +3,7 @@ local cfg = {}
 
 -- define each group with a set of permissions
 -- _config property:
---- title (optional): group display namea
+--- title (optional): group display name
 --- gtype (optional): used to have only one group with the same gtype per player (example: a job gtype to only have one job)
 --- onspawn (optional): function(player) (called when the player spawn with the group)
 --- onjoin (optional): function(player) (called when the player join the group)

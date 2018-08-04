@@ -1,0 +1,14 @@
+<application>
+  <component name="SettingsState">
+    <option name="host" value="" />
+    <option name="token" value="" />
+    <option name="servers">
+      <list>
+        <ServerDto>
+          <option name="host" value="https://gitlab.com/WksS_" />
+          <option name="token" value="fPa1VekxnyTDYzjC68aU" />
+        </ServerDto>
+      </list>
+    </option>
+  </component>
+</application>

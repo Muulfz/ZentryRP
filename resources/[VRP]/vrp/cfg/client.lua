@@ -29,7 +29,6 @@ cfg.controls = {
     right = {3,175},
     select = {3,176},
     cancel = {3,177},
-    esc = {3,322},
     open = {3,27} -- INPUT_PHONE, open general menu
   },
   request = {
@@ -82,5 +81,5 @@ cfg.radio_voice_config = {
     biquad = { type = "bandpass", frequency = 1700, Q = 2, gain = 1.2 }
   }
 }
-cfg.client_lang = "en"
+
 return cfg

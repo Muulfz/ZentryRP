@@ -4,9 +4,6 @@ local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Tools = module("vrp", "lib/Tools")
 
---[[local client_lang = cfg.client_lang
-lang = module("cfg/lang/"..client_lang)]]  --TODO Notworking
-
 tvRP = {}
 local players = {} -- keep track of connected players (server id)
 

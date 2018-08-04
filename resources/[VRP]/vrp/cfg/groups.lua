@@ -44,15 +44,12 @@ cfg.groups = {
     "player.calladmin",
     "police.askid",
     "police.store_weapons",
-    "player.group.addperm",
-    "player.group.removeperm",
     "police.seizable" -- can be seized
   },
   ["police"] = {
     _config = {
       title = "Police",
       gtype = "job",
-      code = "policia",
       onjoin = function(player) vRPclient._setCop(player,true) end,
       onspawn = function(player) vRPclient._setCop(player,true) end,
       onleave = function(player) vRPclient._setCop(player,false) end
@@ -78,10 +75,8 @@ cfg.groups = {
   ["emergency"] = {
     _config = {
       title = "Emergency",
-      code = "samu",
       gtype = "job"
     },
-    "add.group.policia",
     "emergency.revive",
     "emergency.shop",
     "emergency.service"
@@ -89,10 +84,8 @@ cfg.groups = {
   ["repair"] = {
     _config = {
       title = "Repair",
-      code = "mecanico",
       gtype = "job"
     },
-    "add.group.samu",
     "vehicle.repair",
     "vehicle.replace",
     "repair.service"

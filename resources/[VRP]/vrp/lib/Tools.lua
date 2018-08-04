@@ -37,7 +37,6 @@ function IDGenerator:free(id)
   table.insert(self.ids,id)
 end
 
-
 -- USEFUL FUNCTIONS
 
 return Tools

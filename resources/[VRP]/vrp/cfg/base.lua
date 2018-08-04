@@ -3,14 +3,12 @@ local cfg = {}
 
 -- mysql credentials
 cfg.db = {
-  driver = "ghmattimysql",
-  host = "127.0.0.1:3311",
-  database = "vrp",
-  user = "Fivem",
+  driver = "vrp_ghmattimysql",
+  host = "127.0.0.1",
+  database = "vRP",
+  user = "fivem",
   password = "macaco123"
 }
-
-cfg.home_dir = "C:/Zentry/Fivem/ZentryRP"
 
 cfg.save_interval = 60 -- seconds
 cfg.whitelist = false -- enable/disable whitelist
@@ -26,16 +24,9 @@ cfg.ping_timeout = 5 -- number of minutes after a client should be kicked if not
 -- if enabled, steam auth should be forced in the FiveM server config
 cfg.ignore_ip_identifier = true
 
-cfg.lang = "pt-br"
-cfg.permlang = "pt-br"
-cfg.serverlang = "pt-br"
-cfg.itemlang = "pt-br"
+cfg.lang = "en"
 
--- default: reset every 12h
-cfg.currencyReset = 12*60
-cfg.currencyEspecialReset = 24*60
-cfg.fixerApikey = "85bfaa39fcdd1de13da51989a4c492ca"
-cfg.debug = true
+cfg.debug = false
 
 -- time to wait before displaying async return warning (seconds)
 cfg.debug_async_time = 2

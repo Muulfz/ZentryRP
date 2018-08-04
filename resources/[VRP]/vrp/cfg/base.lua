@@ -29,6 +29,7 @@ cfg.ignore_ip_identifier = true
 cfg.lang = "pt-br"
 cfg.permlang = "pt-br"
 cfg.serverlang = "pt-br"
+cfg.itemlang = "pt-br"
 
 -- default: reset every 12h
 cfg.currencyReset = 12*60

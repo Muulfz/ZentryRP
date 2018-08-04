@@ -28,6 +28,11 @@ Serverlang:loadLocale(config.serverlang, module("cfg/serverlang/" .. config.perm
 vRP.serverlang = Serverlang.serverlang[config.permlang]
 local serverLang = module("cfg/serverlang/" .. config.permlang)
 
+local Itemlang = Itemluang()
+Itemlang:loadLocale(config.itemlang, module("cfg/lang/item" .. config.itemlang) or {})
+vRP.itemlang = Itemlang.itemlang[config.permlang]
+local itemLang = module("cfg/lang/item" .. config.itemlang)
+
 -- init
 vRPclient = Tunnel.getInterface("vRP") -- server -> client tunnel
 
@@ -159,7 +164,6 @@ if not config.db or not config.db.driver then
 end
 
 Citizen.CreateThread(function()
-    vRP.thread_list.currency_updater = GetIdOfThisThread()
     local loop = 1
     while loop > 0 do
         vRP.currencyUpdater()
@@ -168,7 +172,6 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-    vRP.thread_list.db_initialized = GetIdOfThisThread()
     while not db_initialized do
         print("[vRP] DB driver \"" .. config.db.driver .. "\" not initialized yet (" .. #cached_prepares .. " prepares cached, " .. #cached_queries .. " queries cached).")
         Citizen.Wait(5000)
@@ -288,7 +291,6 @@ vRP.currencySpecial = {}
 
 print("[vRP] init base tables")
 async(function()
-    vRP.thread_list.init_base_tables = GetIdOfThisThread()
     vRP.execute("vRP/base_tables")
     vRP.getCurrency()
 end)
@@ -619,7 +621,6 @@ function task_save_datatables()
 end
 
 async(function()
-    vRP.thread_list.task_save_datatables = GetIdOfThisThread()
     task_save_datatables()
 end)
 

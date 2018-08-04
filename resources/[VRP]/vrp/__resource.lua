@@ -25,6 +25,7 @@ server_scripts{
   "modules/mission.lua",
   "modules/aptitude.lua",
   "modules/economy_utils.lua",
+  "modules/admin_utils.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
@@ -53,6 +54,7 @@ client_scripts{
   "client/admin.lua",
   "client/basic_phone.lua",
   "client/basic_radio.lua",
+  "client/admin_utils.lua",
   "client/weapons.lua"
 }
 

@@ -3,8 +3,8 @@
 --- Created by Muulfz.
 --- DateTime: 8/3/2018 05:40
 ---
-local lang = module(lib/luang)
-
+--local lang = module(lib/luang)
+--todo lang
 
 function vRP.chargePhoneNumber(user_id,phone)
     local player = vRP.getUserSource(user_id)
@@ -94,4 +94,61 @@ function vRP.payPhoneNumber(user_id,phone)
     else
         vRPclient._notify(player,lang.common.invalid_value())
     end
+end
+
+
+local function ch_mobilepay(player,choice)
+    local user_id = vRP.getUserId(player)
+    local menu = {}
+    menu.name = lang.phone.directory.title()
+    menu.css = {top = "75px", header_color = "rgba(0,0,255,0.75)"}
+    menu.onclose = function(player) vRP.openMainMenu(player) end -- nest menu
+    menu[lang.mpay.type.button()] = {
+        -- payment function
+        function(player,choice)
+            local phone = vRP.prompt(player,lang.mpay.type.prompt,"")
+            if phone ~= nil and phone ~= "" then
+                vRP.payPhoneNumber(user_id,phone)
+            else
+                vRPclient._notify(player,lang.common.invalid_value())
+            end
+        end,lang.mpay.type.desc()}
+    local directory = vRP.getPhoneDirectory(user_id)
+    for k,v in pairs(directory) do
+        menu[k] = {
+            -- payment function
+            function(player,choice)
+                vRP.payPhoneNumber(user_id,v)
+            end
+        ,v} -- number as description
+    end
+    vRP.openMenu(player, menu)
+end
+
+local function ch_mobilecharge(player,choice)
+    local user_id = vRP.getUserId(player)
+    local menu = {}
+    menu.name = lang.phone.directory.title()
+    menu.css = {top = "75px", header_color = "rgba(0,0,255,0.75)"}
+    menu.onclose = function(player) vRP.openMainMenu(player) end -- nest menu
+    menu[lang.mcharge.type.button()] = {
+        -- payment function
+        function(player,choice)
+            local phone = vRP.prompt(player,lang.mcharge.type.prompt(),"")
+            if phone ~= nil and phone ~= "" then
+                vRP.chargePhoneNumber(user_id,phone)
+            else
+                vRPclient.notify(player,lang.common.invalid_value())
+            end
+        end,lang.mcharge.type.desc()}
+    local directory = vRP.getPhoneDirectory(user_id)
+    for k,v in pairs(directory) do
+        menu[k] = {
+            -- payment function
+            function(player,choice)
+                vRP.chargePhoneNumber(user_id,v)
+            end
+        ,v} -- number as description
+    end
+    vRP.openMenu(player, menu)
 end

@@ -7,21 +7,21 @@ local lang = vRP.lang
 vRP.prepare("vRP/money_tables", [[
 CREATE TABLE IF NOT EXISTS vrp_user_moneys(
   user_id INTEGER,
-  wallet DECIMAL,
-  bank DECIMAL,
-  wallet_usd DECIMAL,
-  bank_usd DECIMAL,
-  wallet_eur DECIMAL,
-  bank_eur DECIMAL,
-  wallet_btc DECIMAL,
+  wallet DOUBLE,
+  bank DOUBLE,
+  wallet_usd DOUBLE,
+  bank_usd DOUBLE,
+  wallet_eur DOUBLE,
+  bank_eur DOUBLE,
+  wallet_btc DOUBLE,
   CONSTRAINT pk_user_moneys PRIMARY KEY(user_id),
   CONSTRAINT fk_user_moneys_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
 );
 ]])
 
 vRP.prepare("vRP/money_init_user","INSERT IGNORE INTO vrp_user_moneys(user_id,wallet,bank,wallet_usd,bank_usd,wallet_eur,bank_eur,wallet_btc) VALUES(@user_id,@wallet,@bank,@wallet_usd,@bank_usd,@wallet_eur,@bank_eur,@wallet_btc)")
-vRP.prepare("vRP/get_money","SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id")
-vRP.prepare("vRP/set_money","UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id")
+--vRP.prepare("vRP/get_money","SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id")
+--vRP.prepare("vRP/set_money","UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id")
 
 vRP.prepare("vRP/get_money","SELECT wallet,bank,wallet_usd,bank_usd,wallet_eur,bank_eur,wallet_btc FROM vrp_user_moneys WHERE user_id = @user_id")
 vRP.prepare("vRP/set_money","UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank, wallet_usd = @wallet_usd, bank_usd = @bank_usd, wallet_eur = @wallet_eur, bank_eur = @bank_eur,wallet_btc = @wallet_btc WHERE user_id = @user_id")

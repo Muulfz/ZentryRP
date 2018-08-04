@@ -10,6 +10,7 @@ server_scripts{
   "modules/gui.lua",
   "modules/group.lua",
   "modules/admin.lua",
+  "modules/admin_utils.lua",
   "modules/survival.lua",
   "modules/player_state.lua",
   "modules/map.lua",
@@ -25,7 +26,12 @@ server_scripts{
   "modules/mission.lua",
   "modules/aptitude.lua",
   "modules/economy_utils.lua",
-  "modules/admin_utils.lua",
+  "modules/basic_phone_utils.lua",
+  "modules/dev_utils.lua",
+  "modules/player_list.lua",
+  "modules/player_utils.lua",
+  "modules/police_util.lua",
+  "modules/static_menus.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
@@ -55,7 +61,9 @@ client_scripts{
   "client/basic_phone.lua",
   "client/basic_radio.lua",
   "client/admin_utils.lua",
-  "client/weapons.lua"
+  "client/weapons.lua",
+  "client/admin_utils.lua",
+  "client/police_utils.lua",
 }
 
 -- client files

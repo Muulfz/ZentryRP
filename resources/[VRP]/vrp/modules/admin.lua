@@ -354,16 +354,9 @@ local function ch_tptocoords(player, choice)
         end
 
         vRPclient._teleport(player, coords[1] or 0, coords[2] or 0, coords[3] or 0)
-    else
-        vRPclient._notify(player,"CORDENADAS INVALIDAS")
+
     end
 
-end
-local function ch_tptowaypoint(player,choice)
-    local user_id = vRP.getUserId(player)
-    if user_id then
-        vRPclient._tpToWayPoint(player)
-    end
 end
 
 local function ch_givemoney(player, choice)
@@ -621,13 +614,6 @@ local function ch_audiosource(player, choice)
     end
 end
 
-
-
-
-
-
-
-
 vRP.registerMenuBuilder("main", function(add, data)
     local user_id = vRP.getUserId(data.player)
     if user_id then
@@ -641,9 +627,9 @@ vRP.registerMenuBuilder("main", function(add, data)
             menu.onclose = function(player)
                 vRP.openMainMenu(player)
             end -- nest menu
-            if vRP.hasPermission(user_id, "player.list") then
+--[[            if vRP.hasPermission(user_id, "player.list") then
                 menu["TELEPORTAR AO WAYPOINT"] = { ch_tptowaypoint, "Show/hide user list." }
-            end
+            end]]
             if vRP.hasPermission(user_id, "player.list") then
                 menu["@User list"] = { ch_list, "Show/hide user list." }
             end
@@ -746,7 +732,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 end)
 
 
---[[gods = {}
+gods = {}
 function task_god()
     SetTimeout(10000, task_god)
 
@@ -763,10 +749,10 @@ end
 
 Citizen.CreateThread(function()
     task_god()
-end)]]
+end)
 
 -- admin god mode
-function task_god()
+function task_god_perm()
     SetTimeout(10000, task_god)
 
     for k, v in pairs(vRP.getUsersByPermission("admin.god")) do
@@ -780,4 +766,4 @@ function task_god()
     end
 end
 
-task_god()
+task_god_perm()

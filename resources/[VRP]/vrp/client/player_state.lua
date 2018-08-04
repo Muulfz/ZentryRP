@@ -129,10 +129,36 @@ function tvRP.giveWeapons(weapons,clear_before)
   end
 end
 
--- set player armour (0-100)
-function tvRP.setArmour(amount)
-  SetPedArmour(GetPlayerPed(-1), amount)
+--
+function tvRP.getArmour()
+  return GetPedArmour(GetPlayerPed(-1))
 end
+
+-- set player armour (0-100)
+function tvRP.setArmour(armour,vest)
+  local player = GetPlayerPed(-1)
+  local playerArmor = vRP.getArmour()
+  if tvRP.getArmour() < 100 then
+    if vest then
+      if(GetEntityModel(player) == GetHashKey("mp_m_freemode_01")) then
+        SetPedComponentVariation(player, 9, 4, 1, 2)  --Bulletproof Vest
+      else
+        if(GetEntityModel(player) == GetHashKey("mp_f_freemode_01")) then
+          SetPedComponentVariation(player, 9, 6, 1, 2)
+        end
+      end
+    end
+    if playerArmor + armour > 100 then
+      armour = playerArmor - armour * -1
+    end
+    local n = math.floor(armour)
+    SetPedArmour(player,n)
+  end
+
+
+end
+
+
 
 --[[
 function tvRP.dropWeapon()
@@ -248,6 +274,31 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
 
   return r:wait()
 end
+
+local state_ready = false
+
+AddEventHandler("playerSpawned",function() -- delay state recording
+  state_ready = false
+
+  Citizen.CreateThread(function()
+    Citizen.Wait(30000)
+    state_ready = true
+  end)
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(30000)
+
+    if IsPlayerPlaying(PlayerId()) and state_ready then
+      if tvRP.getArmour() == 0 then
+        if(GetEntityModel(GetPlayerPed(-1)) == GetHashKey("mp_m_freemode_01")) or (GetEntityModel(GetPlayerPed(-1)) == GetHashKey("mp_f_freemode_01")) then
+          SetPedComponentVariation(GetPlayerPed(-1), 9, 0, 1, 2)
+        end
+      end
+    end
+  end
+end)
 
 -- fix invisible players by resetting customization every minutes
 --[[

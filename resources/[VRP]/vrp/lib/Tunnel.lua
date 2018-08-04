@@ -13,7 +13,7 @@ else
   RegisterLocalEvent = RegisterNetEvent
 end
 
--- this file describe a two way proxy between the server and the clients (request system)
+-- this file describe a two way proxy between the serverlang and the clients (request system)
 
 local Tunnel = {}
 

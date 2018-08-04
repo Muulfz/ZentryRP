@@ -15,6 +15,7 @@ local function bvest_choices(args)
   return choices
 end
 
-items["bulletproof_vest"] = {"Bulletproof Vest", "A handy protection.", bvest_choices, 1.5}
+
+items["bulletproof_vest"] = {"Bulletproof Vest", "A handy protection.", bvest_choices, 1.5}  --todo atualizar
 
 return items

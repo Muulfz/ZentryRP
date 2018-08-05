@@ -3,8 +3,8 @@ local cfg = {}
 
 -- mysql credentials
 cfg.db = {
-  driver = "vrp_ghmattimysql",
-  host = "127.0.0.1",
+  driver = "ghmattimysql",
+  host = "127.0.0.1:3311d",
   database = "vRP",
   user = "fivem",
   password = "macaco123"
@@ -26,7 +26,7 @@ cfg.ignore_ip_identifier = true
 
 cfg.lang = "en"
 
-cfg.debug = false
+cfg.debug = true
 
 -- time to wait before displaying async return warning (seconds)
 cfg.debug_async_time = 2

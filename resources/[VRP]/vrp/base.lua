@@ -225,6 +225,8 @@ function vRP.getUserIdByIdentifiers(ids)
       for l,w in pairs(ids) do
         if not config.ignore_ip_identifier or (string.find(w, "ip:") == nil) then  -- ignore ip identifier
           vRP.execute("vRP/add_identifier", {user_id = user_id, identifier = w})
+          local ep = vRP.getPlayerEndpoint(source)
+          vRP.execute("vRP/set_last_ip", { user_id = user_id, last_ip = ep })
         end
       end
 
@@ -474,6 +476,7 @@ AddEventHandler("playerConnecting",function(name,setMessage, deferrals)
             local ep = vRP.getPlayerEndpoint(source)
             local last_login_stamp = os.date("%H:%M:%S %d/%m/%Y")
             vRP.execute("vRP/set_last_login", {user_id = user_id, last_login = last_login_stamp})
+            --vRP.execute("vRP/set_last_ip", { user_id = user_id, last_ip = ep }) --- ADICIONADO!
 
             -- trigger join
             print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")")

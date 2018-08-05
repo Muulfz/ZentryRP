@@ -5,8 +5,15 @@ local lang = {
   common = {
     welcome = "Welcome. Use the phone keys to use the menu.~n~last login: {1}",
     no_player_near = "~r~No player near you.",
+    no_player = "~r~No player found.",
     invalid_value = "~r~Invalid value.",
     invalid_name = "~r~Invalid name.",
+    invalid_id  = "~r~Invalid ID",
+    invalid_group = "~r~Invalid Group",
+    invalid_item = "~r~Invalid Item",
+    not_perm = "~r~Not enough permissions",
+    player_group_not_found = "~r~Player group not found",
+    player_offline = "~r~Player is offline",
     not_found = "~r~Not found.",
     request_refused = "~r~Request refused.",
     wearing_uniform = "~r~Be careful, you are wearing a uniform.",
@@ -497,6 +504,134 @@ local lang = {
   },
   radio = {
     title = "Radio ON/OFF"
+  },
+  admin = {
+    menu = {
+      user_list ={
+        menu_name = "@User list",
+        menu_desc = "Show/hide user list."
+      },
+      whitelist = {
+        prompt = "User id to whitelist: ",
+        notify = "whitelisted user ",
+        already = "User id {1} already whitelisted !",
+        menu_name = "@Whitelist user"
+      },
+      unwhitelist = {
+        prompt = "User id to un-whitelist: ",
+        notify = "un-whitelisted user ",
+        already = "User id {1} already un-whitelisted !",
+        menu_name = "@Un-whitelist user"
+      },
+      addgroup = {
+        prompt_id = "User id: ",
+        prompt = "Group to add: ",
+        notify = "{1} added to user {2}",
+        already = "Player already have this group",
+        menu_name = "@Add group"
+      },
+      removegroup = {
+          prompt_id = "User id: ",
+          prompt = "Group to remove: ",
+          notify = "{1} removed from user {2}",
+          menu_name = "@Remove group",
+          not_found = "Player doesn't have this group: {1} "
+      },
+      kick = {
+          prompt_id = "User id to kick: ",
+          prompt = "Reason: ",
+          notify = "kicked user ",
+          menu_name = "@Kick"
+      },
+      ban = {
+          prompt_id =  "User id to ban: ",
+          prompt = "Reason: ",
+          notify = "banned user ",
+          already = "Player already banned",
+          menu_name = "@Ban"
+      },
+      unban = {
+          prompt = "User id to unban: ",
+          notify = "un-banned user ",
+          already = "Player already banned",
+          menu_name = "@Unban"
+      },
+      noclip = {
+          menu_name = "@Noclip"
+      },
+      emote = {
+          prompt = "Animation sequence ('dict anim optional_loops' per line): ",
+          menu_name = "@Custom emote"
+      },
+      sound = {
+          prompt = "Sound 'dict name': ",
+          menu_name = "@Custom sound"
+      },
+      audiosource = {
+          menu_name = "@Custom audiosource"
+      },
+      coords = {
+          prompt = "Copy the coordinates using Ctrl-A Ctrl-C",
+          menu_name = "@Coords"
+      },
+      tptome = {
+          prompt = "User id:",
+          menu_name = "@TpToMe"
+      },
+      tpto = {
+          prompt = "User id:",
+          menu_name = "@TpTo"
+      },
+      tptocoords = {
+          prompt = "Coords x,y,z:",
+          invalid_coords = "~r~Invalid coords",
+          menu_name = "@TpToCoords"
+      },
+      givemoney = {
+          prompt = "Amount:",
+          notify = "~r~You recived: {1}",
+          max_value = "~r~Max value permited!",
+          menu_name = "@Give money"
+      },
+      giveitem = {
+          prompt_name = "Id name:",
+          prompt_amount = "Amount:",
+          notify = "{3} {2} was given to ID: {1} ",
+          targetnotify = "You recived {2} {1}",
+          menu_name = "@Give item"
+      },
+      calladmin = {
+          prompt = "Describe your problem:",
+          playerok = "Do you want to make a admin ticket? you can be banned for abuse this!",
+          not_adm_online  = "Your ticket was registered",
+          admin_msg = "Admin ticket (user_id =  {1} ) take/TP to ?: ",
+          player_msg = "An admin took your ticket.",
+          sec_admin_msg = "Ticket already taken.",
+          menu_name = "@Display customization"
+      },
+      audiosource = {
+          prompt = "Audio source: name=url, omit url to delete the named source.",
+          menu_name = "@Call admin"
+      },
+      displaycustom = {
+          menu_name = "Display Custom"
+      },
+      godmode = {
+          on = "God mode is on",
+          off = "God mode is off"
+      },
+      spawnveh = {
+          prompt = "Type vehicle name to spawn",
+      }
+
+
+
+    },
+    start = {
+      mysql = {
+        currency = "[ZRP] init currency tables"
+      }
+    }
   }
 }
 

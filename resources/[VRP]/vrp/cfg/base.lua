@@ -4,7 +4,7 @@ local cfg = {}
 -- mysql credentials
 cfg.db = {
   driver = "ghmattimysql",
-  host = "127.0.0.1:3311d",
+  host = "127.0.0.1:3311",
   database = "vRP",
   user = "fivem",
   password = "macaco123"

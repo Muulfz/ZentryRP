@@ -82,5 +82,7 @@ files{
   "gui/sounds/phone_ringing.ogg",
   "gui/sounds/phone_sms.ogg",
   "gui/sounds/radio_on.ogg",
-  "gui/sounds/radio_off.ogg"
+  "gui/sounds/radio_off.ogg",
+  -- Client lang
+  "client/lang/en.lua"
 }

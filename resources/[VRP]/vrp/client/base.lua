@@ -16,6 +16,9 @@ vRPserver = Tunnel.getInterface("vRP")
 -- add client proxy interface (same as tunnel interface)
 Proxy.addInterface("vRP",tvRP)
 
+--
+tvRP.lang = module("cfg/lang/client/"..cfg.lang)
+
 -- functions
 
 local user_id

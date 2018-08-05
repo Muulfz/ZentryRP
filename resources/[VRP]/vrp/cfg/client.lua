@@ -63,6 +63,9 @@ cfg.voip_proximity = 100
 -- connect/disconnect interval in milliseconds
 cfg.voip_interval = 5000
 
+-- client lang
+cfg.lang = "en"
+
 -- vRP.configureVoice settings
 -- world
 cfg.world_voice_config = {

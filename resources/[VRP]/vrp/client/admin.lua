@@ -1,4 +1,3 @@
-
 local noclip = false
 local noclip_speed = 1.0
 

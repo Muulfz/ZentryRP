@@ -72,10 +72,11 @@ function vRP.getSCurrencyTime(key, cbr)
     end
 end
 
+--[[
 Citizen.CreateThread(function()
     local loop = 1
     while loop > 0 do
         vRP.currencyUpdater()
         Citizen.Wait(600000)
     end
-end)
+end)]]

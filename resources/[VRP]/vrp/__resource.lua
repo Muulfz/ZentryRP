@@ -37,6 +37,11 @@ server_scripts{
   "modules/basic_radio.lua",
 
   -- MUULFZ EDIT
+  "modules/utils/base.lua",
+  "modules/utils/currency.lua",
+  "modules/utils/mysql.lua"
+
+
 
 }
 

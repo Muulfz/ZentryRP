@@ -8,7 +8,7 @@ local lang = vRP.lang
 -----------------------------------------------------------------------------------
 -----------------------------------CURRENCY----------------------------------------
 
-vRP.prepare("vRP/Currency_tables",[[
+vRP.prepare("vRP/currency_tables",[[
 CREATE TABLE IF NOT EXISTS vrp_srv_currency(
   dkey VARCHAR(100),
   dvalue TEXT,
@@ -20,19 +20,11 @@ vRP.prepare("vRP/set_srvcurrency", "REPLACE INTO vrp_srv_currency(dkey,dvalue,la
 vRP.prepare("vRP/get_srvcurrency", "SELECT dvalue FROM vrp_srv_currency WHERE dkey = @key")
 vRP.prepare("vRP/get_srvcurrency_time", "SELECT last_time_update FROM vrp_srv_currency WHERE dkey = @key")
 
-print(lang.start.mysql.currency())
+--[[print(lang.start.mysql.currency())
 async(function ()
     vRP.getCurrency()
-end)
+end)]]
 
-------------------------------------------------------------------------------------
----------------------------------------BASE-----------------------------------------
-
-vRP.prepare("vRP/user_id_exist", "SELECT id FROM vrp_users WHERE id = @user_id")
-vRP.prepare("vRP/set_last_login", "UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id")
-vRP.prepare("vRP/get_last_login", "SELECT last_login FROM vrp_users WHERE id = @user_id")
-vRP.prepare("vRP/set_last_ip", "UPDATE vrp_users SET last_ip = @last_ip WHERE id = @user_id")
-vRP.prepare("vRP/get_last_ip", "SELECT last_ip FROM vrp_users WHERE id = @user_id")
 -------------------------------------------------------------------------------------
 -----------------------------------ADMINISTRATION------------------------------------
 
@@ -85,3 +77,6 @@ vRP.prepare("vRP/create_srv_ticket", "INSERT INTO vrp_srv_ticket(user_id,ticket,
 vRP.prepare("vRP/create_srv_report_player", "INSERT INTO vrp_srv_report_player(user_id,report,report_player,was_online,date,close) VALUE(@user_id,@report,@report_player,@was_online,@date,false)")
 vRP.prepare("vRP/create_srv_report", "INSERT INTO vrp_srv_report(user_id,report,date,close) VALUES(@user_id,@report,@date,false)")
 
+--------------------------------------------------------------------------------------
+-------------------------------------SERVER DATA -------------------------------------
+--

@@ -162,11 +162,12 @@ Citizen.CreateThread(function()
   end
 end)
 
--- queries
+-- queries ---Muulfz edit -
 vRP.prepare("vRP/base_tables",[[
 CREATE TABLE IF NOT EXISTS vrp_users(
   id INTEGER AUTO_INCREMENT,
   last_login VARCHAR(255),
+  last_ip VARCHAR(255),
   whitelisted BOOLEAN,
   banned BOOLEAN,
   CONSTRAINT pk_user PRIMARY KEY(id)
@@ -210,6 +211,15 @@ vRP.prepare("vRP/get_whitelisted","SELECT whitelisted FROM vrp_users WHERE id = 
 vRP.prepare("vRP/set_whitelisted","UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id")
 vRP.prepare("vRP/set_last_login","UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id")
 vRP.prepare("vRP/get_last_login","SELECT last_login FROM vrp_users WHERE id = @user_id")
+
+------------------------------------------------------------------------------------
+---------------------------------------BASE-----------------------------------------
+
+vRP.prepare("vRP/user_id_exist", "SELECT id FROM vrp_users WHERE id = @user_id")
+vRP.prepare("vRP/set_last_login", "UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id")
+vRP.prepare("vRP/get_last_login", "SELECT last_login FROM vrp_users WHERE id = @user_id")
+vRP.prepare("vRP/set_last_ip", "UPDATE vrp_users SET last_ip = @last_ip WHERE id = @user_id")
+vRP.prepare("vRP/get_last_ip", "SELECT last_ip FROM vrp_users WHERE id = @user_id")
 
 -- init tables
 print(slang.db.table_int({servertag}))

@@ -10,6 +10,12 @@ cfg.db = {
   password = "macaco123"
 }
 
+cfg.framework = {
+  name = "Zentry RolePlaye",
+  server_name = "Zentry New Life",
+  tag = "vRP",
+}
+
 cfg.save_interval = 60 -- seconds
 cfg.whitelist = false -- enable/disable whitelist
 
@@ -25,6 +31,8 @@ cfg.ping_timeout = 5 -- number of minutes after a client should be kicked if not
 cfg.ignore_ip_identifier = true
 
 cfg.lang = "en"
+cfg.permlang = "en"
+cfg.serverlang = "en"
 
 cfg.debug = true
 

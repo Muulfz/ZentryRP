@@ -8,7 +8,9 @@
 local lang = {
     vehicle = {
         unlock = "Vehicle Unlocked.",
-        locked = "Vehicle locked"
+        locked = "Vehicle locked",
+        veh_already_spawn = "This vehicle is already out.",
+        veh_stored = "Vehicle stored."
     },
     phone = {
       voice_callback ="(vRPvoice-phone) requested by ",

@@ -4,6 +4,7 @@
 --- DateTime: 8/4/2018 21:29
 ---
 local lang = vRP.lang
+local perm = vRP.permLang
 
 local function ch_tptowaypoint(player, choice)
     local user_id = vRP.getUserId(player)
@@ -50,7 +51,7 @@ end
 
 local function ch_addgroupperm(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id ~= nil and vRP.hasPermission(user_id, "player.group.addperm") then
+    if user_id ~= nil and vRP.hasPermission(user_id, perm.player.addgroup()) then
         local id = vRP.prompt(player, lang.admin.menu.addgroup.prompt_id(), "")
         id = parseInt(id)
         if vRP.hasIDExist(id) then
@@ -59,7 +60,7 @@ local function ch_addgroupperm(player, choice)
                 if not vRP.hasGroup(id, group) then
                     if vRP.getGroupCheck(group) then
                         local groupcode = vRP.getGroupCode(group)
-                        if vRP.hasPermission(id, "add.group." .. groupcode) then
+                        if vRP.hasPermission(id, perm.player.addgroup_code({groupcode})) then
                             vRP.addUserGroup(id, group)
                             vRPclient._notify(player, lang.admin.menu.addgroup.notify({ group, id }))
                         else
@@ -80,7 +81,7 @@ end
 
 local function ch_removegroupperm(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.group.remove") then
+    if user_id and vRP.hasPermission(user_id, perm.player.removegroup()) then
         local id = vRP.prompt(player, lang.admin.menu.removegroup.prompt(), "")
         id = parseInt(id)
         if vRP.hasIDExist(id) then
@@ -89,7 +90,7 @@ local function ch_removegroupperm(player, choice)
                 if vRP.hasGroup(id, group) then
                     if vRP.getGroupCheck(group) then
                         local groupcode = vRP.getGroupCode(group)
-                        if vRP.hasPermission(id, "add.group." .. groupcode) then
+                        if vRP.hasPermission(id, perm.player.removegroup_code({groupcode})) then
                             vRP.removeUserGroup(id, group)
                             vRPclient._notify(player, lang.admin.menu.removegroup.notify({ group, id }))
 

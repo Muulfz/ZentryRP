@@ -84,5 +84,5 @@ files{
   "gui/sounds/radio_on.ogg",
   "gui/sounds/radio_off.ogg",
   -- Client lang
-  "client/lang/en.lua"
+  "cfg/lang/client/en.lua"
 }

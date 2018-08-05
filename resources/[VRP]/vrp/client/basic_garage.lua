@@ -67,7 +67,7 @@ function tvRP.spawnGarageVehicle(name,pos) -- one vehicle per vname/model allowe
       SetModelAsNoLongerNeeded(mhash)
     end
   else
-    tvRP.notify("This vehicle is already out.")
+    tvRP.notify(lang.vehicle.veh_already_spawn)
   end
 end
 
@@ -80,7 +80,7 @@ function tvRP.despawnGarageVehicle(name)
     SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle[2]))
     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[2]))
     vehicles[name] = nil
-    tvRP.notify("Vehicle stored.")
+    tvRP.notify(lang.vehicle.veh_stored)
   end
 end
 

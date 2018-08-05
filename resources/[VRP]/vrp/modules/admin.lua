@@ -1,4 +1,5 @@
 local lang = vRP.lang
+local perm = vRP.permlang
 local htmlEntities = module("lib/htmlEntities")
 local Tools = module("lib/Tools")
 
@@ -8,7 +9,7 @@ local player_lists = {}
 
 local function ch_list(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.list") then
+    if user_id and vRP.hasPermission(user_id, perm.player.player_list()) then
         if player_lists[player] then
             -- hide
             player_lists[player] = nil
@@ -68,7 +69,7 @@ end
 local function ch_whitelist(player, choice)
     ---FIXED by add checkers
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.whitelist") then
+    if user_id and vRP.hasPermission(user_id, perm.admin.whitelist()) then
         local id = vRP.prompt(player, lang.admin.menu.whitelist.prompt(), "")
         id = parseInt(id)
         if vRP.hasIDExist(id) then
@@ -86,7 +87,7 @@ end
 
 local function ch_unwhitelist(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.unwhitelist") then
+    if user_id and vRP.hasPermission(user_id, perm.admin.unwhitelist()) then
         local id = vRP.prompt(player, lang.admin.menu.unwhitelist.prompt(), "")
         id = parseInt(id)
         if vRP.hasIDExist(id) then
@@ -105,7 +106,7 @@ end
 
 local function ch_addgroup(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id ~= nil and vRP.hasPermission(user_id, "player.group.add") then
+    if user_id ~= nil and vRP.hasPermission(user_id, perm.admin.addgroup()) then
         local id = vRP.prompt(player, lang.admin.menu.prompt_id(), "")
         id = parseInt(id)
         if vRP.hasIDExist(id) then
@@ -129,7 +130,7 @@ end
 
 local function ch_removegroup(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.group.remove") then
+    if user_id and vRP.hasPermission(user_id, perm.admin.removegroup()) then
         local id = vRP.prompt(player, lang.admin.menu.removegroup.prompt(), "")
         id = parseInt(id)
         if vRP.hasIDExist(id) then
@@ -153,7 +154,7 @@ end
 
 local function ch_kick(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.kick") then
+    if user_id and vRP.hasPermission(user_id, lang.admin.kick()) then
         local id = vRP.prompt(player, lang.admin.menu.kick.prompt_id(), "")
         id = parseInt(id)
         if vRP.hasIDExist(id) then
@@ -177,7 +178,7 @@ end
 
 local function ch_ban(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.ban") then
+    if user_id and vRP.hasPermission(user_id, perm.admin.ban()) then
         local id = vRP.prompt(player, lang.admin.menu.ban.prompt_id(), "")
         id = parseInt(id)
         if vRP.hasIDExist(id) then
@@ -201,7 +202,7 @@ end
 
 local function ch_unban(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.unban") then
+    if user_id and vRP.hasPermission(user_id, perm.admin.unban()) then
         local id = vRP.prompt(player, lang.admin.menu.unban.prompt(), "")
         id = parseInt(id)
         if vRP.hasIDExist(id) then
@@ -219,7 +220,7 @@ end
 
 local function ch_emote(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.custom_emote") then
+    if user_id and vRP.hasPermission(user_id, perm.admin.emote()) then
         local content = vRP.prompt(player, lang.admin.menu.emote.prompt(), "")
         local seq = {}
         for line in string.gmatch(content, "[^\n]+") do
@@ -237,7 +238,7 @@ end
 
 local function ch_sound(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.custom_sound") then
+    if user_id and vRP.hasPermission(user_id, perm.admin.sound()) then
         local content = vRP.prompt(player, lang.admin.menu.sound.prompt(), "")
         local args = {}
         for arg in string.gmatch(content, "[^%s]+") do
@@ -418,64 +419,64 @@ vRP.registerMenuBuilder("main", function(add, data)
                 vRP.openMainMenu(player)
             end -- nest menu
 
-            if vRP.hasPermission(user_id, "player.list") then
+            if vRP.hasPermission(user_id, perm.admin.menu.player_list()) then
                 menu[lang.admin.menu.user_list.menu_name()] = { ch_list, lang.admin.menu.user_list.menu_desc() }
             end
-            if vRP.hasPermission(user_id, "player.whitelist") then
+            if vRP.hasPermission(user_id, perm.admin.menu.whitelist()) then
                 menu[lang.admin.menu.whitelist.menu_name()] = { ch_whitelist }
             end
-            if vRP.hasPermission(user_id, "player.group.add") then
+            if vRP.hasPermission(user_id, perm.admin.menu.addgroup()) then
                 menu[lang.admin.menu.addgroup.menu_name()] = { ch_addgroup }
             end
-            if vRP.hasPermission(user_id, "player.group.remove") then
+            if vRP.hasPermission(user_id, perm.admin.menu.removegroup()) then
                 menu[lang.admin.menu.removegroup.menu_name()] = { ch_removegroup }
             end
-            if vRP.hasPermission(user_id, "player.unwhitelist") then
+            if vRP.hasPermission(user_id, perm.admin.menu.unwhitelist()) then
                 menu[lang.admin.menu.kick.menu_name()] = { ch_unwhitelist }
             end
-            if vRP.hasPermission(user_id, "player.kick") then
+            if vRP.hasPermission(user_id, perm.admin.menu.kick()) then
                 menu[lang.admin.menu.kick.menu_name()] = { ch_kick }
             end
-            if vRP.hasPermission(user_id, "player.ban") then
+            if vRP.hasPermission(user_id, perm.admin.menu.ban()) then
                 menu[lang.admin.menu.ban.menu_name()] = { ch_ban }
             end
-            if vRP.hasPermission(user_id, "player.unban") then
+            if vRP.hasPermission(user_id,perm.admin.menu.unban() ) then
                 menu[lang.admin.menu.unban.menu_name()] = { ch_unban }
             end
-            if vRP.hasPermission(user_id, "player.noclip") then
+            if vRP.hasPermission(user_id, perm.admin.menu.noclip()) then
                 menu[lang.admin.menu.noclip.menu_name()] = { ch_noclip }
             end
-            if vRP.hasPermission(user_id, "player.custom_emote") then
+            if vRP.hasPermission(user_id, perm.admin.menu.emote()) then
                 menu[lang.admin.menu.emote.menu_name()] = { ch_emote }
             end
-            if vRP.hasPermission(user_id, "player.custom_sound") then
+            if vRP.hasPermission(user_id, perm.admin.menu.custom_sound()) then
                 menu[lang.admin.menu.sound.menu_name()] = { ch_sound }
             end
-            if vRP.hasPermission(user_id, "player.custom_sound") then
+            if vRP.hasPermission(user_id,perm.admin.menu.custom_audiosource() ) then
                 menu[lang.admin.menu.audiosource.menu_name()] = { ch_audiosource }
             end
-            if vRP.hasPermission(user_id, "player.coords") then
+            if vRP.hasPermission(user_id, perm.admin.menu.coords()) then
                 menu[lang.admin.menu.coords.menu_name()] = { ch_coords }
             end
-            if vRP.hasPermission(user_id, "player.tptome") then
+            if vRP.hasPermission(user_id, perm.admin.menu.tptome()) then
                 menu[lang.admin.menu.tptome.menu_name()] = { ch_tptome }
             end
-            if vRP.hasPermission(user_id, "player.tpto") then
+            if vRP.hasPermission(user_id, perm.admin.menu.tpto()) then
                 menu[lang.admin.menu.tpto.menu_name()] = { ch_tpto }
             end
-            if vRP.hasPermission(user_id, "player.tpto") then
+            if vRP.hasPermission(user_id, perm.admin.menu.tpto()) then
                 menu[lang.admin.menu.tptocoords.menu_name()] = { ch_tptocoords }
             end
-            if vRP.hasPermission(user_id, "player.givemoney") then
+            if vRP.hasPermission(user_id, perm.admin.menu.givemoney()) then
                 menu[lang.admin.menu.givemoney.menu_name()] = { ch_givemoney }
             end
-            if vRP.hasPermission(user_id, "player.giveitem") then
+            if vRP.hasPermission(user_id, perm.admin.menu.giveitem()) then
                 menu[lang.admin.menu.giveitem.menu_name()] = { ch_giveitem }
             end
-            if vRP.hasPermission(user_id, "player.display_custom") then
+            if vRP.hasPermission(user_id, perm.admin.menu.display_custom()) then
                 menu[lang.admin.menu.displaycustom.menu_name()] = { ch_display_custom }
             end
-            if vRP.hasPermission(user_id, "player.calladmin") then
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
                 menu[lang.admin.menu.calladmin.menu_name()] = { ch_calladmin }
             end
 
@@ -490,7 +491,7 @@ end)
 function task_god()
     SetTimeout(10000, task_god)
 
-    for k, v in pairs(vRP.getUsersByPermission("admin.god")) do
+    for k, v in pairs(vRP.getUsersByPermission(perm.admin.menu.god())) do
         vRP.setHunger(v, 0)
         vRP.setThirst(v, 0)
 

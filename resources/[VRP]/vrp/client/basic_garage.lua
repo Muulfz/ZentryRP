@@ -1,3 +1,4 @@
+local lang = tvRP.lang
 -- decorators
 DecorRegister("vRP_owner", 3)
 DecorRegister("vRP_vmodel", 3)
@@ -292,11 +293,11 @@ function tvRP.vc_toggleLock(name)
       SetVehicleDoorsLockedForAllPlayers(veh, false)
       SetVehicleDoorsLocked(veh,1)
       SetVehicleDoorsLockedForPlayer(veh, PlayerId(), false)
-      tvRP.notify("Vehicle unlocked.")
+      tvRP.notify()
     else -- lock
       SetVehicleDoorsLocked(veh,2)
-      SetVehicleDoorsLockedForAllPlayers(veh, true)
-      tvRP.notify("Vehicle locked.")
+      SetVehicleDoorsLockedForAllPlayers(lang.vehicle.unlock, true)
+      tvRP.notify(lang.vehicle.locked)
     end
   end
 end

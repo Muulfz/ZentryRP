@@ -1,4 +1,4 @@
-local registration_number = "000AAA"
+local registration_number = cfg.registration_number
 
 function tvRP.setRegistrationNumber(registration)
   registration_number = registration

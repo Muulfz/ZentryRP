@@ -1,3 +1,4 @@
+local lang = tvRP.lang
 local rplayers = {} -- radio players that can be accepted
 
 function tvRP.setupRadio(players)
@@ -11,14 +12,14 @@ end
 
 -- radio channel behavior
 tvRP.registerVoiceCallbacks("radio", function(player)
-  print("(vRPvoice-radio) requested by "..player)
+  print(lang.radio.callback..player)
   return (rplayers[player] ~= nil)
 end,
 function(player, is_origin)
-  print("(vRPvoice-radio) connected to "..player)
+  print(lang.radio.connected..player)
 end,
 function(player)
-  print("(vRPvoice-radio) disconnected from "..player)
+  print(lang.radio.disconnected..player)
 end)
 
 AddEventHandler("vRP:NUIready", function()

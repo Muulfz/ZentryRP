@@ -1,3 +1,4 @@
+local lang = tvRP.lang
 local player_called
 local in_call = false
 
@@ -15,20 +16,20 @@ end
 
 -- phone channel behavior
 tvRP.registerVoiceCallbacks("phone", function(player)
-  print("(vRPvoice-phone) requested by "..player)
+  print(lang.phone.voice_callback..player)
   if player == player_called then
     player_called = nil
     return true
   end
 end,
 function(player, is_origin)
-  print("(vRPvoice-phone) connected to "..player)
+  print(lang.phone.voice_connected..player)
   in_call = true
   tvRP.setVoiceState("phone", nil, true)
   tvRP.setVoiceState("world", nil, true)
 end,
 function(player)
-  print("(vRPvoice-phone) disconnected from "..player)
+  print(lang.phone.voice_disconnected ..player)
   in_call = false
   if not tvRP.isSpeaking() then -- end world voice if not speaking
     tvRP.setVoiceState("world", nil, false)

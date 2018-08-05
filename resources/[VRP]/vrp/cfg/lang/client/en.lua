@@ -6,7 +6,29 @@
 
 
 local lang = {
-    teste = "teste"
+    vehicle = {
+        unlock = "Vehicle Unlocked.",
+        locked = "Vehicle locked"
+    },
+    phone = {
+      voice_callback ="(vRPvoice-phone) requested by ",
+      voice_connected = "(vRPvoice-phone) connected to ",
+      voice_disconnected = "(vRPvoice-phone) disconnected from "
+    },
+    radio = {
+        callback = "(vRPvoice-radio) requested by ",
+        connected = "(vRPvoice-radio) connected to ",
+        disconnected = "(vRPvoice-radio) disconnected from "
+    },
+    voip = {
+        callback = "(vRPvoice-world) requested by ",
+        connected = "(vRPvoice-world) connected to ",
+        disconnected ="(vRPvoice-world) disconnected from ",
+        register = {
+            voip_channel = "[vRP] VoIP channel callbacks for ",
+            already = "already registered.",
+        }
+    }
 
 }
 

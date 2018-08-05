@@ -65,7 +65,8 @@ cfg.voip_interval = 5000
 
 -- client lang
 cfg.lang = "en"
-
+-- registration_number
+cfg.registration_number = "000AAA"
 -- vRP.configureVoice settings
 -- world
 cfg.world_voice_config = {

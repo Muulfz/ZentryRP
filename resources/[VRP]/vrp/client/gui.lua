@@ -1,4 +1,4 @@
-
+local lang = tvRP.lang
 -- pause
 AddEventHandler("vRP:pauseChange", function(paused)
   SendNUIMessage({act="pause_change", paused=paused})
@@ -220,7 +220,7 @@ function tvRP.registerVoiceCallbacks(channel, on_offer, on_connect, on_disconnec
   if not channel_callbacks[channel] then
     channel_callbacks[channel] = {on_offer, on_connect, on_disconnect}
   else
-    print("[vRP] VoIP channel callbacks for <"..channel.."> already registered.")
+    print(lang.voip.register.voip_channel.."<"..channel..">"..lang.voip.register.already)
   end
 end
 
@@ -330,7 +330,7 @@ end
 if cfg.vrp_voip then -- setup voip world channel
   -- world channel behavior
   tvRP.registerVoiceCallbacks("world", function(player)
-    print("(vRPvoice-world) requested by "..player)
+    print(lang.voip.callback..player)
 
     -- check connection distance
 
@@ -348,11 +348,11 @@ if cfg.vrp_voip then -- setup voip world channel
     end
   end,
   function(player, is_origin)
-    print("(vRPvoice-world) connected to "..player)
+    print(lang.voip.connected..player)
     tvRP.setVoiceState("world", nil, speaking)
   end,
   function(player)
-    print("(vRPvoice-world) disconnected from "..player)
+    print(lang.voip.disconnect..player)
   end)
 
   AddEventHandler("vRP:NUIready", function()

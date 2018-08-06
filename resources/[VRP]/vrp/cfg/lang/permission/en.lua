@@ -42,10 +42,26 @@ local permlang = {
             tpto =  "player.tpto",
             tptp = "player.tpto",
             givemoney = "player.givemoney",
+            givemoney_to = "player.givemoney",
+            givemoney_usd = "player.givemoney",
+            givemoney_to_usd = "player.givemoney",
+            givemoney_eur = "player.givemoney",
+            givemoney_to_eur = "player.givemoney",
+            givemoney_btc = "player.givemoney",
+            givemoney_to_btc = "player.givemoney",
             giveitem = "player.giveitem",
             display_custom = "player.display_custom",
             calladmin ="player.calladmin",
-            god = "admin.god"
+            god = "admin.god",
+            addgroup_perm = "player.group.add",
+            removegroup_perm = "player.group.remove",
+            report = "player.report",
+            tptowaypoint = "player.tptowaypoint",
+            blips = "player.blips",
+            deleteveh = "player.deleteveh",
+            godmode = "player.godmode",
+            spawnveh = "player.spawnveh"
+
         }
 
     }

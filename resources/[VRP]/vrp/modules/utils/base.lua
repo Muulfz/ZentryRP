@@ -38,3 +38,22 @@ function vRP.playerIsOnline(user_id)
     end
     return false
 end
+
+-- get all online users -  Steam ID --- ID
+function vRP.getUsersOnline()
+    local users = {}
+    for k, v in pairs(vRP.users) do
+        users[v] = k
+    end
+    return users
+end
+-- return true = plauer is online -- return false player ofline
+function vRP.playerIsOnline(user_id)
+    for _, v in pairs(vRP.users) do
+        if v == user_id then
+            return true
+        end
+    end
+    return false
+end
+

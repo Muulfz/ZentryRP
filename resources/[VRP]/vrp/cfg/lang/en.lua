@@ -12,6 +12,7 @@ local lang = {
     invalid_group = "~r~Invalid Group",
     invalid_item = "~r~Invalid Item",
     not_perm = "~r~Not enough permissions",
+    player_group_already_have = "~r~Player already have this group",
     player_group_not_found = "~r~Player group not found",
     player_offline = "~r~Player is offline",
     not_found = "~r~Not found.",
@@ -528,14 +529,18 @@ local lang = {
         prompt = "Group to add: ",
         notify = "{1} added to user {2}",
         already = "Player already have this group",
-        menu_name = "@Add group"
+        menu_name = "@Add group",
+        perm = "add.group.{1}",
+        menu_name_perm = "@Add group perm"
       },
       removegroup = {
           prompt_id = "User id: ",
           prompt = "Group to remove: ",
           notify = "{1} removed from user {2}",
           menu_name = "@Remove group",
-          not_found = "Player doesn't have this group: {1} "
+          not_found = "Player doesn't have this group: {1} ",
+          perm = "remove.group.{1}",
+          menu_name_perm = "@Remove group perm"
       },
       kick = {
           prompt_id = "User id to kick: ",
@@ -591,7 +596,19 @@ local lang = {
           prompt = "Amount:",
           notify = "~r~You recived: {1}",
           max_value = "~r~Max value permited!",
-          menu_name = "@Give money"
+          menu_name = "@Give money",
+          menu_name_usd = "@Give money USD",
+          menu_name_eur = "@Give money EUR",
+          menu_name_btc = "@Give money BTC"
+      },
+      givemoney_to = {
+        prompt_id = "ID",
+        prompt_amount = "Amount:",
+        max_value = "~r~Max value permited!",
+        menu_name = "@Give money to Player",
+        menu_name_btc = "@Give money to Player BTC",
+        menu_name_eur = "@Give money to Player EUR",
+        menu_name_usd = "@Give money to Player USD"
       },
       giveitem = {
           prompt_name = "Id name:",
@@ -618,11 +635,31 @@ local lang = {
       },
       godmode = {
           on = "God mode is on",
-          off = "God mode is off"
+          off = "God mode is off",
+          menu_name = "@God mode"
       },
       spawnveh = {
           prompt = "Type vehicle name to spawn",
-      }
+          menu_name = "@Spawn Vehicle"
+      },
+      report = {
+        playerok ="Do you want to make a admin ticket? you can be banned for abuse this!",
+        prompt = "Describe your report:",
+        rep_type = "Is a player report ?",
+        report_id = "ID:",
+        notify_p = "ID: {1} report was created!",
+        notify_d = "Report was create!",
+        name_menu = "@REPORT"
+      },
+      tptowaypoint = {
+        menu_name = "@Tp to Waypoint"
+      },
+      blips = {
+        menu_name = "@Blips"
+      },
+      deleteveh = {
+        menu_name = "@Delete Veh"
+      },
 
 
 

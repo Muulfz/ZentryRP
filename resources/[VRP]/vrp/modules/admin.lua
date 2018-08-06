@@ -107,16 +107,16 @@ end
 local function ch_addgroup(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id ~= nil and vRP.hasPermission(user_id, perm.admin.addgroup()) then
-        local id = vRP.prompt(player, lang.admin.menu.prompt_id(), "")
+        local id = vRP.prompt(player, lang.admin.menu.addgroup.prompt_id(), "")
         id = parseInt(id)
         if vRP.hasIDExist(id) then
             local group = vRP.prompt(player, lang.admin.menu.addgroup.prompt(), "")
             if group then
-                if not vRP.hasGroup(user_id, group) then
+                if vRP.getGroupCheck(group) then
                     vRP.addUserGroup(id, group)
-                    vRPclient._notify(player, lang.admin.menu.addgroup.notify({group,id}))
+                    vRPclient._notify(player, lang.admin.menu.addgroup.notify({ group, id }))
                 else
-                    vRPclient._notify(player, lang.admin.menu.addgroup.already())
+                    vRPclient._notify(player, lang.common.invalid_group())
                 end
             else
                 vRPclient._notify(player, lang.common.invalid_group())
@@ -125,7 +125,6 @@ local function ch_addgroup(player, choice)
             vRPclient._notify(player, lang.common.invalid_id())
         end
     end
-
 end
 
 local function ch_removegroup(player, choice)
@@ -136,9 +135,9 @@ local function ch_removegroup(player, choice)
         if vRP.hasIDExist(id) then
             local group = vRP.prompt(player, lang.admin.menu.removegroup.prompt(), "")
             if group then
-                if vRP.hasGroup(user_id, group) then
+                if vRP.hasGroup(user_id, group) ~= nil then
                     vRP.removeUserGroup(id, group)
-                    vRPclient._notify(player, lang.admin.menu.removegroup.notify({group,id}))
+                    vRPclient._notify(player, lang.admin.menu.removegroup.notify({ group, id }))
                 else
                     vRPclient._notify(player, lang.common.player_group_not_found())
                 end
@@ -267,10 +266,17 @@ end
 local function ch_tpto(player, choice)
     local user_id = vRP.prompt(player, lang.admin.menu.tpto.prompt(), "")
     local tplayer = vRP.getUserSource(tonumber(user_id))
-    if tplayer then
-        vRPclient._teleport(player, vRPclient.getPosition(tplayer))
-    else
-        vRPclient._notify(player, lang.common.no_player())
+    if vRP.hasIDExist(user_id) then
+        if vRP.playerIsOnline(user_id) then
+            if tplayer then
+                vRPclient._teleport(player, vRPclient.getPosition(tplayer))
+            else
+                vRPclient._notify(player, lang.common.no_player())
+            end
+        else
+            vRPclient._notify(player, lang.common.player_offline())
+        end
+        vRPclient._notify(player, lang.common.invalid_id())
     end
 end
 
@@ -283,7 +289,7 @@ local function ch_tptocoords(player, choice)
     if coords[1] ~= nil and coords[2] ~= nil and coords[3] ~= nil then
         vRPclient._teleport(player, coords[1] or 0, coords[2] or 0, coords[3] or 0)
     else
-        vRPclient._notify(player.lang.admin.menu.tptocoords.invalid_coords())
+        vRPclient._notify(player, lang.admin.menu.tptocoords.invalid_coords())
     end
 end
 
@@ -297,7 +303,6 @@ local function ch_givemoney(player, choice)
             vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
         else
             vRPclient._notify(player, lang.admin.menu.givemoney.max_value())
-
         end
     end
 end
@@ -312,8 +317,8 @@ local function ch_giveitem(player, choice)
         local name = vRP.getItemName(idname)
         if name then
             vRP.giveInventoryItem(user_id, idname, amount, true)
-            vRPclient._notify(player, lang.admin.menu.giveitem.notify({ user_id ,name , amount }))
-            vRPclient._notify(vRP.getUserSource(user_id), lang.admin.menu.giveitem.targetnotify({ name,amount }))
+            vRPclient._notify(player, lang.admin.menu.giveitem.notify({ user_id, name, amount }))
+            vRPclient._notify(vRP.getUserSource(user_id), lang.admin.menu.giveitem.targetnotify({ name, amount }))
         else
             vRPclient._notify(player, lang.common.invalid_item())
         end
@@ -338,13 +343,13 @@ local function ch_calladmin(player, choice)
             end
 
             if not players then
-                vRP.execute("vRP/create_srv_ticket", { user_id = user_id, ticket = desc, date = date})
+                vRP.execute("vRP/create_srv_ticket", { user_id = user_id, ticket = desc, date = date })
                 vRPclient._notify(player, lang.admin.menu.calladmin.not_adm_online())
             else
                 -- send notify and alert to all listening players
                 for k, v in pairs(players) do
                     async(function()
-                        local ok = vRP.request(v,lang.admin.menu.calladmin.admin_msg(user_id)  .. htmlEntities.encode(desc), 60)
+                        local ok = vRP.request(v, lang.admin.menu.calladmin.admin_msg(user_id) .. htmlEntities.encode(desc), 60)
                         if not ok then
                             vRP.execute("vRP/create_srv_ticket", { user_id = user_id, ticket = desc, date = date, ingame_accept = answered, solved = answered })
                         end
@@ -406,148 +411,257 @@ local function ch_audiosource(player, choice)
 end
 
 ----------------------------------------------------------------------------
-local function ch_player_givemoney(player, choice)
-    local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "admin.give.money") then
-        local player_id = vRP.prompt(player,"ID","")
-        if player_id then
-            local amount = vRP.prompt(player, "Amount:", "")
-            amount = parseDouble(amount)
-            if amount <= 2147483647 then
-                vRP.giveMoney(player_id, amount)
-            else
-                vRPclient._notify(player, "Valor acima do Permitido")
-            end
-        else
-            vRPclient._notify(platyer, "JOGADOR N EXISTE")
-        end
-
-    end
-end
-
 local function ch_givemoney_USD(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
-        local amount = vRP.prompt(player, "Amount:", "")
+        local amount = vRP.prompt(player, lang.admin.menu.givemoney.prompt(), "")
         amount = parseDouble(amount)
         if amount <= 2147483647 then
             vRP.giveMoneyUSD(user_id, amount)
+            vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
         else
-            vRPclient._notify(player, "Valor acima do Permitido")
+            vRPclient._notify(player, lang.admin.menu.givemoney.max_value())
         end
-    end
-end
-
-local function ch_player_givemoney_USD(player, choice)
-    local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "admin.give.money") then
-        local player_id = vRP.prompt(player,"ID","")
-        player_id = parseInt(player_id)
-        if vRP.hasIDExist(player_id) then
-            local amount = vRP.prompt(player, "Amount:", "")
-            amount = parseDouble(amount)
-            if amount <= 2147483647 then
-                vRP.giveMoneyUSD(player_id, amount)
-            else
-                vRPclient._notify(player, "Valor acima do Permitido")
-            end
-        else
-            vRPclient._notify(platyer, "JOGADOR N EXISTE")
-        end
-
     end
 end
 
 local function ch_givemoney_EUR(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
-        local amount = vRP.prompt(player, "Amount:", "")
+        local amount = vRP.prompt(player, lang.admin.menu.givemoney.prompt(), "")
         amount = parseDouble(amount)
         if amount <= 2147483647 then
             vRP.giveMoneyEUR(user_id, amount)
+            vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
         else
-            vRPclient._notify(player, "Valor acima do Permitido")
+            vRPclient._notify(player, lang.admin.menu.givemoney.max_value())
         end
-    end
-end
-
-local function ch_player_givemoney_EUR(player, choice)
-    local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "admin.give.money") then
-        local player_id = vRP.prompt(player,"ID","")
-        if player_id then
-            local amount = vRP.prompt(player, "Amount:", "")
-            amount = parseDouble(amount)
-            if amount <= 2147483647 then
-                vRP.giveMoneyEUR(player_id, amount)
-            else
-                vRPclient._notify(player, "Valor acima do Permitido")
-            end
-        else
-            vRPclient._notify(platyer, "JOGADOR N EXISTE")
-        end
-
     end
 end
 
 local function ch_givemoney_BTC(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
-        local amount = vRP.prompt(player, "Amount:", "")
+        local amount = vRP.prompt(player, lang.admin.menu.givemoney.prompt(), "")
         amount = parseDouble(amount)
         if amount <= 2147483647 then
             vRP.giveMoneyBTC(user_id, amount)
+            vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
         else
-            vRPclient._notify(player, "Valor acima do Permitido")
+            vRPclient._notify(player, lang.admin.menu.givemoney.max_value())
         end
+    end
+end
+
+local function ch_player_givemoney(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id and vRP.hasPermission(user_id, perm.admin.menu.givemoney_to()) then
+        local player_id = vRP.prompt(player, lang.admin.menu.givemoney_to.prompt_id(), "")
+        if player_id then
+            local amount = vRP.prompt(player, lang.admin.menu.givemoney_to.prompt_amount(), "")
+            amount = parseDouble(amount)
+            if amount <= 2147483647 then
+                vRP.giveMoney(player_id, amount) --TODO implementar logs
+                vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
+            else
+                vRPclient._notify(player, lang.admin.menu.givemoney_to.max_value())
+            end
+        else
+            vRPclient._notify(platyer, lang.common.invalid_id())
+        end
+
+    end
+end
+
+local function ch_player_givemoney_USD(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id and vRP.hasPermission(user_id, perm.admin.menu.givemoney_to_usd()) then
+        local player_id = vRP.prompt(player, lang.admin.menu.givemoney_to.prompt_id(), "")
+        player_id = parseInt(player_id)
+        if vRP.hasIDExist(player_id) then
+            local amount = vRP.prompt(player, lang.admin.menu.givemoney_to.prompt_amount(), "")
+            amount = parseDouble(amount)
+            if amount <= 2147483647 then
+                vRP.giveMoneyUSD(player_id, amount)
+                vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
+            else
+                vRPclient._notify(player, lang.admin.menu.givemoney_to.max_value())
+            end
+        else
+            vRPclient._notify(platyer, lang.common.invalid_id())
+        end
+
+    end
+end
+
+local function ch_player_givemoney_EUR(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id and vRP.hasPermission(user_id, perm.admin.menu.givemoney_to_eur()) then
+        local player_id = vRP.prompt(player, lang.admin.menu.givemoney_to.prompt_id(), "")
+        if player_id then
+            local amount = vRP.prompt(player, lang.admin.menu.givemoney_to.prompt_amount(), "")
+            amount = parseDouble(amount)
+            if amount <= 2147483647 then
+                vRP.giveMoneyEUR(player_id, amount)
+                vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
+            else
+                vRPclient._notify(player, lang.admin.menu.givemoney_to.max_value())
+            end
+        else
+            vRPclient._notify(platyer, lang.common.invalid_id())
+        end
+
     end
 end
 
 local function ch_player_givemoney_BTC(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "admin.give.money") then
-        local player_id = vRP.prompt(player,"ID","")
+    if user_id and vRP.hasPermission(user_id, perm.admin.menu.givemoney_to_btc()) then
+        local player_id = vRP.prompt(player, lang.admin.menu.givemoney_to.prompt_id(), "")
         if player_id then
-            local amount = vRP.prompt(player, "Amount:", "")
+            local amount = vRP.prompt(player, lang.admin.menu.givemoney_to.prompt_amount(), "")
             amount = parseDouble(amount)
             if amount <= 2147483647 then
                 vRP.giveMoneyBTC(player_id, amount)
+                vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
             else
-                vRPclient._notify(player, "Valor acima do Permitido")
+                vRPclient._notify(player, lang.admin.menu.givemoney_to.max_value())
             end
         else
-            vRPclient._notify(platyer, "JOGADOR N EXISTE")
+            vRPclient._notify(platyer, lang.common.invalid_id())
         end
-
     end
 end
 
 local function ch_report(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
-        local playerok = vRP.request(player, "Deseja realmente fazer um ticket de admin? o uso deliberado acarretara punicoes", 60)
+        local playerok = vRP.request(player, lang.admin.menu.report.playerok(), 60)
         if playerok then
-            local desc = vRP.prompt(player,"Diga seu Report","")
+            local desc = vRP.prompt(player, lang.admin.menu.report.prompt(), "")
             local date = os.date("%H:%M:%S %d/%m/%Y")
-            local playerReport = vRP.request(player," Trata de um report contra um usuario", 60)
+            local playerReport = vRP.request(player, lang.admin.menu.report.rep_type(), 60)
             if playerReport then
-                local player_id = vRP.prompt(player,"Diga o ID","")
+                local player_id = vRP.prompt(player, lang.admin.menu.report.report_id(), "")
                 if vRP.hasIDExist(player_id) then
                     local was_online = vRP.playerIsOnline(player_id)
                     print(type(was_online))
-                    vRP.execute("vRP/create_srv_report_player", { user_id = player_id, report = desc, report_player = user_id, was_online = was_online, date = date})
-                    vRPclient._notify(player, "Report contra ID: " ..player_id.." Criado com sucesso")
+                    vRP.execute("vRP/create_srv_report_player", { user_id = player_id, report = desc, report_player = user_id, was_online = was_online, date = date })
+                    vRPclient._notify(player, lang.admin.menu.report.notify_p({ player_id }))
                 else
-                    vRPclient._notify(player,"Jogador n existe")
+                    vRPclient._notify(player, lang.common.invalid_id())
                 end
             else
                 vRP.execute("vRP/create_srv_report", { user_id = user_id, report = desc, date = date })
-                vRPclient._notify(player, "Report Criado com sucesso")
+                vRPclient._notify(player, lang.admin.menu.report.notify_d())
             end
         end
     end
 end
+
+local function ch_addgroupperm(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id ~= nil and vRP.hasPermission(user_id, perm.admin.addgroup_perm()) then
+        local id = vRP.prompt(player, lang.admin.menu.addgroup.prompt_id(), "")
+        id = parseInt(id)
+        if vRP.hasIDExist(id) then
+            local group = vRP.prompt(player, lang.admin.menu.addgroup.prompt(), "")
+            if group then
+                if not vRP.hasGroup(id, group) then
+                    if vRP.getGroupCheck(group) then
+                        local groupcode = vRP.getGroupCode(group)
+                        if vRP.hasPermission(id, lang.admin.menu.addgroup.perm({groupcode})) then
+                            vRP.addUserGroup(id, group)
+                            vRPclient._notify(player, lang.admin.menu.addgroup.notify({group, user_id}))
+                        else
+                            vRPclient._notify(player, lang.common.not_perm())
+                        end
+                    else
+                        vRPclient._notify(player, lang.common.invalid_group())
+                    end
+                else
+                    vRPclient._notify(player, lang.common.player_group_already_have())
+                end
+            end
+        else
+            vRPclient._notify(player, lang.common.invalid_id())
+        end
+    end
+end
+
+local function ch_removegroupperm(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id and vRP.hasPermission(user_id, perm.admin.removegroup_perm()) then
+        local id = vRP.prompt(player, lang.admin.menu.removegroup.prompt_id(), "")
+        id = parseInt(id)
+        if vRP.hasIDExist(id) then
+            local group = vRP.prompt(player, lang.admin.menu.removegroup.prompt(), "")
+            if group then
+                if vRP.getGroupCheck(group) then
+                    local groupcode = vRP.getGroupCode(group)
+                    if vRP.hasPermission(id, lang.admin.menu.removegroup.perm({groupcode})) then
+                        if vRP.hasGroup(id, group) then
+                            vRP.removeUserGroup(id, group)
+                            vRPclient._notify(player, lang.admin.menu.removegroup.notify({group, user_id}))
+                        else
+                            vRPclient._notify(player, lang.admin.menu.removegroup.not_found({group}))
+                        end
+                    end
+                else
+                    vRPclient._notify(player, lang.common.invalid_group())
+                end
+            end
+        else
+            vRPclient._notify(player,lang.common.invalid_id())
+        end
+    end
+end
+
 -----------------------------------------------------------------------------
+local function ch_tptowaypoint(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id then
+        vRPclient._tpToWayPoint(player)
+    end
+end
+
+local function ch_blips(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id then
+        vRPclient._showBlips(player)
+    end
+end
+
+local function ch_deleteveh(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id then
+        vRPclient._deleteVehicleInFrontOrInside(player, 5.0)
+    end
+end
+
+local function ch_godmode(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id ~= nil then
+        if gods[player] then
+            gods[player] = nil
+            vRPclient._notify(player, lang.admin.menu.godmode.off())
+        else
+            gods[player] = user_id
+            vRPclient._notify(player, lang.admin.menu.godmode.on())
+        end
+    end
+end
+
+local function ch_spawnveh(player, choice)
+    local model = vRP.prompt(player, lang.admin.spawnveh.prompt(), "")
+    if modle ~= nil and model ~= "" then
+        vRPclient._spawnVehicle(player, model)
+    else
+        vRPclient._notify(player, lang.common.invalid_value())
+    end
+end
+
+-------------------------------------------------------------------------------------------
 
 vRP.registerMenuBuilder("main", function(add, data)
     local user_id = vRP.getUserId(data.player)
@@ -584,7 +698,7 @@ vRP.registerMenuBuilder("main", function(add, data)
             if vRP.hasPermission(user_id, perm.admin.menu.ban()) then
                 menu[lang.admin.menu.ban.menu_name()] = { ch_ban }
             end
-            if vRP.hasPermission(user_id,perm.admin.menu.unban() ) then
+            if vRP.hasPermission(user_id, perm.admin.menu.unban()) then
                 menu[lang.admin.menu.unban.menu_name()] = { ch_unban }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.noclip()) then
@@ -596,7 +710,7 @@ vRP.registerMenuBuilder("main", function(add, data)
             if vRP.hasPermission(user_id, perm.admin.menu.custom_sound()) then
                 menu[lang.admin.menu.sound.menu_name()] = { ch_sound }
             end
-            if vRP.hasPermission(user_id,perm.admin.menu.custom_audiosource() ) then
+            if vRP.hasPermission(user_id, perm.admin.menu.custom_audiosource()) then
                 menu[lang.admin.menu.audiosource.menu_name()] = { ch_audiosource }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.coords()) then
@@ -623,7 +737,54 @@ vRP.registerMenuBuilder("main", function(add, data)
             if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
                 menu[lang.admin.menu.calladmin.menu_name()] = { ch_calladmin }
             end
-
+            ----------------------------------------------------------------------
+            if vRP.hasPermission(user_id, perm.admin.menu.report()) then
+                menu[lang.admin.menu.report.name_menu()] = { ch_report }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.addgroup_perm()) then
+                menu[lang.admin.menu.addgroup.menu_name_perm()] = { ch_addgroupperm }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.removegroup_perm()) then
+                menu[lang.admin.menu.removegroup.menu_name_perm()] = { ch_removegroupperm }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.givemoney_to()) then
+                menu[lang.admin.menu.givemoney_to.menu_name()] = { ch_player_givemoney }
+            end
+            if vRP.hasPermission(user_id,  perm.admin.menu.givemoney_usd()) then
+                menu[lang.admin.menu.givemoney.menu_name_usd()] = { ch_givemoney_USD() }
+            end
+            if vRP.hasPermission(user_id,  perm.admin.menu.givemoney_to_usd()) then
+                menu[lang.admin.menu.givemoney_to.menu_name_usd()] = { ch_player_givemoney_USD }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.givemoney_eur()) then
+                menu[lang.admin.menu.givemoney.menu_name_eur()] = { ch_givemoney_EUR }
+            end
+            if vRP.hasPermission(user_id,  perm.admin.menu.givemoney_to_eur()) then
+                menu[lang.admin.menu.givemoney_to.menu_name_eur()] = { ch_player_givemoney_EUR }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.givemoney_btc()) then
+                menu[lang.admin.menu.givemoney.menu_name_btc()] = { ch_givemoney_BTC }
+            end
+            if vRP.hasPermission(user_id,  perm.admin.menu.givemoney_to_btc()) then
+                menu[lang.admin.menu.givemoney_to.menu_name_btc()] = { ch_player_givemoney_BTC }
+            end
+--------------------------------------------------------------------------------------------------------
+            if vRP.hasPermission(user_id,  perm.admin.menu.tptowaypoint()) then
+                menu[lang.admin.menu.tptowaypoint.menu_name()] = { ch_tptowaypoint }
+            end
+            if vRP.hasPermission(user_id,  perm.admin.menu.blips()) then
+                menu[lang.admin.menu.blips.menu_name()] = { ch_blips }
+            end
+            if vRP.hasPermission(user_id,  perm.admin.menu.deleteveh()) then
+                menu[lang.admin.menu.deleteveh.menu_name()] = { ch_deleteveh}
+            end
+            if vRP.hasPermission(user_id,  perm.admin.menu.godmode()) then
+                menu[lang.admin.menu.godmode.menu_name()] = { ch_godmode}
+            end
+            if vRP.hasPermission(user_id,  perm.admin.menu.spawnveh()) then
+                menu[lang.admin.menu.spawnveh.menu_name()] = { ch_spawnveh }
+            end
+-----------------------------------------------------------------------------------------------------------
             vRP.openMenu(player, menu)
         end }
 
@@ -631,8 +792,30 @@ vRP.registerMenuBuilder("main", function(add, data)
     end
 end)
 
--- admin god mode
+gods = {}
 function task_god()
+    SetTimeout(10000, task_god)
+
+    for k,v in pairs(gods) do
+        vRP.setHunger(v, 0)
+        vRP.setThirst(v, 0)
+
+        local player = vRP.getUserSource(v)
+        if player ~= nil then
+            vRPclient.setHealth(player, 200)
+        end
+    end
+end
+
+Citizen.CreateThread(function()
+    task_god()
+end)
+
+
+
+
+-- admin god mode
+function task_god_perm()
     SetTimeout(10000, task_god)
 
     for k, v in pairs(vRP.getUsersByPermission(perm.admin.menu.god())) do
@@ -646,4 +829,4 @@ function task_god()
     end
 end
 
-task_god()
+task_god_perm()

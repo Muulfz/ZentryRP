@@ -41,10 +41,8 @@ server_scripts{
   "modules/utils/currency.lua",
   "modules/utils/mysql.lua",
   "modules/utils/basic_phone.lua",
-  "modules/utils/dev.lua"
-
-
-
+  "modules/utils/dev.lua",
+  "modules/utils/logger.lua"
 }
 
 -- client scripts

@@ -16,6 +16,8 @@ cfg.framework = {
   tag = "vRP",
 }
 
+cfg.home_dir = "C:/Zentry/Fivem/ZentryRP"
+cfg.home_dir_inv = "C:\\Zentry\\Fivem\\ZentryRP"
 cfg.save_interval = 60 -- seconds
 cfg.whitelist = false -- enable/disable whitelist
 

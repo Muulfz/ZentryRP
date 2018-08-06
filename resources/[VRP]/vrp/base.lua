@@ -252,8 +252,8 @@ function vRP.getUserIdByIdentifiers(ids)
       for l,w in pairs(ids) do
         if not config.ignore_ip_identifier or (string.find(w, "ip:") == nil) then  -- ignore ip identifier
           vRP.execute("vRP/add_identifier", {user_id = user_id, identifier = w})
-          local ep = vRP.getPlayerEndpoint(source)
-          vRP.execute("vRP/set_last_ip", { user_id = user_id, last_ip = ep })
+          --local ep = vRP.getPlayerEndpoint(source)
+          --vRP.execute("vRP/set_last_ip", { user_id = user_id, last_ip = ep }) --TODO FIX THIS
         end
       end
 

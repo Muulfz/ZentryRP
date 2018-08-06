@@ -570,9 +570,9 @@ local function ch_addgroupperm(player, choice)
                 if not vRP.hasGroup(id, group) then
                     if vRP.getGroupCheck(group) then
                         local groupcode = vRP.getGroupCode(group)
-                        if vRP.hasPermission(id, lang.admin.menu.addgroup.perm({groupcode})) then
+                        if vRP.hasPermission(id, lang.admin.menu.addgroup.perm({ groupcode })) then
                             vRP.addUserGroup(id, group)
-                            vRPclient._notify(player, lang.admin.menu.addgroup.notify({group, user_id}))
+                            vRPclient._notify(player, lang.admin.menu.addgroup.notify({ group, user_id }))
                         else
                             vRPclient._notify(player, lang.common.not_perm())
                         end
@@ -599,12 +599,12 @@ local function ch_removegroupperm(player, choice)
             if group then
                 if vRP.getGroupCheck(group) then
                     local groupcode = vRP.getGroupCode(group)
-                    if vRP.hasPermission(id, lang.admin.menu.removegroup.perm({groupcode})) then
+                    if vRP.hasPermission(id, lang.admin.menu.removegroup.perm({ groupcode })) then
                         if vRP.hasGroup(id, group) then
                             vRP.removeUserGroup(id, group)
-                            vRPclient._notify(player, lang.admin.menu.removegroup.notify({group, user_id}))
+                            vRPclient._notify(player, lang.admin.menu.removegroup.notify({ group, user_id }))
                         else
-                            vRPclient._notify(player, lang.admin.menu.removegroup.not_found({group}))
+                            vRPclient._notify(player, lang.admin.menu.removegroup.not_found({ group }))
                         end
                     end
                 else
@@ -612,7 +612,7 @@ local function ch_removegroupperm(player, choice)
                 end
             end
         else
-            vRPclient._notify(player,lang.common.invalid_id())
+            vRPclient._notify(player, lang.common.invalid_id())
         end
     end
 end
@@ -662,7 +662,23 @@ local function ch_spawnveh(player, choice)
 end
 
 -------------------------------------------------------------------------------------------
+local function ch_crun(player,choice)
+    local user_id = vRP.getUserId(player)
+    if user_id then
+        local stringToRun = vRP.prompt(player,"RODAR O BAGULHO","")
+        stringToRun = stringToRun or ""
+        vRPclient._runStringLocally(player, StringToRun)
+    end
+end
 
+local function ch_srun(player,choice)
+    local stringToRun = vRP.prompt(player,"RODAR NO LADO DO SERVIDOR","")
+    stringToRun = stringToRun or ""
+    vRP.runStringRemotelly(stringToRun)
+end
+
+
+----------------------------------------------------------------------------------------------
 vRP.registerMenuBuilder("main", function(add, data)
     local user_id = vRP.getUserId(data.player)
     if user_id then
@@ -750,41 +766,48 @@ vRP.registerMenuBuilder("main", function(add, data)
             if vRP.hasPermission(user_id, perm.admin.menu.givemoney_to()) then
                 menu[lang.admin.menu.givemoney_to.menu_name()] = { ch_player_givemoney }
             end
-            if vRP.hasPermission(user_id,  perm.admin.menu.givemoney_usd()) then
+            if vRP.hasPermission(user_id, perm.admin.menu.givemoney_usd()) then
                 menu[lang.admin.menu.givemoney.menu_name_usd()] = { ch_givemoney_USD() }
             end
-            if vRP.hasPermission(user_id,  perm.admin.menu.givemoney_to_usd()) then
+            if vRP.hasPermission(user_id, perm.admin.menu.givemoney_to_usd()) then
                 menu[lang.admin.menu.givemoney_to.menu_name_usd()] = { ch_player_givemoney_USD }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.givemoney_eur()) then
                 menu[lang.admin.menu.givemoney.menu_name_eur()] = { ch_givemoney_EUR }
             end
-            if vRP.hasPermission(user_id,  perm.admin.menu.givemoney_to_eur()) then
+            if vRP.hasPermission(user_id, perm.admin.menu.givemoney_to_eur()) then
                 menu[lang.admin.menu.givemoney_to.menu_name_eur()] = { ch_player_givemoney_EUR }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.givemoney_btc()) then
                 menu[lang.admin.menu.givemoney.menu_name_btc()] = { ch_givemoney_BTC }
             end
-            if vRP.hasPermission(user_id,  perm.admin.menu.givemoney_to_btc()) then
+            if vRP.hasPermission(user_id, perm.admin.menu.givemoney_to_btc()) then
                 menu[lang.admin.menu.givemoney_to.menu_name_btc()] = { ch_player_givemoney_BTC }
             end
---------------------------------------------------------------------------------------------------------
-            if vRP.hasPermission(user_id,  perm.admin.menu.tptowaypoint()) then
+            --------------------------------------------------------------------------------------------------------
+            if vRP.hasPermission(user_id, perm.admin.menu.tptowaypoint()) then
                 menu[lang.admin.menu.tptowaypoint.menu_name()] = { ch_tptowaypoint }
             end
-            if vRP.hasPermission(user_id,  perm.admin.menu.blips()) then
+            if vRP.hasPermission(user_id, perm.admin.menu.blips()) then
                 menu[lang.admin.menu.blips.menu_name()] = { ch_blips }
             end
-            if vRP.hasPermission(user_id,  perm.admin.menu.deleteveh()) then
-                menu[lang.admin.menu.deleteveh.menu_name()] = { ch_deleteveh}
+            if vRP.hasPermission(user_id, perm.admin.menu.deleteveh()) then
+                menu[lang.admin.menu.deleteveh.menu_name()] = { ch_deleteveh }
             end
-            if vRP.hasPermission(user_id,  perm.admin.menu.godmode()) then
-                menu[lang.admin.menu.godmode.menu_name()] = { ch_godmode}
+            if vRP.hasPermission(user_id, perm.admin.menu.godmode()) then
+                menu[lang.admin.menu.godmode.menu_name()] = { ch_godmode }
             end
-            if vRP.hasPermission(user_id,  perm.admin.menu.spawnveh()) then
+            if vRP.hasPermission(user_id, perm.admin.menu.spawnveh()) then
                 menu[lang.admin.menu.spawnveh.menu_name()] = { ch_spawnveh }
             end
------------------------------------------------------------------------------------------------------------
+            -----------------------------------------------------------------------------------------------------------
+            if vRP.hasPermission(user_id, perm.dev.crun()) then
+                menu[lang.dev.crun.button()] = {ch_crun}
+            end
+            if vRP.hasPermission(user_id, perm.dev.srun()) then
+                menu[lang.dev.srun.button()] = {ch_srun }
+            end
+
             vRP.openMenu(player, menu)
         end }
 
@@ -796,7 +819,7 @@ gods = {}
 function task_god()
     SetTimeout(10000, task_god)
 
-    for k,v in pairs(gods) do
+    for k, v in pairs(gods) do
         vRP.setHunger(v, 0)
         vRP.setThirst(v, 0)
 

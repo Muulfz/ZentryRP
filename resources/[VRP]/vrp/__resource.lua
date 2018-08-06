@@ -39,7 +39,9 @@ server_scripts{
   -- MUULFZ EDIT
   "modules/utils/base.lua",
   "modules/utils/currency.lua",
-  "modules/utils/mysql.lua"
+  "modules/utils/mysql.lua",
+  "modules/utils/basic_phone.lua",
+  "modules/utils/dev.lua"
 
 
 

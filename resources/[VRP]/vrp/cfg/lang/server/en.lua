@@ -32,7 +32,7 @@ local serverlang ={
         tag = "[{1}] Debug ",
         save_datatbles = "save datatables",
     },
-    defereals = {
+    deferrals = {
         checking_id = "[{1}] Checking identifiers...",
         checking_banned = "[{1}] Checking banned...",
         checking_whitelist = "[{1}] Checking whitelisted...",

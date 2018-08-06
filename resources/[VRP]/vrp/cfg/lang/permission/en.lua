@@ -14,6 +14,11 @@ local permlang = {
     },
     police = {},
     emergency = {},
+    dev = {
+        menu = "player.givemoney",
+        crun = "player.givemoney",
+        srun = "player.givemoney",
+    },
     admin = {
         whilelist = "player.whitelist",
         unwhitelist = "player.unwhitelist",
@@ -55,12 +60,12 @@ local permlang = {
             god = "admin.god",
             addgroup_perm = "player.group.add",
             removegroup_perm = "player.group.remove",
-            report = "player.report",
-            tptowaypoint = "player.tptowaypoint",
-            blips = "player.blips",
-            deleteveh = "player.deleteveh",
-            godmode = "player.godmode",
-            spawnveh = "player.spawnveh"
+            report = "player.givemoney",
+            tptowaypoint = "player.givemoney",
+            blips = "player.givemoney",
+            deleteveh = "player.givemoney",
+            godmode = "player.givemoney",
+            spawnveh = "player.givemoney",
 
         }
 

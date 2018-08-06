@@ -669,6 +669,37 @@ local lang = {
         currency = "[ZRP] init currency tables"
       }
     }
+  },
+  mcharge = {
+    button = "Mobile Charge",
+    perm = "mobile.charge",
+    desc = "Charge payments with your phone.",
+    charger = "~g~You charged ~y~${2}~g~ of ~b~{1}.",
+    charged = "~g~You've been charged ~r~${2} of ~b~{1}.",
+    log = "{1} charged {2} => banks: {1}:{3} | {2}:{4}",
+    file = "mCharge.log",
+    prompt = "Value to charge {1}:",
+    request = "Accept payment of {2} to {1}?",
+    refused = "~b~{1} ~r~refused the charge.",
+    not_enough = "~b~{1} ~r~doesn't have enough money!",
+    type = {
+      desc = "Type phone manually.",
+      button = ">Type number",
+      prompt = "Phone Number:",
+    },
+  },
+  dev = {
+    crun = {
+      button = "@Crun",
+      desc = "Execute a function locally.",
+      prompt = "Local Function:",
+    },
+    srun = {
+      button = "@Srun",
+      perm = "admin.srun",
+      desc = "Execute a function remotelly.",
+      prompt = "Remote Function:",
+    }
   }
 }
 

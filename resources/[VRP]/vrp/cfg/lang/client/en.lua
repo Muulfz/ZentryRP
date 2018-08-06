@@ -6,6 +6,9 @@
 
 
 local lang = {
+    common = {
+        invalid_model = "Model invalid"
+    },
     vehicle = {
         unlock = "Vehicle Unlocked.",
         locked = "Vehicle locked",
@@ -30,6 +33,26 @@ local lang = {
             voip_channel = "[vRP] VoIP channel callbacks for ",
             already = "already registered.",
         }
+    },
+    tptowaypoint = {
+        notfound = "Waypoint not found!",
+        success = "You are teleport!"
+    },
+    spawnveh = {
+        load = "Loading",
+        success = "The vehicle was spawned"
+    },
+    deleteveh = {
+        success = "Vehicle was deleted",
+        toofar = "Too far from vehicle"
+    },
+    blips = {
+        on = "Blips is ON",
+        off = "Blips is OFF"
+    },
+    sprite =  {
+        on = "Sprites ON",
+        off = "Sprites OFF"
     }
 
 }

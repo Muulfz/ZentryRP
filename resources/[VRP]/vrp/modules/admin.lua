@@ -118,8 +118,6 @@ local function ch_addgroup(player, choice)
                 else
                     vRPclient._notify(player, lang.common.invalid_group())
                 end
-            else
-                vRPclient._notify(player, lang.common.invalid_group())
             end
         else
             vRPclient._notify(player, lang.common.invalid_id())
@@ -141,8 +139,6 @@ local function ch_removegroup(player, choice)
                 else
                     vRPclient._notify(player, lang.common.player_group_not_found())
                 end
-            else
-                vRPclient._notify(player, lang.common.invalid_group())
             end
         else
             vRPclient._notify(player, lang.common.invalid_id())
@@ -166,8 +162,6 @@ local function ch_kick(player, choice)
                 else
                     vRPclient._notify(player, lang.common.no_player())
                 end
-            else
-                vRPclient._notify(player, lang.common.player_offline())
             end
         else
             vRPclient._notify(player, lang.common.invalid_id())
@@ -175,7 +169,7 @@ local function ch_kick(player, choice)
     end
 end
 
-local function ch_ban(player, choice)
+local function ch_ban(player, choice)  -- CHANGE FOR USER
     local user_id = vRP.getUserId(player)
     if user_id and vRP.hasPermission(user_id, perm.admin.ban()) then
         local id = vRP.prompt(player, lang.admin.menu.ban.prompt_id(), "")
@@ -183,9 +177,9 @@ local function ch_ban(player, choice)
         if vRP.hasIDExist(id) then
             if not vRP.isBanned(id) then
                 local reason = vRP.prompt(player, lang.admin.menu.ban.prompt(), "")
-                local source = vRP.getUserSource(id)
-                if source then
-                    vRP.ban(source, reason)
+               --- local source = vRP.getUserSource(id)
+                if user_id then
+                    vRP.ban(id, reason)
                     vRPclient._notify(player, lang.admin.menu.ban.notify() .. id)
                 else
                     vRPclient._notify(player, lang.common.no_player())
@@ -263,15 +257,13 @@ local function ch_tptome(player, choice)
     end
 end
 
-local function ch_tpto(player, choice)
+local function ch_tpto(player, choice)  --FIX
     local user_id = vRP.prompt(player, lang.admin.menu.tpto.prompt(), "")
     local tplayer = vRP.getUserSource(tonumber(user_id))
     if vRP.hasIDExist(user_id) then
         if vRP.playerIsOnline(user_id) then
             if tplayer then
                 vRPclient._teleport(player, vRPclient.getPosition(tplayer))
-            else
-                vRPclient._notify(player, lang.common.no_player())
             end
         else
             vRPclient._notify(player, lang.common.player_offline())
@@ -656,8 +648,6 @@ local function ch_spawnveh(player, choice)
     local model = vRP.prompt(player, lang.admin.spawnveh.prompt(), "")
     if modle ~= nil and model ~= "" then
         vRPclient._spawnVehicle(player, model)
-    else
-        vRPclient._notify(player, lang.common.invalid_value())
     end
 end
 

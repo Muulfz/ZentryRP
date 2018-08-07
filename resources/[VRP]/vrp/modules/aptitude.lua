@@ -167,7 +167,7 @@ for k,v in pairs(cfg.gaptitudes) do
 end
 
 -- MENU
-
+vRP.getUserSource()
 local player_apts = {}
 
 local function ch_aptitude(player,choice)

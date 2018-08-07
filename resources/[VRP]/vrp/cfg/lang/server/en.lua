@@ -30,7 +30,7 @@ local serverlang ={
     },
     debug = {
         tag = "[{1}] Debug ",
-        save_datatbles = "save datatables",
+        save_datatables = "save datatables",
     },
     deferrals = {
         checking_id = "[{1}] Checking identifiers...",

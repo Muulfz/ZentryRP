@@ -660,9 +660,6 @@ local lang = {
       deleteveh = {
         menu_name = "@Delete Veh"
       },
-
-
-
     },
     start = {
       mysql = {

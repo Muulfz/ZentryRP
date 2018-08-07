@@ -50,7 +50,7 @@ function tvRP.tpToWayPoint()
     end
 
     if(not IsWaypointActive()) then
-        tvRP.notify("TP TO WAY POINT NAO ACHADO") -- lang.tptowaypoint.notfound
+        tvRP.notify(lang.tptowaypoint.notfound) -- lang.tptowaypoint.notfound
         return
     end
 
@@ -80,7 +80,7 @@ function tvRP.tpToWayPoint()
     end
 
     SetEntityCoordsNoOffset(targetPed, x,y,z, 0, 0, 1)
-    tvRP.notify("TELEPORTADO COM SUCESSO") -- lang.tptowaypoint.success()
+    tvRP.notify(lang.tptowaypoint.success) -- lang.tptowaypoint.success()
 end
 
 function tvRP.spawnVehicle(model)

@@ -221,10 +221,16 @@ vRP.prepare("vRP/get_last_login", "SELECT last_login FROM vrp_users WHERE id = @
 vRP.prepare("vRP/set_last_ip", "UPDATE vrp_users SET last_ip = @last_ip WHERE id = @user_id")
 vRP.prepare("vRP/get_last_ip", "SELECT last_ip FROM vrp_users WHERE id = @user_id")
 
+
 -- init tables
 print(slang.db.table_int({servertag}))
 async(function()
   vRP.execute("vRP/base_tables")
+  --------------------------------------------
+  vRP.execute("vRP/currecy_tables")
+  vRP.execute("vRP/srv_ticket_tables")
+  vRP.execute("vRP/srv_report_tables")
+  vRP.execute("vRP/srv_report_player_tables")
 end)
 
 -- identification system
@@ -392,12 +398,14 @@ function vRP.getUserSource(user_id)
   return vRP.user_sources[user_id]
 end
 
-function vRP.ban(source,reason)
-  local user_id = vRP.getUserId(source)
-
+function vRP.ban(user_id,reason)
+ -- local user_id = vRP.getUserId(source)
   if user_id then
     vRP.setBanned(user_id,true)
-    vRP.kick(source,slang.admin.ban({serverName,reason}))
+    local source = vRP.getUserSource(user_id)
+    if source then
+      vRP.kick(source,slang.admin.ban({serverName,reason}))
+    end
   end
 end
 

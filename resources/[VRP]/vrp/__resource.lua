@@ -34,7 +34,25 @@ server_scripts{
   "modules/basic_items.lua",
   "modules/basic_skinshop.lua",
   "modules/cloakroom.lua",
-  "modules/basic_radio.lua"
+  "modules/basic_radio.lua",
+
+  -- basic menu
+  "modules/buttons/admin.lua",
+  "modules/buttons/phone.lua",
+  "modules/buttons/player.lua",
+  "modules/buttons/police.lua",
+  "modules/buttons/static",
+  "modules/item/items.lua",
+  "modules/menus/admin.lua",
+  "modules/menus/main.lua",
+  "modules/menus/phone.lua",
+  "modules/menus/player.lua",
+  "modules/menus/police.lua",
+  "modules/menus/static.lua",
+  "modules/utils/admin.lua",
+  "modules/utils/phone.lua",
+  "modules/utils/police.lua"
+
 }
 
 -- client scripts
@@ -51,7 +69,10 @@ client_scripts{
   "client/police.lua",
   "client/admin.lua",
   "client/basic_phone.lua",
-  "client/basic_radio.lua"
+  "client/basic_radio.lua",
+  "client/utils/admin.lua",
+  "client/utils/player.lua",
+  "client/utils/police.lua"
 }
 
 -- client files
@@ -79,5 +100,6 @@ files{
   "gui/sounds/phone_ringing.ogg",
   "gui/sounds/phone_sms.ogg",
   "gui/sounds/radio_on.ogg",
-  "gui/sounds/radio_off.ogg"
+  "gui/sounds/radio_off.ogg",
+  "cfg/lang/client/en.lua"
 }

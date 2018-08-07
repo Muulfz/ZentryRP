@@ -3,11 +3,11 @@ local cfg = {}
 
 -- mysql credentials
 cfg.db = {
-  driver = "vrp_mysql",
-  host = "127.0.0.1",
+  driver = "ghmattimysql",
+  host = "127.0.0.1:3311",
   database = "vRP",
-  user = "vRP",
-  password = "password"
+  user = "fivem",
+  password = "macaco123"
 }
 
 cfg.save_interval = 60 -- seconds

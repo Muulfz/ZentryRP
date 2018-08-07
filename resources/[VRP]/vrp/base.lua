@@ -232,6 +232,16 @@ function vRP.getUserIdByIdentifiers(ids)
     end
   end
 end
+--------------
+-- LOG FUNCTION
+function vRP.logInfoToFile(file,info)
+  file = io.open(file, "a")
+  if file then
+    file:write(os.date("%c").." => "..info.."\n")
+  end
+  file:close()
+end
+---------------
 
 -- return identification string for the source (used for non vRP identifications, for rejected players)
 function vRP.getSourceIdKey(source)

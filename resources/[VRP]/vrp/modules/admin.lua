@@ -1,6 +1,6 @@
 local htmlEntities = module("lib/htmlEntities")
 local Tools = module("lib/Tools")
-
+lang = vRP.lang
 -- this module define some admin menu functions
 
 local player_lists = {}

@@ -60,10 +60,11 @@ server_scripts{
   "modules/utils/loadfreeze.lua",
   "modules/utils/nocarjack.lua",
   "modules/utils/paycheck.lua",
-  "modules/missions/robbery.lua"
-
-
-
+  "modules/missions/robbery.lua",
+  "modules/utils/moneydrop.lua",
+  "modules/stores/tattoos.lua",
+  "modules/vehicle/carwash.lua",
+  "modules/utils/commands.lua"
 }
 
 -- client scripts
@@ -89,7 +90,15 @@ client_scripts{
   "client/utils/moviment.lua",
   "client/utils/loadfreeze.lua",
   "client/utils/nocarjack.lua",
-  "client/missions/robbery.lua"
+  "client/missions/robbery.lua",
+  "client/utils/moneydrop.lua",
+  "client/stores/tattoos.lua",
+  "client/utils/voice_display.lua",
+  "client/player/show_weapons.lua",
+  "client/vehicle/speedometer.lua",
+  "client/utils/npc_control.lua",
+  "client/vehicle/carwash.lua",
+  "client/utils/commands.lua"
 }
 
 -- client files
@@ -122,5 +131,8 @@ files{
   "cfg/stores/barbershop.lua",
   "cfg/utils/nocarjack.lua",
   "cfg/missions/robbery.lua",
-  "cfg/lang/missions/robbery/en.lua"
+  "cfg/lang/missions/robbery/en.lua",
+  "cfg/utils/moneydrop.lua",
+  "cfg/utils/voice_display.lua",
+  "cfg/player/show_weapons.lua"
 }

@@ -154,3 +154,18 @@ Citizen.CreateThread(function() -- disable health regen, conflicts with coma sys
 end)
 
 
+--------------------------------------
+--infinite stamina
+Citizen.CreateThread( function()
+  while true do
+    Citizen.Wait(0)
+    RestorePlayerStamina(PlayerId(), 1.0)
+  end
+end)
+
+
+Citizen.CreateThread(function()
+  for i = 1, 12 do
+    Citizen.InvokeNative(0xDC0F817884CDD856, i, false)
+  end
+end)

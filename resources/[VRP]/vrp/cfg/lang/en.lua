@@ -647,7 +647,7 @@ local lang = {
       prompt = "Phone Number:",
     },
   },
-  money = {
+  money_2 = {
     store = {
       button = "Store Money",
       perm = "store.money",
@@ -792,7 +792,13 @@ local lang = {
       robbing = "Robbing: ~r~{1}~w~ seconds remaining",
       canceled = "The robbery was cancelled, you will receive nothing."
     }
-  }
+  },
+  tattoos = {
+    title = "Tattoos",
+    added = "~g~Tattoo added.",
+    removed = "~r~Tattoo removed.",
+    cleaned = "~r~All tattoos removed."
+  },
 }
 
 return lang

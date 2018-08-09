@@ -51,7 +51,18 @@ server_scripts{
   "modules/menus/static.lua",
   "modules/utils/admin.lua",
   "modules/utils/phone.lua",
-  "modules/utils/police.lua"
+  "modules/utils/police.lua",
+  "modules/utils/group_display.lua",
+  "modules/missions/basic.lua",
+  "modules/utils/home_spawn.lua",
+  "modules/stores/barbershop.lua",
+  "modules/utils/drugs.lua",
+  "modules/utils/loadfreeze.lua",
+  "modules/utils/nocarjack.lua",
+  "modules/utils/paycheck.lua",
+  "modules/missions/robbery.lua"
+
+
 
 }
 
@@ -72,7 +83,13 @@ client_scripts{
   "client/basic_radio.lua",
   "client/utils/admin.lua",
   "client/utils/player.lua",
-  "client/utils/police.lua"
+  "client/utils/police.lua",
+  "client/missions/basic.lua",
+  "client/stores/barbershop.lua",
+  "client/utils/moviment.lua",
+  "client/utils/loadfreeze.lua",
+  "client/utils/nocarjack.lua",
+  "client/missions/robbery.lua"
 }
 
 -- client files
@@ -101,5 +118,9 @@ files{
   "gui/sounds/phone_sms.ogg",
   "gui/sounds/radio_on.ogg",
   "gui/sounds/radio_off.ogg",
-  "cfg/lang/client/en.lua"
+  "cfg/lang/client/en.lua",
+  "cfg/stores/barbershop.lua",
+  "cfg/utils/nocarjack.lua",
+  "cfg/missions/robbery.lua",
+  "cfg/lang/missions/robbery/en.lua"
 }

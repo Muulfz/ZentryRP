@@ -5,11 +5,11 @@
 ---
 
 
-frozen = false
-unfrozen = false
-other = nil
-drag = false
-playerStillDragged = false
+local frozen = false
+local unfrozen = false
+local other = nil
+local drag = false
+local playerStillDragged = false
 
 
 function tvRP.loadFreeze(notify,god,ghost)

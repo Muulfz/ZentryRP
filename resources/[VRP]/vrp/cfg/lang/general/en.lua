@@ -5,8 +5,16 @@ local lang = {
   common = {
     welcome = "Welcome. Use the phone keys to use the menu.~n~last login: {1}",
     no_player_near = "~r~No player near you.",
+    no_player = "~r~No player found.",
     invalid_value = "~r~Invalid value.",
     invalid_name = "~r~Invalid name.",
+    invalid_id  = "~r~Invalid ID",
+    invalid_group = "~r~Invalid Group",
+    invalid_item = "~r~Invalid Item",
+    not_perm = "~r~Not enough permissions",
+    player_group_already_have = "~r~Player already have this group",
+    player_group_not_found = "~r~Player group not found",
+    player_offline = "~r~Player is offline",
     not_found = "~r~Not found.",
     request_refused = "~r~Request refused.",
     wearing_uniform = "~r~Be careful, you are wearing a uniform.",
@@ -117,7 +125,7 @@ local lang = {
       prompt_name = "Business name (can't change after, max {1} chars):",
       prompt_capital = "Initial capital (min {1})",
       created = "~g~Business created."
-      
+
     }
   },
   cityhall = {
@@ -299,14 +307,7 @@ local lang = {
       description = "Call a service or an emergency number.",
       prompt = "If needed, enter a message for the service:",
       ask_call = "Received {1} call, do you take it ? <em>{2}</em>",
-      taken = "~r~This call is already taken.",
--------------------------------------------------------------------------
-      button = "Service",
-      perm = "mission.service",
-      desc = "Toggle random missions.",
-      group = "onservice",
-      on = "~g~On Service",
-      off = "~r~Off Service",
+      taken = "~r~This call is already taken."
     },
     announce = {
       title = "Announce",
@@ -502,132 +503,169 @@ local lang = {
       aptitude = "{1} LVL {3} EXP {2}"
     }
   },
-  blips = {
-    button = "@Blips",
-    perm = "admin.blips",
-    desc = "Toggle blips.",
-    on = "~g~Blips enabled.",
-    off = "~r~Blips disabled.",
+  radio = {
+    title = "Radio ON/OFF"
   },
-  bodyarmor = {
-    id = "body_armor",
-    name = "Body Armor",
-    desc = "Intact body armor.",
-    equip = "Equip",
-    damaged = "That body armor is damaged.",
-    store = {
-      button = "Store Body Armor",
-      perm = "store.bodyarmor",
-      desc = "Store body armor.",
+  admin = {
+    menu = {
+      user_list ={
+        menu_name = "@User list",
+        menu_desc = "Show/hide user list."
+      },
+      whitelist = {
+        prompt = "User id to whitelist: ",
+        notify = "whitelisted user ",
+        already = "User id {1} already whitelisted !",
+        menu_name = "@Whitelist user"
+      },
+      unwhitelist = {
+        prompt = "User id to un-whitelist: ",
+        notify = "un-whitelisted user ",
+        already = "User id {1} already un-whitelisted !",
+        menu_name = "@Un-whitelist user"
+      },
+      addgroup = {
+        prompt_id = "User id: ",
+        prompt = "Group to add: ",
+        notify = "{1} added to user {2}",
+        already = "Player already have this group",
+        menu_name = "@Add group",
+        perm = "add.group.{1}",
+        menu_name_perm = "@Add group perm"
+      },
+      removegroup = {
+        prompt_id = "User id: ",
+        prompt = "Group to remove: ",
+        notify = "{1} removed from user {2}",
+        menu_name = "@Remove group",
+        not_found = "Player doesn't have this group: {1} ",
+        perm = "remove.group.{1}",
+        menu_name_perm = "@Remove group perm"
+      },
+      kick = {
+        prompt_id = "User id to kick: ",
+        prompt = "Reason: ",
+        notify = "kicked user ",
+        menu_name = "@Kick"
+      },
+      ban = {
+        prompt_id =  "User id to ban: ",
+        prompt = "Reason: ",
+        notify = "banned user ",
+        already = "Player already banned",
+        menu_name = "@Ban"
+      },
+      unban = {
+        prompt = "User id to unban: ",
+        notify = "un-banned user ",
+        already = "Player already banned",
+        menu_name = "@Unban"
+      },
+      noclip = {
+        menu_name = "@Noclip"
+      },
+      emote = {
+        prompt = "Animation sequence ('dict anim optional_loops' per line): ",
+        menu_name = "@Custom emote"
+      },
+      sound = {
+        prompt = "Sound 'dict name': ",
+        menu_name = "@Custom sound"
+      },
+      audiosource = {
+        menu_name = "@Custom audiosource"
+      },
+      coords = {
+        prompt = "Copy the coordinates using Ctrl-A Ctrl-C",
+        menu_name = "@Coords"
+      },
+      tptome = {
+        prompt = "User id:",
+        menu_name = "@TpToMe"
+      },
+      tpto = {
+        prompt = "User id:",
+        menu_name = "@TpTo"
+      },
+      tptocoords = {
+        prompt = "Coords x,y,z:",
+        invalid_coords = "~r~Invalid coords",
+        menu_name = "@TpToCoords"
+      },
+      givemoney = {
+        prompt = "Amount:",
+        notify = "~r~You recived: {1}",
+        max_value = "~r~Max value permited!",
+        menu_name = "@Give money",
+        menu_name_usd = "@Give money USD",
+        menu_name_eur = "@Give money EUR",
+        menu_name_btc = "@Give money BTC"
+      },
+      givemoney_to = {
+        prompt_id = "ID",
+        prompt_amount = "Amount:",
+        max_value = "~r~Max value permited!",
+        menu_name = "@Give money to Player",
+        menu_name_btc = "@Give money to Player BTC",
+        menu_name_eur = "@Give money to Player EUR",
+        menu_name_usd = "@Give money to Player USD"
+      },
+      giveitem = {
+        prompt_name = "Id name:",
+        prompt_amount = "Amount:",
+        notify = "{3} {2} was given to ID: {1} ",
+        targetnotify = "You recived {2} {1}",
+        menu_name = "@Give item"
+      },
+      calladmin = {
+        prompt = "Describe your problem:",
+        playerok = "Do you want to make a admin ticket? you can be banned for abuse this!",
+        not_adm_online  = "Your ticket was registered",
+        admin_msg = "Admin ticket (user_id =  {1} ) take/TP to ?: ",
+        player_msg = "An admin took your ticket.",
+        sec_admin_msg = "Ticket already taken.",
+        menu_name = "@Display customization"
+      },
+      audiosource = {
+        prompt = "Audio source: name=url, omit url to delete the named source.",
+        menu_name = "@Call admin"
+      },
+      displaycustom = {
+        menu_name = "Display Custom"
+      },
+      godmode = {
+        on = "God mode is on",
+        off = "God mode is off",
+        menu_name = "@God mode"
+      },
+      spawnveh = {
+        prompt = "Type vehicle name to spawn",
+        menu_name = "@Spawn Vehicle"
+      },
+      report = {
+        playerok ="Do you want to make a admin ticket? you can be banned for abuse this!",
+        prompt = "Describe your report:",
+        rep_type = "Is a player report ?",
+        report_id = "ID:",
+        notify_p = "ID: {1} report was created!",
+        notify_d = "Report was create!",
+        name_menu = "@REPORT"
+      },
+      tptowaypoint = {
+        menu_name = "@Tp to Waypoint"
+      },
+      blips = {
+        menu_name = "@Blips"
+      },
+      deleteveh = {
+        menu_name = "@Delete Veh"
+      },
     },
-  },
-  crun = {
-    button = "@Crun",
-    perm = "admin.crun",
-    desc = "Execute a function locally.",
-    prompt = "Local Function:",
-  },
-  cuff = {
-    button = "Handcuff",
-    perm = "police.bmcuff",
-    desc = "Un/cuffs a nearby player.",
-    file = "cuff.log",
-    log = "{1} cuffed {2}",
-  },
-  deleteveh = {
-    button = "@Delete Vehicle",
-    perm = "admin.deleteveh",
-    desc = "Delete a vehicle.",
-    success = "~g~Vehicle deleted.",
-    toofar = "~r~Too far away from vehicle.",
-  },
-  drag = {
-    button = "Drag",
-    perm = "police.drag",
-    desc = "Drags nearby cuffed player.",
-  },
-  fine = {
-    button = "Fine",
-    perm = "police.bmfine",
-    desc = "Fines a nearby player.",
-    prompt = {
-      amount = "Fine Value:",
-      reason = "Fine Reason:",
-    },
-    file = "fine.log",
-    log = "{1} fined {2} for ${3} - {4}",
-    sent = {
-      bad = "~r~You were sent to jail!",
-      good = "~g~Player sent to jail.",
-    },
-  },
-  fixhaircut = {
-    button = "Fix Haircut",
-    perm = "player.fixhaircut",
-    desc = "Fix the barbershop bug.",
-  },
-  freeze = {
-    button = "Freeze",
-    perm = "police.freeze",
-    desc ="Freezes nearby player.",
-    admin = "freeze.admin",
-    prompt = "User ID:",
-    notify = "~g~Player un/frozen.",
-    frozen = "~r~You've been frozen.",
-    unfrozen = "~g~You've been unfrozen.",
-  },
-  godmode = {
-    button = "@Godmode",
-    perm = "admin.godmode",
-    desc = "Toggle godmode.",
-    on = "~g~Godmode activated!",
-    off = "~r~Godmode deactivated!",
-  },
-  hacker = {
-    button = "Hack",
-    perm = "hacker.hack",
-    desc = "Attempt to hack a nearby player.",
-    hacked = "~r~Someone hacked ${1} of your bank!",
-    failed = {
-      good = "~g~Hacking attempt failed!",
-      bad = "~r~Hacking attempt failed!",
-    },
-  },
-  inspect = {
-    button = "Inspect",
-    perm = "player.inspect",
-    desc = "Inspect neaby player inventory.",
-  },
-  jail = {
-    button = "Jail",
-    perm = "police.bmjail",
-    desc = "Jails a nearby cuffed player.",
-    free = "~b~You've been set free.",
-    resent = "~r~Finish your sentence.",
-    rejailer = "Logging In/Out",
-    timer = "Time remaining: {1} minute(s).",
-    prompt = "Sentence Time:",
-    file = "jail.log",
-    log = "{1} sent {2} to jail for {3}",
-    sent = {
-      bad = "~r~You were sent to jail!",
-      good = "~g~Player sent to jail.",
-    },
-  },
-  lockpick = {
-    id = "lockpicking_kit",
-    name = "Lockpicking Kit",
-    button = "Lockpick",
-    perm = "carjacker.lockpick",
-    desc = "Lockpick nearby vehicle.",
-    success = "~g~Vehicle unlocked.",
-    toofar = "~r~Too far away from vehicle.",
-    unlocked = "~g~Vehicle already unlocked.",
-  },
-  loot = {
-    button = "Loot",
-    perm = "player.loot",
-    desc = "Loot nearby body.",
+    start = {
+      mysql = {
+        currency = "[ZRP] init currency tables"
+      }
+    }
   },
   mcharge = {
     button = "Mobile Charge",
@@ -647,158 +685,19 @@ local lang = {
       prompt = "Phone Number:",
     },
   },
-  money_2 = {
-    store = {
-      button = "Store Money",
-      perm = "store.money",
-      desc = "Store money.",
+  dev = {
+    crun = {
+      button = "@Crun",
+      desc = "Execute a function locally.",
+      prompt = "Local Function:",
     },
-  },
-  mpay = {
-    button = "Mobile Pay",
-    perm = "mobile.pay",
-    desc = "Make payments with your phone.",
-    transferred = "~g~You transfered ~r~${1}~g~ to ~b~{2}.",
-    received = "~g~You've received ~y~${2} from ~b~{1}.",
-    log = "{1} transferred to {2} => banks: {1}:{3} | {2}:{4}",
-    file = "mPay.log",
-    prompt = "Value to pay {1}:",
-    not_enough = "~b~{1} ~r~doesn't have enough money!",
-    type = {
-      desc = "Type phone manually.",
-      button = ">Type number",
-      prompt = "Phone Number:",
-    },
-  },
-  mugger = {
-    button = "Mug",
-    perm = "mugger.mug",
-    desc = "Attempt to mug a nearby player.",
-    mugged = "~r~Someone mugged ${1} of your wallet!",
-    failed = {
-      good = "~g~Mugging attempt failed!",
-      bad = "~r~Mugging attempt failed!",
-    },
-  },
-  player = {
-    button = "Player",
-    perm = "player.menu",
-    desc = "Player menu.",
-  },
-  spawnveh = {
-    button = "@Spawn Vehicle",
-    perm = "admin.spawnveh",
-    desc = "Spawn a vehicle.",
-    prompt = "Vehicle Model:",
-    load = "~b~Loading vehicle model.",
-    success = "~g~Vehicle spawned.",
-    invalid = "~r~Vehicle model invalid.",
-  },
-  spikes = {
-    button = "Spikes",
-    perm = "police.spikes",
-    desc = "Deploy/carry spikes.",
-    admin = "spikes.admin",
-    nocarry = "~r~You can't carry any more spike traps!",
-    nodeploy = "~r~You can't deploy any more spike traps!",
-  },
-  sprites = {
-    button = "@Sprites",
-    perm = "admin.sprites",
-    desc = "Toggle sprites.",
-    on = "~g~Sprites enabled.",
-    off = "~r~Sprites disabled.",
-  },
-  srun = {
-    button = "@Srun",
-    perm = "admin.srun",
-    desc = "Execute a function remotelly.",
-    prompt = "Remote Function:",
-  },
-  tptowaypoint = {
-    button = "@TpToWaypoint",
-    perm = "admin.tptowaypoint",
-    desc = "Teleport to the purple waypoint.",
-    notfound = "~r~Map marker not found!",
-    success = "~g~Teleported to waypoint.",
-  },
-  unjail = {
-    button = "Unjail",
-    perm = "police.bmunjail",
-    desc = "Unjail a player.",
-    admin = "unjail.admin",
-    prompt = "User ID:",
-    released = "~g~You released a player from his sentence.",
-    lowered = "~g~Your sentence has been lowered.",
-    file = "jail.log",
-    log = "{1} unjailed {2} from {3} minutes remaining",
-  },
-  userlist = {
-    button = "User List",
-    perm = "player.userlist",
-    desc = "Toggle User List",
-    format = "[{1}]{2}  |  ",
-    nearby = "Nearby Players: {1}",
-  },
-  weapons = {
-    store = {
-      button = "Store Weapons",
-      perm = "store.weapons",
-      desc = "Store weapons.",
-    },
-  },
-  transfer = "Deliver the patient.",
-  reward = "Reward: {1} $.",
-  delivery = {
-    title = "Delivery",
-    item = "- {2} {1}"
-  },
-  carjack =  "Deliver a vehicle.",
-  shipment =  "Receive the shipment.",
-  weaponrec =  "Recover your stuff.",
-  recsucces = "You recovered your weapons.",
-  cooldown =  "Cooldown: {1} s.",
-  own_veh = "You can't carjack your own vehicle.",
-  in_veh = "Please exit the vehicle.",
-  no_veh = "You are not in a vehicle.",
-  barbershop = {
-    title = "Barbershop",
-    button = "@Show Overlay",
-    perm = "admin.overlay",
-    desc = "Show ped overlay."
-  },
-  robbery =  {
-    blip = "Robbery",
-    cops = {
-      cant_rob = "~r~Cops are not allowed to rob stores!",
-      not_enough = "~r~You need at least {1} cops online"
-    },
-    robbery = {
-      wait = "This has already been robbed recently. Please wait another: ^2{1}^0 seconds.",
-      progress = "Robbery in progress at ^2{1}",
-      started = "You started a robbery at: ^2{1}^0, do not get too far away from this point!",
-      hold = "Hold the fort for ^1{1} ^0minutes and the money is yours!",
-      over = "Robbery is over at: ^2{1}^0!",
-      canceled = "Robbery was cancelled at: ^2{1}^0!",
-      done = "Robbery done, you received: ^2{1}^0!"
-    },
-    title = {
-      robbery = "ROBBERY",
-      news = "NEWS",
-      system = "SYSTEM"
-    },
-    client = {
-      rob = "Press ~INPUT_RELOAD~ to rob ~b~{1}~w~ beware, the police will be alerted!",
-      robbing = "Robbing: ~r~{1}~w~ seconds remaining",
-      canceled = "The robbery was cancelled, you will receive nothing."
+    srun = {
+      button = "@Srun",
+      perm = "admin.srun",
+      desc = "Execute a function remotelly.",
+      prompt = "Remote Function:",
     }
-  },
-  tattoos = {
-    title = "Tattoos",
-    added = "~g~Tattoo added.",
-    removed = "~r~Tattoo removed.",
-    cleaned = "~r~All tattoos removed."
-  },
+  }
 }
 
 return lang

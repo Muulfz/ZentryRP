@@ -1,6 +1,10 @@
 local Proxy = module("lib/Proxy")
 local Tunnel = module("lib/Tunnel")
 local Luang = module("lib/Luang")
+local Permluang = module("lib/Permluang")
+local Serverluang = module("lib/Serverluang")
+local Missionsluang = module("lib/Missionsluang")
+
 Debug = module("lib/Debug")
 
 local config = module("cfg/base")
@@ -13,8 +17,24 @@ Tunnel.bindInterface("vRP",tvRP) -- listening for client tunnel
 
 -- load language 
 local Lang = Luang()
-Lang:loadLocale(config.lang, module("cfg/lang/"..config.lang) or {})
+Lang:loadLocale(config.lang, module("cfg/lang/general/"..config.lang) or {})
 vRP.lang = Lang.lang[config.lang]
+
+-- load permission language
+local Permlang = Permluang()
+Permlang:loadLocale(config.permlang, module("cfg/lang/permissions/" .. config.permlang) or {})
+vRP.permlang = Permlang.permlang[config.permlang]
+
+-- load server language
+local Serverlang = Serverluang()
+Serverlang:loadLocale(config.serverlang, module("cfg/lang/server/" .. config.serverlang) or {})
+vRP.serverlang = Serverlang.serverlang[config.serverlang]
+
+-- load missions language
+local Missionslang = Missionsluang()
+Missionslang:loadLocale(config.missionslang, module("cfg/lang/missions/" .. config.missionslang) or {})
+vRP.missionslang = Missionslang.missionslang[config.missionslang]
+
 
 -- init
 vRPclient = Tunnel.getInterface("vRP") -- server -> client tunnel

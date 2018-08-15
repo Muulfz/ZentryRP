@@ -6,7 +6,6 @@
 
 
 local lang = tvRP.clientlang
-print("BASIC LANG")
 
 function tvRP.isPlayerInVehicleModel(model)
     if (IsVehicleModel(GetVehiclePedIsUsing(GetPlayerPed(-1)), GetHashKey(model))) then -- just a function you can use to see if your player is in a taxi or any other car model (use the tunnel)
@@ -190,4 +189,3 @@ function tvRP.getNearestVehiclePlateText(radius)
     return p
 end
 
-print("BASIC FIM")

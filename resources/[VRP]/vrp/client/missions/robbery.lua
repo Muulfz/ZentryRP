@@ -134,4 +134,3 @@ Citizen.CreateThread(function()
 end)
 
 
-print("ROBBERY FIM")

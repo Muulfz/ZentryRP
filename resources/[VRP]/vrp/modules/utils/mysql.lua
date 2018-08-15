@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS vrp_user_bans (
 )]])
 vRP.prepare("vRP/set_banned_adv", "INSERT INTO vrp_user_bans(UUID,user_id,admin_id,reason,ban_date,ban_expire_date,appeal) VALUES(@UUID,@user_id,@admin_id,@reason,@ban_date,@ban_expire_date,@appeal)")
 
-vRP.prepare("vRP/get_banned_last_time", "SELECT MAX(ban_expire_date) FROM vrp_user_bans WHERE user_id = @user_id")
+vRP.prepare("vRP/get_banned_last_time", "SELECT MAX(ban_date), ban_expire_date FROM vrp_user_bans WHERE user_id = @user_id")
 vRP.prepare("vRP/get_ban_uuid", "SELECT UUID, MAX(ban_expire_date) FROM vrp_user_bans WHERE user_id = @user_id")
 --------------------------------------------------------------------------------------
 -------------------------------------SERVER DATA -------------------------------------

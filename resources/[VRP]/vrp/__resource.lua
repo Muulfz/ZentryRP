@@ -84,7 +84,6 @@ server_scripts{
 client_scripts{
   "lib/utils.lua",
   "lib/Clientluang.lua",
-
   "client/base.lua",
   "client/iplloader.lua",
   "client/gui.lua",
@@ -97,34 +96,23 @@ client_scripts{
   "client/admin.lua",
   "client/basic_phone.lua",
   "client/basic_radio.lua",
-
-  --MISSIONS
-  "client/missions/basic.lua",
-  "client/missions/robbery.lua",
-
-  --PLAYER
-  "client/player/show_weapons.lua",
-
-  --STORES
-  "client/stores/barbershop.lua",
-  "client/stores/tattoos.lua",
-
-  --UTILS
   "client/utils/admin.lua",
-  "client/utils/commands.lua",
-  "client/utils/loadfreeze.lua",
-  "client/utils/moneydrop.lua",
-  "client/utils/moviment.lua",
-  "client/utils/nocarjack.lua",
-  "client/utils/npc_control.lua",
   "client/utils/player.lua",
   "client/utils/police.lua",
+  "client/missions/basic.lua",
+  "client/stores/barbershop.lua",
+  "client/utils/moviment.lua",
+  "client/utils/loadfreeze.lua",
+  "client/utils/nocarjack.lua",
+  "client/missions/robbery.lua",
+  "client/utils/moneydrop.lua",
+  "client/stores/tattoos.lua",
   "client/utils/voice_display.lua",
-
-  --VEHICLE
-  "client/vehicle/carwash.lua",
+  "client/player/show_weapons.lua",
   "client/vehicle/speedometer.lua",
-
+  "client/utils/npc_control.lua",
+  "client/vehicle/carwash.lua",
+  "client/utils/commands.lua"
 
 }
 
@@ -174,5 +162,4 @@ files{
   "cfg/missions/robbery.lua",
   ---PLAYER
   "cfg/player/show_weapons.lua",
-  "cfg/utils/npc_control.lua",
 }

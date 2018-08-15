@@ -90,9 +90,13 @@ end
 function vRP.isBanExired(user_id)
     if user_id then
         local rows = vRP.query("vRP/get_banned_last_time",{user_id = user_id})
+        print("BAN EXIRED FINISH")
         if #rows > 0 then
-            local time = rows[1].ban_expire_date
-            if time < os.time() then
+            print("TEM BAN")
+            local time = rows[1].MAX(ban_expire_date)
+            print(time)
+            if tonumber(time) < os.time() then
+                print("DESBAN")
                 return true
             end
         end

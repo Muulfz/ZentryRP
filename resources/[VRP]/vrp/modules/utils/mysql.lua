@@ -105,3 +105,4 @@ vRP.prepare("vRP/get_ban_uuid", "SELECT UUID, MAX(ban_expire_date) FROM vrp_user
 --------------------------------------------------------------------------------------
 -------------------------------------SERVER DATA -------------------------------------
 --
+vRP.prepare("vRP/user_id_exist", "SELECT id FROM vrp_users WHERE id = @id")

@@ -5,7 +5,7 @@
 ---
 
 function vRP.isIDValid(user_id)
-    local rows = vRP.query("vRP/user_id_exist", { user_id = user_id })
+    local rows = vRP.query("vRP/user_id_exist", { id = user_id })
     if #rows > 0 then
         return true
     else
@@ -64,3 +64,4 @@ function vRP.isGroupValid(group)
     end
     return false
 end
+

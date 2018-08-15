@@ -26,7 +26,7 @@ function vRP.setHunger(user_id,value)
   if data then
     data.hunger = value
     if data.hunger < 0 then data.hunger = 0
-    elseif data.hunger > 100 then data.hunger = 100 
+    elseif data.hunger > 100 then data.hunger = 100
     end
 
     -- update bar

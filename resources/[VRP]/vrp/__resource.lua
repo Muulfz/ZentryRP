@@ -173,5 +173,6 @@ files{
   ---MISSIONS
   "cfg/missions/robbery.lua",
   ---PLAYER
-  "cfg/player/show_weapons.lua"
+  "cfg/player/show_weapons.lua",
+  "cfg/utils/npc_control.lua",
 }

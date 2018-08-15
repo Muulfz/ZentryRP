@@ -3,6 +3,7 @@
 --- Created by Muulfz.
 --- DateTime: 8/6/2018 23:22
 ---
+local lang = vRP.lang
 -- teleport waypoint
 choice_tptowaypoint = {function(player,choice)
     vRPclient.tpToWaypoint(player)

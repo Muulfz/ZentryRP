@@ -4,6 +4,7 @@
 --- DateTime: 8/7/2018 00:50
 ---
 local cfg = module("cfg/missions/basic")
+local lang = vRP.lang
 
 function task_mission()
     -- REPAIR

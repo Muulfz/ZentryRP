@@ -4,6 +4,7 @@
 --- DateTime: 8/6/2018 23:37
 ---
 
+local lang = vRP.lang
 
 Citizen.CreateThread(function()
     vRP.registerMenuBuilder("police_weapons", police_weapons) -- police gear

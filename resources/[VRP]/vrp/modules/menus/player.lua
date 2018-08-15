@@ -3,6 +3,7 @@
 --- Created by Muulfz.
 --- DateTime: 8/6/2018 23:35
 ---
+local lang = vRP.lang
 ch_player_menu = {function(player,choice)
     Citizen.CreateThread(function()
         local user_id = vRP.getUserId(player)

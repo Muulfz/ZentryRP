@@ -3,6 +3,7 @@
 --- Created by Muulfz.
 --- DateTime: 8/6/2018 23:34
 ---
+local lang = vRP.lang
 Citizen.CreateThread(function()
     vRP.registerMenuBuilder("phone", function(add) -- phone menu is created on server start, so it has no permissions.
         Citizen.CreateThread(function()

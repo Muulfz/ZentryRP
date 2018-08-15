@@ -3,6 +3,7 @@
 --- Created by Muulfz.
 --- DateTime: 8/6/2018 23:42
 ---
+local lang = vRP.lang
 
 unjailed = {}
 function jail_clock(target_id,timer)

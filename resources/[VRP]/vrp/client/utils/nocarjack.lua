@@ -4,6 +4,8 @@
 --- DateTime: 8/8/2018 14:04
 ---
 
+local lang = tvRP.clientlang
+
 local cfg = module("cfg/utils/nocarjack")
 
 Citizen.CreateThread(function()

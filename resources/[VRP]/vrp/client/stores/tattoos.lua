@@ -4,6 +4,8 @@
 --- DateTime: 8/9/2018 02:11
 ---
 
+local lang = tvRP.clientlang
+
 local custom = {}
 
 function tvRP.setTattoos(data)

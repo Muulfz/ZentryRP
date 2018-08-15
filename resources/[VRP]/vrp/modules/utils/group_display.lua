@@ -4,6 +4,7 @@
 --- DateTime: 8/7/2018 01:38
 ---
 local cfg = module("cfg/utils/group_display")
+local lang = vRP.lang
 
 local divs = {}
 

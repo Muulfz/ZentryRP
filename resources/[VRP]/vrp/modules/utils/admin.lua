@@ -3,6 +3,8 @@
 --- Created by Muulfz.
 --- DateTime: 8/6/2018 23:39
 ---
+local slang = vRP.serverlang
+local lang = vRP.lang
 
 -- godmode task
 gods = {}
@@ -63,3 +65,47 @@ function vRP.runStringRemotelly(stringToRun)
         end
     end
 end
+
+
+function vRP.advBan(admin_id, user_id, reason, time, appeal)  ---ISSO AQUI LEVA UM ADMIN OU SEJA PRECISA DE UM ID PARA FAZER
+    if appeal == nil then
+        appeal = false
+    end
+    if user_id then
+        if vRP.isIDValid(user_id) then
+            --- sistema de upload de banimentos
+            local uuid_gerated = vRP.generateUUID()
+            local ban_date = os.time()
+            time  = tonumber(time)*86400
+            local expire = ban_date + time
+           vRP.execute("vRP/set_banned_adv", {admin_id = admin_id, user_id = user_id, UUID = uuid_gerated, reason = reason, ban_date = ban_date, ban_expire_date = expire, appeal = appeal})
+            vRP.setBanned(user_id,true)
+            if vRP.playerIsOnline(user_id) then
+                vRP.kick(vRP.getUserSource(user_id),"[Banned] "..reason)
+            end
+        end
+    end
+end
+
+function vRP.isBanExired(user_id)
+    if user_id then
+        local rows = vRP.query("vRP/get_banned_last_time",{user_id = user_id})
+        if #rows > 0 then
+            local time = rows[1].ban_expire_date
+            if time < os.time() then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function vRP.getBanUUID(user_id)
+    if user_id then
+    local rows = vRP.query("vRP/get_ban_uuid",{user_id = user_id})
+        if #rows > 0 then
+            return rows[1].UUID
+        end
+    end
+end
+

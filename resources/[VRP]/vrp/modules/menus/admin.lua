@@ -3,6 +3,7 @@
 --- Created by Muulfz.
 --- DateTime: 8/6/2018 23:33
 ---
+local lang = vRP.lang
 
 Citizen.CreateThread(function()
     vRP.registerMenuBuilder("admin", function(add, data)

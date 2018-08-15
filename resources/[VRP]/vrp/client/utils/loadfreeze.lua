@@ -4,6 +4,8 @@
 --- DateTime: 8/8/2018 13:56
 ---
 
+local lang = tvRP.clientlang
+
 local timeout = 0
 local frozen = false
 function tvRP.loadFreeze()

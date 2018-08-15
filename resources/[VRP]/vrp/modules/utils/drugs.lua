@@ -6,6 +6,7 @@
 
 local cfg = module("cfg/drugs")
 
+
 Citizen.CreateThread(function()
     for k,v in pairs(cfg.drugs) do
         vRP.defInventoryItem(k,v.name,v.desc,v.choices,v.weight)

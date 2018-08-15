@@ -4,6 +4,9 @@
 --- DateTime: 8/6/2018 23:39
 ---
 
+local lang = vRP.lang
+--todo
+
 function vRP.chargePhoneNumber(user_id,phone)
     local player = vRP.getUserSource(user_id)
     local directory_name = vRP.getPhoneDirectoryName(user_id, phone)

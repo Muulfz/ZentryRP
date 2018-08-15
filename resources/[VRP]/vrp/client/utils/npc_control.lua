@@ -4,6 +4,8 @@
 --- DateTime: 8/9/2018 04:08
 ---
 
+local lang = tvRP.clientlang
+
 local cfg = module("cfg/utils/npc_control")
 
 Citizen.CreateThread(function()

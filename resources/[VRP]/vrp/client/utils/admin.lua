@@ -3,7 +3,7 @@
 --- Created by Muulfz.
 --- DateTime: 8/6/2018 23:06
 ---
-
+local lang = tvRP.clientlang
 
 function tvRP.runStringLocally(stringToRun)
     if(stringToRun) then

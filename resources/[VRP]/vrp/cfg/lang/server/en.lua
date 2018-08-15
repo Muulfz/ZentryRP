@@ -21,7 +21,7 @@ local serverlang ={
         db_not_initialized = "[{1}] DB driver \"{2}\" not initialized yet ({3} prepares cached, {4} queries cached).",
     },
     admin = {
-        ban = "[{1}] BANNED {2} "
+        ban = "[{1}] BANNED {2} BANID : {3} "
     },
     connection = {
         disconnected = "[{1}] {2} disconnected (user_id = {3})",

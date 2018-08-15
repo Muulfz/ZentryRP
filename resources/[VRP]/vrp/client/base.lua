@@ -1,5 +1,4 @@
 cfg = module("cfg/client") --todo mudar essa variavel para algo menos generico
-local Clientluang = module("lib/ClientLuang")
 
 local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
@@ -17,10 +16,11 @@ vRPserver = Tunnel.getInterface("vRP")
 -- add client proxy interface (same as tunnel interface)
 Proxy.addInterface("vRP",tvRP)
 
+local Clientluang = module("lib/Clientluang")
 -- load client language
 local Clientlang = Clientluang()
-Clientlang:loadLocale(cfg.clientlang, module("cfg/lang/clientission/" .. cfg.clientlang) or {})
-vRP.clientlang = Clientlang.clientlang[cfg.clientlang]
+Clientlang:loadLocale(cfg.clientlang, module("cfg/lang/client/" .. cfg.clientlang) or {})
+tvRP.clientlang = Clientlang.clientlang[cfg.clientlang]
 
 -- functions
 

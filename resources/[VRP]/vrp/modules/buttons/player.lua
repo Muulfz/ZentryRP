@@ -3,6 +3,7 @@
 --- Created by Muulfz.
 --- DateTime: 8/6/2018 23:22
 ---
+local lang = vRP.lang
 --toggle service
 choice_service = {function(player,choice)
     local user_id = vRP.getUserId(player)

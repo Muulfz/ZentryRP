@@ -3,6 +3,8 @@
 --- Created by Muulfz.
 --- DateTime: 8/9/2018 02:15
 ---
+local lang = tvRP.clientlang
+
 local cfg = module("cfg/utils/voice_display")
 local voice = 1
 

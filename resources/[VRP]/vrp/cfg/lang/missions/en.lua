@@ -4,7 +4,7 @@
 --- DateTime: 8/10/2018 17:53
 ---
 local missionslang = {
-    
+
 }
 
 return missionslang

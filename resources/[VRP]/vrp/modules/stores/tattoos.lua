@@ -4,6 +4,7 @@
 --- DateTime: 8/9/2018 02:06
 ---
 local cfg = module("cfg/stores/tattoos")
+local lang = vRP.lang
 
 -- build tattooshop menus
 function vRP.openTattooshop(source, shop)

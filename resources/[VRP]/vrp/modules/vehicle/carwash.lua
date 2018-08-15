@@ -4,6 +4,8 @@
 --- DateTime: 8/9/2018 04:14
 ---
 local cfg = module("cfg/vehicle/carwash")
+local lang = vRP.lang
+--- LANG TO MAKE
 
 function vRP.cleanVehicle(source)
     local user_id = vRP.getUserId(source)

@@ -54,7 +54,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         if wanted then
-            if not vRP.isInComa() then
+            if not tvRP.isInComa() then
                 local pos = GetEntityCoords(GetPlayerPed(-1), true)
                 local r = cfg.robbery[wanted]
                 if(Vdist(pos.x, pos.y, pos.z, r.pos[1], r.pos[2], r.pos[3]) < r.dist)then
@@ -132,3 +132,6 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 end)
+
+
+print("ROBBERY FIM")

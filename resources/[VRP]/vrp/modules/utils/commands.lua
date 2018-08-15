@@ -4,6 +4,7 @@
 --- DateTime: 8/9/2018 04:20
 ---
 local cfg = module("cfg/utils/commands")
+local lang = vRP.lang
 
 AddEventHandler("chatMessage", function(p, color, msg)
     if msg:sub(1, 1) == "/" then

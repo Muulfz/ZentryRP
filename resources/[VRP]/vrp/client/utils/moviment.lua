@@ -4,6 +4,8 @@
 --- DateTime: 8/7/2018 11:18
 ---
 
+local lang = tvRP.clientlang
+
 -- MOVEMENT CLIPSET
 function tvRP.playMovement(clipset,blur,drunk,fade,clear)
     --request anim

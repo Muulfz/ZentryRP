@@ -3,7 +3,7 @@
 --- Created by Muulfz.
 --- DateTime: 8/6/2018 23:32
 ---
-
+local lang = vRP.lang
 --police weapons // comment out the weapons if you dont want to give weapons.
 police_weapons = {}
 police_weapons["Equip"] = {function(player,choice)

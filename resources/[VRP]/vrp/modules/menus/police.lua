@@ -3,6 +3,7 @@
 --- Created by Muulfz.
 --- DateTime: 8/6/2018 23:36
 ---
+local lang = vRP.lang
 
 
 Citizen.CreateThread(function()

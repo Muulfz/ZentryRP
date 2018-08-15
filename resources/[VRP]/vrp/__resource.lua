@@ -35,41 +35,56 @@ server_scripts{
   "modules/basic_skinshop.lua",
   "modules/cloakroom.lua",
   "modules/basic_radio.lua",
+  "modules/base_checks.lua",
 
   -- basic menu
+  --BUTTONS
   "modules/buttons/admin.lua",
   "modules/buttons/phone.lua",
   "modules/buttons/player.lua",
   "modules/buttons/police.lua",
   "modules/buttons/static",
+
+  -- ITEMS
   "modules/item/items.lua",
+  --MENUS
   "modules/menus/admin.lua",
   "modules/menus/main.lua",
   "modules/menus/phone.lua",
   "modules/menus/player.lua",
   "modules/menus/police.lua",
   "modules/menus/static.lua",
-  "modules/utils/admin.lua",
-  "modules/utils/phone.lua",
-  "modules/utils/police.lua",
-  "modules/utils/group_display.lua",
+  --MISSIONS
+  "modules/missions/robbery.lua",
   "modules/missions/basic.lua",
-  "modules/utils/home_spawn.lua",
+  --STORE
   "modules/stores/barbershop.lua",
+  "modules/stores/tattoos.lua",
+  --VEHICLE
+  "modules/vehicle/carwash.lua",
+  --UTILS
+  "modules/utils/admin.lua",
+  "modules/utils/commands.lua",
+  "modules/utils/dev.lua",
   "modules/utils/drugs.lua",
+  "modules/utils/group_display.lua",
+  "modules/utils/home_spawn.lua",
   "modules/utils/loadfreeze.lua",
+  "modules/utils/logger.lua",
+  "modules/utils/moneydrop.lua",
+  "modules/utils/mysql.lua",
   "modules/utils/nocarjack.lua",
   "modules/utils/paycheck.lua",
-  "modules/missions/robbery.lua",
-  "modules/utils/moneydrop.lua",
-  "modules/stores/tattoos.lua",
-  "modules/vehicle/carwash.lua",
-  "modules/utils/commands.lua"
+  "modules/utils/phone.lua",
+  "modules/utils/police.lua",
+  "modules/utils/uuid.lua",
 }
 
 -- client scripts
 client_scripts{
   "lib/utils.lua",
+  "lib/Clientluang.lua",
+
   "client/base.lua",
   "client/iplloader.lua",
   "client/gui.lua",
@@ -82,33 +97,47 @@ client_scripts{
   "client/admin.lua",
   "client/basic_phone.lua",
   "client/basic_radio.lua",
+
+  --MISSIONS
+  "client/missions/basic.lua",
+  "client/missions/robbery.lua",
+
+  --PLAYER
+  "client/player/show_weapons.lua",
+
+  --STORES
+  "client/stores/barbershop.lua",
+  "client/stores/tattoos.lua",
+
+  --UTILS
   "client/utils/admin.lua",
+  "client/utils/commands.lua",
+  "client/utils/loadfreeze.lua",
+  "client/utils/moneydrop.lua",
+  "client/utils/moviment.lua",
+  "client/utils/nocarjack.lua",
+  "client/utils/npc_control.lua",
   "client/utils/player.lua",
   "client/utils/police.lua",
-  "client/missions/basic.lua",
-  "client/stores/barbershop.lua",
-  "client/utils/moviment.lua",
-  "client/utils/loadfreeze.lua",
-  "client/utils/nocarjack.lua",
-  "client/missions/robbery.lua",
-  "client/utils/moneydrop.lua",
-  "client/stores/tattoos.lua",
   "client/utils/voice_display.lua",
-  "client/player/show_weapons.lua",
-  "client/vehicle/speedometer.lua",
-  "client/utils/npc_control.lua",
+
+  --VEHICLE
   "client/vehicle/carwash.lua",
-  "client/utils/commands.lua"
+  "client/vehicle/speedometer.lua",
+
+
 }
 
 -- client files
 files{
+
+    -- LIBARYS
   "lib/Tunnel.lua",
   "lib/Proxy.lua",
   "lib/Debug.lua",
   "lib/Luaseq.lua",
   "lib/Tools.lua",
-  "cfg/client.lua",
+  --GUI
   "gui/index.html",
   "gui/design.css",
   "gui/main.js",
@@ -127,12 +156,22 @@ files{
   "gui/sounds/phone_sms.ogg",
   "gui/sounds/radio_on.ogg",
   "gui/sounds/radio_off.ogg",
+    -- CFGS
+   ---DEFAULT
+  "cfg/client.lua",
+  ---LANG
+
   "cfg/lang/client/en.lua",
-  "cfg/stores/barbershop.lua",
-  "cfg/utils/nocarjack.lua",
-  "cfg/missions/robbery.lua",
   "cfg/lang/missions/robbery/en.lua",
+  ---STORES
+  "cfg/stores/barbershop.lua",
+  ---UTILS
   "cfg/utils/moneydrop.lua",
+  "cfg/utils/nocarjack.lua",
   "cfg/utils/voice_display.lua",
+  "cfg/utils/npc_control.lua",
+  ---MISSIONS
+  "cfg/missions/robbery.lua",
+  ---PLAYER
   "cfg/player/show_weapons.lua"
 }

@@ -4,6 +4,7 @@
 --- DateTime: 8/6/2018 23:29
 ---
 
+local lang = vRP.lang
 -- mobilepay
 
 ch_mobilepay = {function(player,choice)

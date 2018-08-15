@@ -11,6 +11,11 @@ local groups = cfg.groups
 local users = cfg.users
 local selectors = cfg.selectors
 
+-- return group list
+function vRP.getGroups()
+  return groups
+end
+
 -- return group title
 function vRP.getGroupTitle(group)
   local g = groups[group]

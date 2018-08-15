@@ -4,6 +4,8 @@
 --- DateTime: 8/6/2018 23:10
 ---
 
+local lang = tvRP.clientlang
+
 function tvRP.lockpickVehicle(wait,any)
     local pos = GetEntityCoords(GetPlayerPed(-1))
     local entityWorld = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 20.0, 0.0)

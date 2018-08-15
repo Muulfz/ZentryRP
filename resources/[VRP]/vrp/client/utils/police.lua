@@ -5,6 +5,8 @@
 ---
 
 
+local lang = tvRP.clientlang
+
 local frozen = false
 local unfrozen = false
 local other = nil

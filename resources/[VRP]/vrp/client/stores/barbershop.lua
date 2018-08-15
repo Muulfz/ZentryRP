@@ -3,6 +3,8 @@
 --- Created by Muulfz.
 --- DateTime: 8/7/2018 02:07
 ---
+local lang = tvRP.clientlang
+
 local cfg = module("cfg/stores/barbershop")
 local custom = cfg.default
 

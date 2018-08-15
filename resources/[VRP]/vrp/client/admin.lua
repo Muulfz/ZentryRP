@@ -1,4 +1,3 @@
-lang = module("cfg/lang/client/en")
 local noclip = false
 local noclip_speed = 1.0
 

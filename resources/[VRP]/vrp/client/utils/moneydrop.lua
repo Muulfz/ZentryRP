@@ -4,6 +4,8 @@
 --- DateTime: 8/9/2018 01:52
 ---
 
+local lang = tvRP.clientlang
+
 
 local cfg = module( "cfg/utils/moneydrop")
 

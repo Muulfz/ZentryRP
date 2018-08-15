@@ -514,13 +514,13 @@ local lang = {
       },
       whitelist = {
         prompt = "User id to whitelist: ",
-        notify = "whitelisted user ",
+        notify = "whitelisted user {1}",
         already = "User id {1} already whitelisted !",
         menu_name = "@Whitelist user"
       },
       unwhitelist = {
         prompt = "User id to un-whitelist: ",
-        notify = "un-whitelisted user ",
+        notify = "un-whitelisted user {1} ",
         already = "User id {1} already un-whitelisted !",
         menu_name = "@Un-whitelist user"
       },
@@ -545,14 +545,15 @@ local lang = {
       kick = {
         prompt_id = "User id to kick: ",
         prompt = "Reason: ",
-        notify = "kicked user ",
+        notify = "kicked user {1}",
         menu_name = "@Kick"
       },
       ban = {
         prompt_id =  "User id to ban: ",
         prompt = "Reason: ",
-        notify = "banned user ",
+        notify = "banned user {1}",
         already = "Player already banned",
+        time = "time of ban in days",
         menu_name = "@Ban"
       },
       unban = {

@@ -495,15 +495,13 @@ AddEventHandler("playerConnecting", function(name, setMessage, deferrals)
             -- check user validity
             deferrals.update(slang.deferrals.checking_banned({ servertag }))
             ----------------------------------------------------------------
-            async(function()
                 if vRP.isBanned(user_id) then
                     if vRP.isBanExired(user_id) then
-                        print("TESTE")
                         vRP.setBanned(user_id, false)
                     end
                 end
-            end)
             -----------------------------------------------------
+            Citizen.Wait(10)
             if not vRP.isBanned(user_id) then
                 deferrals.update(slang.deferrals.checking_whitelist { servertag })
                 if not config.whitelist or vRP.isWhitelisted(user_id) then

@@ -507,6 +507,13 @@ local lang = {
     title = "Radio ON/OFF"
   },
   admin = {
+    ban_system = {
+      bancheck = {
+        info = "<em>Ban UUID: </em>{1}<br /><em>User Banned: </em>{2}<br /><em>Admin that banned : </em>{3}<br /><em>Reason: </em>{4}<br /><em>Ban create date: </em>{5}<br /><em>Ban expire date: </em>{6}<br /><em>Was Appeal: </em>{7} <br /><em>Apeal Reason: </em>{9}<br /><em>Admin that appeal: </em>{8}",
+        request_hide = "HIDE INFO"
+
+      }
+    },
     menu = {
       user_list ={
         menu_name = "@User list",

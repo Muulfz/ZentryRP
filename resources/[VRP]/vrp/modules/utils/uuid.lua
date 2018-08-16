@@ -3,9 +3,9 @@
 --- Created by Muulfz.
 --- DateTime: 8/13/2018 23:08
 ---
-local uuid4 = module("lib/uuid4")
 local uuid = module("lib/uuid")
 
 function vRP.generateUUID()
+    local uuid4 = module("lib/uuid4")
     return uuid4.getUUID()
 end

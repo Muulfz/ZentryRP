@@ -13,6 +13,24 @@ function vRP.isIDValid(user_id)
     end
 end
 
+function vRP.isBanUUIDValid(UUID)
+    local rows = vRP.query("vRP/ban_UUID_exist", { UUID = UUID })
+    if #rows > 0 then
+        return true
+    else
+        return false
+    end
+end
+
+function vRP.isAlreadyAppeal(UUID)
+    local rows = vRP.query("vRP/get_already_appeal", { UUID = UUID })
+    if #rows > 0 then
+        return rows[1].appeal
+    else
+        return false
+    end
+end
+
 function vRP.getLastLogin(user_id, cbr)
     local rows = vRP.query("vRP/get_last_login", { user_id = user_id })
     if #rows > 0 then

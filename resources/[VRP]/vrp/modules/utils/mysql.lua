@@ -94,11 +94,14 @@ CREATE TABLE IF NOT EXISTS vrp_user_bans (
 	`ban_date` integer,
 	`ban_expire_date` integer,
 	`appeal` boolean,
+	`appeal_reason` varchar(255),
+	`appeal_admin_id` integer,
   CONSTRAINT pk_user_bans PRIMARY KEY(UUID),
   CONSTRAINT fk_user_bans_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE,
-  CONSTRAINT fk_user_bans_admin__users FOREIGN KEY(admin_id) REFERENCES vrp_users(id) ON DELETE CASCADE
+  CONSTRAINT fk_user_bans_admin__users FOREIGN KEY(admin_id) REFERENCES vrp_users(id) ON DELETE CASCADE,
+  CONSTRAINT fk_user_bans_appeal_admin__users FOREIGN KEY(appeal_admin_id) REFERENCES vrp_users(id) ON DELETE CASCADE
 )]])
-vRP.prepare("vRP/set_banned_adv", "INSERT INTO vrp_user_bans(UUID,user_id,admin_id,reason,ban_date,ban_expire_date,appeal) VALUES(@UUID,@user_id,@admin_id,@reason,@ban_date,@ban_expire_date,@appeal)")
+vRP.prepare("vRP/set_banned_adv", "INSERT INTO vrp_user_bans(UUID,user_id,admin_id,reason,ban_date,ban_expire_date) VALUES(@UUID,@user_id,@admin_id,@reason,@ban_date,@ban_expire_date)")
 
 vRP.prepare("vRP/get_banned_last_time", "SELECT MAX(ban_date), ban_expire_date FROM vrp_user_bans WHERE user_id = @user_id")
 vRP.prepare("vRP/get_ban_uuid", "SELECT UUID, MAX(ban_expire_date) FROM vrp_user_bans WHERE user_id = @user_id")
@@ -106,3 +109,13 @@ vRP.prepare("vRP/get_ban_uuid", "SELECT UUID, MAX(ban_expire_date) FROM vrp_user
 -------------------------------------SERVER DATA -------------------------------------
 --
 vRP.prepare("vRP/user_id_exist", "SELECT id FROM vrp_users WHERE id = @id")
+
+vRP.prepare("vRP/ban_UUID_exist", "SELECT UUID FROM vrp_user_bans WHERE UUID = @UUID")
+
+vRP.prepare("vRP/get_already_appeal", "SELECT appeal FROM vrp_user_bans WHERE UUID = @UUID")
+
+vRP.prepare("vRP/set_appeal", "UPDATE vrp_user_bans SET appeal = @appeal, appeal_reason = @appeal_reason, appeal_admin_id = @appeal_admin_id  WHERE UUID = @UUID")
+
+vRP.prepare("vRP/set_ban_time", "UPDATE vrp_user_bans SET ban_expire_date = @ban_expire_date WHERE UUID = @UUID")
+
+vRP.prepare("vRP/get_ban_reg", "SELECT UUID,user_id,admin_id,reason,ban_date,ban_expire_date,appeal,appeal_reason,appeal_admin_id FROM vrp_user_bans WHERE UUID = @UUID")

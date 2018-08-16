@@ -204,7 +204,11 @@ local function ch_ban_muulfz(player, choice)
                     if time then
                         time = tonumber(time)
                         if time > 30 then
-                            time = 30
+                            if time == 3600 then
+                                time = 3600
+                            else
+                                time = 30
+                            end
                         end
                         if time < 1 then
                             time = 1
@@ -219,6 +223,64 @@ local function ch_ban_muulfz(player, choice)
         else
             vRPclient._notify(player, lang.common.invalid_id())
         end
+    end
+end
+
+local function ch_appeal(player, choice)
+    local user_id = vRP.getUserId(player)
+    if user_id and vRP.hasPermission(user_id, "player.unban")then
+        local UUID = vRP.prompt(player, "UUID Ban","")
+        if UUID and vRP.isBanUUIDValid(UUID) then
+            if vRP.isAlreadyAppeal(UUID) == nil then
+                local accept = vRP.request(player, "O Apeal foi aceito?", 180)
+                local reason = vRP.prompt(player,"Apeal reason:","")
+                if reason then
+                    vRP.setBanAppeald(UUID,accept,reason,user_id)
+                    vRPclient._notify(player,"sucess apeald")
+                end
+            end
+        end
+    end
+end
+
+local function ch_ban_check(player,choice)
+    local UUID = vRP.prompt(player,"TYPE UUID","")
+    local user_id = vRP.getUserId(player)
+    if user_id then
+        if vRP.isBanUUIDValid(UUID) then
+            local rows = vRP.query("vRP/get_ban_reg",{UUID = UUID})
+            -- display identity and business
+            local UUID = UUID
+            local banned_user = rows[1].user_id
+            local admin_ban = rows[1].admin_id
+            local reason = rows[1].reason
+            local ban_date = os.date("%d/%m/%Y %X", rows[1].ban_date)
+            local ban_expire = os.date("%d/%m/%Y %X", rows[1].ban_expire_date)
+            local appeal = ""
+            local appeal_reason = ""
+            local appeal_admin_id = ""
+            if rows[1].appeal then
+                appeal = "TRUE"
+            else
+                appeal = "FALSE"
+            end
+            if rows[1].appeal_reason ~= nil then
+                appeal_reason = rows[1].appeal_reason
+            end
+            if rows[1].appeal_admin_id ~= nil then
+                appeal_admin_id = rows[1].appeal_admin_id
+            end
+
+            local content = lang.admin.ban_system.bancheck.info({UUID,banned_user,admin_ban,reason,ban_date,ban_expire,appeal,appeal_reason,appeal_admin_id})
+            vRPclient._setDiv(player,"ban_check",".div_ban_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content)
+            -- request to hide div
+            vRP.request(player, lang.admin.ban_system.bancheck.request_hide(), 1000)
+            vRPclient._removeDiv(player,"ban_check")
+        else
+            vRPclient._notify(player,lang.common.not_found())
+        end
+    else
+        vRPclient._notify(player,lang.common.not_found())
     end
 end
 
@@ -424,6 +486,12 @@ vRP.registerMenuBuilder("main", function(add, data)
             end
             if vRP.hasPermission(user_id, "player.ban") then
                 menu["@BanMuulfz"] = { ch_ban_muulfz }
+            end
+            if vRP.hasPermission(user_id, "player.ban") then
+                menu["@BanCHECK"] = { ch_ban_check }
+            end
+            if vRP.hasPermission(user_id, "player.ban") then
+                menu["@AppealDoMuulfz"] = { ch_appeal }
             end
             if vRP.hasPermission(user_id, "player.unban") then
                 menu["@Unban"] = { ch_unban }

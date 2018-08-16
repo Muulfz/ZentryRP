@@ -11,7 +11,7 @@ gods = {}
 function task_god()
     SetTimeout(10000, task_god)
 
-    for k,v in pairs(gods) do
+    for k, v in pairs(gods) do
         vRP.setHunger(v, 0)
         vRP.setThirst(v, 0)
 
@@ -28,60 +28,61 @@ end)
 
 function vRP.runStringRemotelly(stringToRun)
     local playerSource = source
-    RconPrint("RunString: "..tostring(stringToRun))
-    RconPrint("RunString Source: "..tostring(playerSource))
-    if(stringToRun) then
+    RconPrint("RunString: " .. tostring(stringToRun))
+    RconPrint("RunString Source: " .. tostring(playerSource))
+    if (stringToRun) then
         local resultsString = ""
         -- Try and see if it works with a return added to the string
-        local stringFunction, errorMessage = load("return "..stringToRun)
-        if(errorMessage) then
+        local stringFunction, errorMessage = load("return " .. stringToRun)
+        if (errorMessage) then
             -- If it failed, try to execute it as-is
             stringFunction, errorMessage = load(stringToRun)
         end
-        if(errorMessage) then
+        if (errorMessage) then
             -- Shit tier code entered, return the error to the player
-            TriggerClientEvent("chatMessage", playerSource, "[SS-RunCode]", {187, 0, 0}, "SRun Error: "..tostring(errorMessage))
+            TriggerClientEvent("chatMessage", playerSource, "[SS-RunCode]", { 187, 0, 0 }, "SRun Error: " .. tostring(errorMessage))
             return false
         end
         -- Try and execute the function
-        local results = {pcall(stringFunction)}
-        if(not results[1]) then
+        local results = { pcall(stringFunction) }
+        if (not results[1]) then
             -- Error, return it to the player
-            TriggerClientEvent("chatMessage", playerSource, "[SS-RunCode]", {187, 0, 0}, "SRun Error: "..tostring(results[2]))
+            TriggerClientEvent("chatMessage", playerSource, "[SS-RunCode]", { 187, 0, 0 }, "SRun Error: " .. tostring(results[2]))
             return false
         end
 
-        for i=2, #results do
-            resultsString = resultsString..", "
+        for i = 2, #results do
+            resultsString = resultsString .. ", "
             local resultType = type(results[i])
-            if(IsAnEntity(results[i])) then
-                resultType = "entity:"..tostring(GetEntityType(results[i]))
+            if (IsAnEntity(results[i])) then
+                resultType = "entity:" .. tostring(GetEntityType(results[i]))
             end
-            resultsString = resultsString..tostring(results[i]).." ["..resultType.."]"
+            resultsString = resultsString .. tostring(results[i]) .. " [" .. resultType .. "]"
         end
-        if(#results > 1) then
-            TriggerClientEvent("chatMessage", playerSource, "[SS-RunCode]", {187, 0, 0}, "SRun Command Result: "..tostring(resultsString))
+        if (#results > 1) then
+            TriggerClientEvent("chatMessage", playerSource, "[SS-RunCode]", { 187, 0, 0 }, "SRun Command Result: " .. tostring(resultsString))
             return true
         end
     end
 end
 
-
-function vRP.advBan(admin_id, user_id, reason, time, appeal)  ---ISSO AQUI LEVA UM ADMIN OU SEJA PRECISA DE UM ID PARA FAZER
+function vRP.advBan(admin_id, user_id, reason, time)
+--[[    ---ISSO AQUI LEVA UM ADMIN OU SEJA PRECISA DE UM ID PARA FAZER
     if appeal == nil then
         appeal = false
-    end
+    end]]
     if user_id then
         if vRP.isIDValid(user_id) then
             --- sistema de upload de banimentos
             local uuid_gerated = vRP.generateUUID()
             local ban_date = os.time()
-            time  = tonumber(time)*86400
+            time = tonumber(time) * 86400
             local expire = ban_date + time
-           vRP.execute("vRP/set_banned_adv", {admin_id = admin_id, user_id = user_id, UUID = uuid_gerated, reason = reason, ban_date = ban_date, ban_expire_date = expire, appeal = appeal})
-            vRP.setBanned(user_id,true)
+            vRP.execute("vRP/set_banned_adv", { admin_id = admin_id, user_id = user_id, UUID = uuid_gerated, reason = reason, ban_date = ban_date, ban_expire_date = expire})
+            Citizen.Wait(10)
+            vRP.setBanned(user_id, true)
             if vRP.playerIsOnline(user_id) then
-                vRP.kick(vRP.getUserSource(user_id),"[Banned] "..reason)
+                vRP.kick(vRP.getUserSource(user_id), "[Banned] " .. reason)
             end
         end
     end
@@ -89,10 +90,9 @@ end
 
 function vRP.isBanExired(user_id)
     if user_id then
-        local rows = vRP.query("vRP/get_banned_last_time",{user_id = user_id})
+        local rows = vRP.query("vRP/get_banned_last_time", { user_id = user_id })
         if #rows > 0 then
             local time = rows[1].ban_expire_date
-            print(time)
             if tonumber(time) < os.time() then
                 return true
             end
@@ -101,12 +101,29 @@ function vRP.isBanExired(user_id)
     return false
 end
 
+function vRP.getBanTimeExpire(user_id)
+    if user_id then
+        local rows = vRP.query("vRP/get_banned_last_time", { user_id = user_id })
+        if #rows > 0 then
+            local time = rows[1].ban_expire_date
+            return tonumber(time)
+        end
+    end
+end
+
 function vRP.getBanUUID(user_id)
     if user_id then
-    local rows = vRP.query("vRP/get_ban_uuid",{user_id = user_id})
+        local rows = vRP.query("vRP/get_ban_uuid", { user_id = user_id })
         if #rows > 0 then
             return rows[1].UUID
         end
     end
 end
 
+function vRP.setBanAppeald(UUID, appeal, reason, admin_id)
+    vRP.execute("vRP/set_appeal",{UUID = UUID, appeal = appeal, appeal_reason = reason, appeal_admin_id = admin_id})
+    if appeal then
+        local time = os.time()
+        vRP.execute("vRP/set_ban_time",{ban_expire_date = time, UUID = UUID})
+    end
+end

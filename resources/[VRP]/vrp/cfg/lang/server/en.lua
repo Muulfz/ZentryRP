@@ -44,7 +44,7 @@ local serverlang ={
         checking_load_db = "[{1}] Loading datatable...",
         get_last_login = "[{1}] Getting last login...",
         notwhitelist = "[{1}] Not whitelisted (user_id = {2}).",
-        banned = "[{1}] Banned (user_id = {2}).",
+        banned = "[{1}]Banned (user_id = {2}) \n Ban UUID: \"{3}\"  \n Expire Date: {4} .",
         ident_error = "[{1}] Identification error.",
         miss_id = "[{1}] Missing identifiers."
     },

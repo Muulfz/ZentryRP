@@ -554,25 +554,26 @@ AddEventHandler("playerConnecting", function(name, setMessage, deferrals)
                 else
                     print(slang.connection.join({ servertag, name, vRP.getPlayerEndpoint(source), user_id }))
                     Citizen.Wait(1000)
-                    deferrals.done(slang.connection.deferrals.notwhitelist({ servertag, user_id }))
+                    deferrals.done(slang.deferrals.notwhitelist({ servertag, user_id }))
                 end
             else
                 print(slang.connection.banned({ servertag, name, vRP.getPlayerEndpoint(source), user_id }))
                 Citizen.Wait(1000)
                 -----------------------------------
                 local banUUID = vRP.getBanUUID(user_id)
+                local datefinal = os.date("%d/%m/%Y %X", vRP.getBanTimeExpire(user_id))
                 -----------------------------------
-                deferrals.done(slang.connection.deferrals.banned({ servertag, user_id, banUUID })) ---ADICIONADO BANUUID
+                deferrals.done(slang.deferrals.banned({ servertag, user_id, banUUID, datefinal })) ---ADICIONADO BANUUID
             end
         else
             print(slang.connection.ident_eror({ servertag, name, vRP.getPlayerEndpoint(source) }))
             Citizen.Wait(1000)
-            deferrals.done(slang.connection.deferrals.ident_error({ servertag }))
+            deferrals.done(slang.deferrals.ident_error({ servertag }))
         end
     else
         print(slang.connection.miss_id({ servertag, name, vRP.getPlayerEndpoint(source) }))
         Citizen.Wait(1000)
-        deferrals.done(slang.connection.deferrals.miss_id({ servertag }))
+        deferrals.done(slang.deferrals.miss_id({ servertag }))
     end
 end)
 

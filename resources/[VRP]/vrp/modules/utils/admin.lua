@@ -82,7 +82,7 @@ function vRP.advBan(admin_id, user_id, reason, time)
             Citizen.Wait(10)
             vRP.setBanned(user_id, true)
             if vRP.playerIsOnline(user_id) then
-                vRP.kick(vRP.getUserSource(user_id), "[Banned] " .. reason)
+                vRP.kick(vRP.getUserSource(user_id), lang.admin.ban_system.ban_msg({reason}))
             end
         end
     end
@@ -127,3 +127,20 @@ function vRP.setBanAppeald(UUID, appeal, reason, admin_id)
         vRP.execute("vRP/set_ban_time",{ban_expire_date = time, UUID = UUID})
     end
 end
+
+function vRP.createServerTicket(user_id, ticket, ingame_accept)
+    local solved = false
+    print("FIM")
+    if ingame_accept == nil then
+        ingame_accept = false
+    elseif ingame_accept then
+        solved = false
+    end
+    local date = os.date("%H:%M:%S %d/%m/%Y")
+    local report_id = "Ticket_" + vRP.generateUUID()
+    print("FIM 2")
+    vRP.execute("vRP/create_srv_ticket",{report_id = report_id, user_id = user_id, ticket = ticket,
+                                         date = date,ingame_accept = ingame_accept,solved = solved })
+end
+
+

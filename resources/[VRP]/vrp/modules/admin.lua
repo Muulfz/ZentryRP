@@ -190,16 +190,16 @@ local function ch_ban(player, choice)
     end
 end
 
-local function ch_ban_muulfz(player, choice)
+local function ch_ban_adv(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, perm.admin.menu.ban()) then
+    if user_id and vRP.hasPermission(user_id, perm.admin.adv_ban()) then
         local id = vRP.prompt(player, lang.admin.menu.ban.prompt_id(), "")
         id = parseInt(id)
         if vRP.isIDValid(id) then
             if not vRP.isBanned(id) then
                 local reason = vRP.prompt(player, lang.admin.menu.ban.prompt(), "")
                 ---local source = vRP.getUserSource(id)
-                if reason then
+                if reason and reason ~= "" then
                     local time = vRP.prompt(player, lang.admin.menu.ban.time(), "")
                     if time then
                         time = tonumber(time)
@@ -210,12 +210,14 @@ local function ch_ban_muulfz(player, choice)
                                 time = 30
                             end
                         end
-                        if time < 1 then
-                            time = 1
-                        end
+                        --[[                        if time < 1 then
+                                                    time = 1
+                                                end]]
                         vRP.advBan(user_id, id, reason, time)
-                        vRPclient._notify(player, lang.admin.menu.ban.notify())
+                        vRPclient._notify(player, lang.admin.menu.ban.notify({ id }))
                     end
+                else
+                    vRPclient._notify(player, common.invalid_value())
                 end
             else
                 vRPclient._notify(player, lang.admin.menu.ban.already())
@@ -228,41 +230,47 @@ end
 
 local function ch_appeal(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.unban")then
-        local UUID = vRP.prompt(player, "UUID Ban","")
+    if user_id and vRP.hasPermission(user_id, perm.admin.appeal()) then
+        local UUID = vRP.prompt(player, lang.admin.menu.appeal.ban_UUID_prompt(), "")
         if UUID and vRP.isBanUUIDValid(UUID) then
             if vRP.isAlreadyAppeal(UUID) == nil then
-                local accept = vRP.request(player, "O Apeal foi aceito?", 180)
-                local reason = vRP.prompt(player,"Apeal reason:","")
+                local accept = vRP.request(player, lang.admin.menu.appeal.request(), 180)
+                local reason = vRP.prompt(player, lang.admin.menu.appeal.reason(), "")
                 if reason then
-                    vRP.setBanAppeald(UUID,accept,reason,user_id)
-                    vRPclient._notify(player,"sucess apeald")
+                    vRP.setBanAppeald(UUID, accept, reason, user_id)
+                    vRPclient._notify(player, lang.admin.menu.appeal.notify())
                 end
+            else
+                vRPclient._notify(player, lang.admin.menu.appeal.already())
             end
+        else
+            vRPclient._notify(player, lang.common.invalid_UUID())
         end
+    else
+        vRPclient._notify(player, lang.common.not_perm())
     end
 end
 
-local function ch_ban_check(player,choice)
-    local UUID = vRP.prompt(player,"TYPE UUID","")
+local function ch_ban_check(player, choice)
+    local UUID = vRP.prompt(player, lang.admin.ban_system.bancheck.prompt_uuid(), "")
     local user_id = vRP.getUserId(player)
     if user_id then
         if vRP.isBanUUIDValid(UUID) then
-            local rows = vRP.query("vRP/get_ban_reg",{UUID = UUID})
+            local rows = vRP.query("vRP/get_ban_reg", { UUID = UUID })
             -- display identity and business
             local UUID = UUID
             local banned_user = rows[1].user_id
             local admin_ban = rows[1].admin_id
             local reason = rows[1].reason
-            local ban_date = os.date("%d/%m/%Y %X", rows[1].ban_date)
-            local ban_expire = os.date("%d/%m/%Y %X", rows[1].ban_expire_date)
+            local ban_date = os.date(lang.admin.ban_system.bancheck.date_format(), rows[1].ban_date)
+            local ban_expire = os.date(lang.admin.ban_system.bancheck.date_format(), rows[1].ban_expire_date)
             local appeal = ""
             local appeal_reason = ""
             local appeal_admin_id = ""
             if rows[1].appeal then
-                appeal = "TRUE"
+                appeal = lang.admin.ban_system.bancheck.appeal_true()
             else
-                appeal = "FALSE"
+                appeal = lang.admin.ban_system.bancheck.appeal_false()
             end
             if rows[1].appeal_reason ~= nil then
                 appeal_reason = rows[1].appeal_reason
@@ -271,33 +279,33 @@ local function ch_ban_check(player,choice)
                 appeal_admin_id = rows[1].appeal_admin_id
             end
 
-            local content = lang.admin.ban_system.bancheck.info({UUID,banned_user,admin_ban,reason,ban_date,ban_expire,appeal,appeal_reason,appeal_admin_id})
-            vRPclient._setDiv(player,"ban_check",".div_ban_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content)
+            local content = lang.admin.ban_system.bancheck.info({ UUID, banned_user, admin_ban, reason, ban_date, ban_expire, appeal, appeal_reason, appeal_admin_id })
+            vRPclient._setDiv(player, "ban_check", ".div_ban_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }", content)
             -- request to hide div
             vRP.request(player, lang.admin.ban_system.bancheck.request_hide(), 1000)
-            vRPclient._removeDiv(player,"ban_check")
+            vRPclient._removeDiv(player, "ban_check")
         else
-            vRPclient._notify(player,lang.common.not_found())
+            vRPclient._notify(player, lang.common.not_found())
         end
     else
-        vRPclient._notify(player,lang.common.not_found())
+        vRPclient._notify(player, lang.common.not_found())
     end
 end
 
 local function ch_unban(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.unban") then
-        local id = vRP.prompt(player, "User id to unban: ", "")
+    if user_id and vRP.hasPermission(user_id, perm.admin.unban()) then
+        local id = vRP.prompt(player, lang.admin.menu.unban.prompt(), "")
         id = parseInt(id)
         vRP.setBanned(id, false)
-        vRPclient._notify(player, "un-banned user " .. id)
+        vRPclient._notify(player, lang.admin.menu.unban.notify({ id }))
     end
 end
 
 local function ch_emote(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.custom_emote") then
-        local content = vRP.prompt(player, "Animation sequence ('dict anim optional_loops' per line): ", "")
+    if user_id and vRP.hasPermission(user_id, perm.admin.menu.custom_emote()) then
+        local content = vRP.prompt(player, lang.admin.menu.emote.prompt(), "")
         local seq = {}
         for line in string.gmatch(content, "[^\n]+") do
             local args = {}
@@ -314,8 +322,8 @@ end
 
 local function ch_sound(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.custom_sound") then
-        local content = vRP.prompt(player, "Sound 'dict name': ", "")
+    if user_id and vRP.hasPermission(user_id, perm.admin.menu.custom_sound()) then
+        local content = vRP.prompt(player, lang.admim.menu.sound.prompt(), "")
         local args = {}
         for arg in string.gmatch(content, "[^%s]+") do
             table.insert(args, arg)
@@ -326,12 +334,12 @@ end
 
 local function ch_coords(player, choice)
     local x, y, z = vRPclient.getPosition(player)
-    vRP.prompt(player, "Copy the coordinates using Ctrl-A Ctrl-C", x .. "," .. y .. "," .. z)
+    vRP.prompt(player, lang.admin.menu.coords(), x .. "," .. y .. "," .. z)
 end
 
 local function ch_tptome(player, choice)
     local x, y, z = vRPclient.getPosition(player)
-    local user_id = vRP.prompt(player, "User id:", "")
+    local user_id = vRP.prompt(player, lang.admim.menu.tptome.prompt(), "")
     local tplayer = vRP.getUserSource(tonumber(user_id))
     if tplayer then
         vRPclient._teleport(tplayer, x, y, z)
@@ -339,7 +347,7 @@ local function ch_tptome(player, choice)
 end
 
 local function ch_tpto(player, choice)
-    local user_id = vRP.prompt(player, "User id:", "")
+    local user_id = vRP.prompt(player, lang.admim.menu.tpto.prompt(), "")
     local tplayer = vRP.getUserSource(tonumber(user_id))
     if tplayer then
         vRPclient._teleport(player, vRPclient.getPosition(tplayer))
@@ -347,7 +355,7 @@ local function ch_tpto(player, choice)
 end
 
 local function ch_tptocoords(player, choice)
-    local fcoords = vRP.prompt(player, "Coords x,y,z:", "")
+    local fcoords = vRP.prompt(player, lang.admim.menu.tptocoords.prompt(), "")
     local coords = {}
     for coord in string.gmatch(fcoords or "0,0,0", "[^,]+") do
         table.insert(coords, tonumber(coord))
@@ -359,7 +367,7 @@ end
 local function ch_givemoney(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
-        local amount = vRP.prompt(player, "Amount:", "")
+        local amount = vRP.prompt(player, lang.admim.menu.givemoney.prompt(), "")
         amount = parseInt(amount)
         vRP.giveMoney(user_id, amount)
     end
@@ -368,9 +376,9 @@ end
 local function ch_giveitem(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
-        local idname = vRP.prompt(player, "Id name:", "")
+        local idname = vRP.prompt(player, lang.admim.menu.giveitem.prompt_name(), "")
         idname = idname or ""
-        local amount = vRP.prompt(player, "Amount:", "")
+        local amount = vRP.prompt(player, lang.admim.menu.giveitem.prompt_amount(), "")
         amount = parseInt(amount)
         vRP.giveInventoryItem(user_id, idname, amount, true)
     end
@@ -379,33 +387,44 @@ end
 local function ch_calladmin(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
-        local desc = vRP.prompt(player, "Describe your problem:", "") or ""
-        local answered = false
-        local players = {}
-        for k, v in pairs(vRP.rusers) do
-            local player = vRP.getUserSource(tonumber(k))
-            -- check user
-            if vRP.hasPermission(k, "admin.tickets") and player then
-                table.insert(players, player)
-            end
-        end
-
-        -- send notify and alert to all listening players
-        for k, v in pairs(players) do
-            async(function()
-                local ok = vRP.request(v, "Admin ticket (user_id = " .. user_id .. ") take/TP to ?: " .. htmlEntities.encode(desc), 60)
-                if ok then
-                    -- take the call
-                    if not answered then
-                        -- answer the call
-                        vRPclient._notify(player, "An admin took your ticket.")
-                        vRPclient._teleport(v, vRPclient.getPosition(player))
-                        answered = true
-                    else
-                        vRPclient._notify(v, "Ticket already taken.")
-                    end
+        local playerok = vRP.request(player, lang.admin.menu.calladmin.playeok(), 60)
+        if playerok then
+            local desc = vRP.prompt(player, "Describe your problem:", "") or ""
+            local answered = false
+            local players = {}
+            for k, v in pairs(vRP.rusers) do
+                local player = vRP.getUserSource(tonumber(k))
+                -- check user
+                if vRP.hasPermission(k, "admin.tickets") and player then
+                    table.insert(players, player)
                 end
-            end)
+            end
+
+            if not players then
+                vRP.createServerTicket(user_id, desc)
+                print("FIM")
+            else
+                -- send notify and alert to all listening players
+                for k, v in pairs(players) do
+                    async(function()
+                        local ok = vRP.request(v, lang.admin.menu.calladmin.admin_msg(user_id ).. htmlEntities.encode(desc), 60)
+                        if not ok then
+                            vRP.createServerTicket(user_id, desc, answered)
+                        end
+                        if ok then
+                            -- take the call
+                            if not answered then
+                                -- answer the call
+                                vRPclient._notify(player, lang.admin.menu.calladmin.player_msg())
+                                vRPclient._teleport(v, vRPclient.getPosition(player))
+                                answered = true
+                            else
+                                vRPclient._notify(v, lang.admin.menu.calladmin.sec_admin_msg())
+                            end
+                        end
+                    end)
+                end
+            end
         end
     end
 end
@@ -463,73 +482,73 @@ vRP.registerMenuBuilder("main", function(add, data)
                 vRP.openMainMenu(player)
             end -- nest menu
 
-            if vRP.hasPermission(user_id, "player.list") then
+            if vRP.hasPermission(user_id, perm.admin.menu.player_list()) then
                 menu["@User list"] = { ch_list, "Show/hide user list." }
             end
-            if vRP.hasPermission(user_id, "player.whitelist") then
+            if vRP.hasPermission(user_id, perm.admin.menu.whitelist()) then
                 menu["@Whitelist user"] = { ch_whitelist }
             end
-            if vRP.hasPermission(user_id, "player.group.add") then
+            if vRP.hasPermission(user_id, perm.admin.menu.addgroup()) then
                 menu["@Add group"] = { ch_addgroup }
             end
-            if vRP.hasPermission(user_id, "player.group.remove") then
+            if vRP.hasPermission(user_id, perm.admin.menu.removegroup()) then
                 menu["@Remove group"] = { ch_removegroup }
             end
-            if vRP.hasPermission(user_id, "player.unwhitelist") then
+            if vRP.hasPermission(user_id, perm.admin.menu.unwhitelist()) then
                 menu["@Un-whitelist user"] = { ch_unwhitelist }
             end
-            if vRP.hasPermission(user_id, "player.kick") then
+            if vRP.hasPermission(user_id, perm.admin.menu.kick()) then
                 menu["@Kick"] = { ch_kick }
             end
-            if vRP.hasPermission(user_id, "player.ban") then
+            if vRP.hasPermission(user_id, perm.admin.menu.ban()) then
                 menu["@Ban"] = { ch_ban }
             end
-            if vRP.hasPermission(user_id, "player.ban") then
-                menu["@BanMuulfz"] = { ch_ban_muulfz }
+            if vRP.hasPermission(user_id, perm.admin.menu.adv_ban()) then
+                menu["@Ban Advanced"] = { ch_ban_adv }
             end
-            if vRP.hasPermission(user_id, "player.ban") then
+            if vRP.hasPermission(user_id, perm.admin.menu.ban_check()) then
                 menu["@BanCHECK"] = { ch_ban_check }
             end
-            if vRP.hasPermission(user_id, "player.ban") then
-                menu["@AppealDoMuulfz"] = { ch_appeal }
+            if vRP.hasPermission(user_id, perm.admin.menu.appeal()) then
+                menu["@Appeal"] = { ch_appeal }
             end
-            if vRP.hasPermission(user_id, "player.unban") then
+            if vRP.hasPermission(user_id, perm.admin.menu.unban()) then
                 menu["@Unban"] = { ch_unban }
             end
-            if vRP.hasPermission(user_id, "player.noclip") then
+            if vRP.hasPermission(user_id, perm.admin.menu.noclip()) then
                 menu["@Noclip"] = { ch_noclip }
             end
-            if vRP.hasPermission(user_id, "player.custom_emote") then
+            if vRP.hasPermission(user_id, perm.admin.menu.custom_sound()) then
                 menu["@Custom emote"] = { ch_emote }
             end
-            if vRP.hasPermission(user_id, "player.custom_sound") then
+            if vRP.hasPermission(user_id, perm.admin.menu.custom_sound()) then
                 menu["@Custom sound"] = { ch_sound }
             end
-            if vRP.hasPermission(user_id, "player.custom_sound") then
+            if vRP.hasPermission(user_id, perm.admin.menu.custom_audiosource()) then
                 menu["@Custom audiosource"] = { ch_audiosource }
             end
-            if vRP.hasPermission(user_id, "player.coords") then
+            if vRP.hasPermission(user_id, perm.admin.menu.coords()) then
                 menu["@Coords"] = { ch_coords }
             end
-            if vRP.hasPermission(user_id, "player.tptome") then
+            if vRP.hasPermission(user_id, perm.admin.menu.tptome()) then
                 menu["@TpToMe"] = { ch_tptome }
             end
-            if vRP.hasPermission(user_id, "player.tpto") then
+            if vRP.hasPermission(user_id, perm.admin.menu.tpto()) then
                 menu["@TpTo"] = { ch_tpto }
             end
-            if vRP.hasPermission(user_id, "player.tpto") then
+            if vRP.hasPermission(user_id, perm.admin.menu.tptocoords()) then
                 menu["@TpToCoords"] = { ch_tptocoords }
             end
-            if vRP.hasPermission(user_id, "player.givemoney") then
+            if vRP.hasPermission(user_id, perm.admin.menu.givemoney()) then
                 menu["@Give money"] = { ch_givemoney }
             end
-            if vRP.hasPermission(user_id, "player.giveitem") then
+            if vRP.hasPermission(user_id, perm.admin.menu.giveitem()) then
                 menu["@Give item"] = { ch_giveitem }
             end
-            if vRP.hasPermission(user_id, "player.display_custom") then
+            if vRP.hasPermission(user_id, perm.admin.menu.display_custom()) then
                 menu["@Display customization"] = { ch_display_custom }
             end
-            if vRP.hasPermission(user_id, "player.calladmin") then
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
                 menu["@Call admin"] = { ch_calladmin }
             end
 
@@ -544,7 +563,7 @@ end)
 function task_god()
     SetTimeout(10000, task_god)
 
-    for k, v in pairs(vRP.getUsersByPermission("admin.god")) do
+    for k, v in pairs(vRP.getUsersByPermission(perm.admin.god())) do
         vRP.setHunger(v, 0)
         vRP.setThirst(v, 0)
 

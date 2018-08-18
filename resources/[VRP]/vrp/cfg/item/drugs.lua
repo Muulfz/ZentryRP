@@ -15,11 +15,13 @@ local pills_choices = {}
 pills_choices["Take"] = {function(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id then
-    if vRP.tryGetInventoryItem(user_id,"pills",1) then
-      vRPclient._varyHealth(player,25)
-      vRPclient._notify(player,"~g~ Taking pills.")
-      play_drink(player)
-      vRP.closeMenu(player)
+    if not vRPclient.isInComa(player) then
+      if vRP.tryGetInventoryItem(user_id,"pills",1) then
+        vRPclient._varyHealth(player,25)
+        vRPclient._notify(player,"~g~ Taking pills.")
+        play_drink(player)
+        vRP.closeMenu(player)
+      end
     end
   end
 end}

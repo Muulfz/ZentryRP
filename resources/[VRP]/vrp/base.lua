@@ -230,10 +230,19 @@ vRP.prepare("vRP/set_whitelisted", "UPDATE vrp_users SET whitelisted = @whitelis
 vRP.prepare("vRP/set_last_login", "UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id")
 vRP.prepare("vRP/get_last_login", "SELECT last_login FROM vrp_users WHERE id = @user_id")
 
+module("modules/utils/mysql")
 -- init tables
 print(slang.db.table_int({ servertag }))
 async(function()
     vRP.execute("vRP/base_tables")
+    -----------------------------------------------+
+    vRP.execute("vRP/currency_tables")
+    vRP.execute("vRP/srv_ticket_tables")
+    vRP.execute("vRP/srv_report_tables")
+    vRP.execute("vRP/srv_report_player_tables")
+    vRP.execute("vRP/user_bans_tables")
+    -------------------------------------------------
+
 end)
 
 -- identification system

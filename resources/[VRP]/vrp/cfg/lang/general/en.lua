@@ -11,6 +11,7 @@ local lang = {
     invalid_id  = "~r~Invalid ID",
     invalid_group = "~r~Invalid Group",
     invalid_item = "~r~Invalid Item",
+    invalid_UUID = "~r~Invalid UUID",
     not_perm = "~r~Not enough permissions",
     player_group_already_have = "~r~Player already have this group",
     player_group_not_found = "~r~Player group not found",
@@ -508,7 +509,12 @@ local lang = {
   },
   admin = {
     ban_system = {
+        ban_msg = "[Banned] Reason: {1}",
       bancheck = {
+        date_format = "%d/%m/%Y %X",
+        prompt_uuid = "Type UUID",
+        appeal_true ="TRUE",
+        appeal_false = "FALSE",
         info = "<em>Ban UUID: </em>{1}<br /><em>User Banned: </em>{2}<br /><em>Admin that banned : </em>{3}<br /><em>Reason: </em>{4}<br /><em>Ban create date: </em>{5}<br /><em>Ban expire date: </em>{6}<br /><em>Was Appeal: </em>{7} <br /><em>Apeal Reason: </em>{9}<br /><em>Admin that appeal: </em>{8}",
         request_hide = "HIDE INFO"
 
@@ -563,9 +569,16 @@ local lang = {
         time = "time of ban in days",
         menu_name = "@Ban"
       },
+      appeal = {
+        ban_UUID_prompt = "UUID Ban"  ,
+        request = "The appeal was accept?",
+        reason = "Appeal Reason: ",
+        notify = "Appeal sucess",
+        already = "The appeal already done!"
+      },
       unban = {
         prompt = "User id to unban: ",
-        notify = "un-banned user ",
+        notify = "un-banned user {1} ",
         already = "Player already banned",
         menu_name = "@Unban"
       },

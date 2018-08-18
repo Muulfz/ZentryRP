@@ -40,7 +40,7 @@ vRP.prepare("vRP/srv_ticket_tables",[[
 
 CREATE TABLE IF NOT EXISTS vrp_srv_ticket
 (
-    ticket_id integer AUTO_INCREMENT,
+    ticket_id varchar(50),
     user_id integer,
     ticket varchar(255),
     date varchar(255),
@@ -54,7 +54,7 @@ vRP.prepare("vRP/srv_report_tables",[[
 
 CREATE TABLE IF NOT EXISTS vrp_srv_report
 (
-    report_id integer AUTO_INCREMENT,
+    report_id varchar(50),
     user_id integer,
     report varchar(255),
     date varchar(255),
@@ -63,10 +63,11 @@ CREATE TABLE IF NOT EXISTS vrp_srv_report
     CONSTRAINT vrp_srv_report_vrp_users_id_fk FOREIGN KEY (user_id) REFERENCES vrp_users (id) ON DELETE CASCADE
 );
  ]])
+
 vRP.prepare("vRP/srv_report_player_tables",[[
 CREATE TABLE IF NOT EXISTS vrp_srv_report_player
 (
-    report_id integer AUTO_INCREMENT,
+    report_id varchar(50),
     user_id INTEGER,
     report varchar(255),
     date varchar(255),
@@ -74,14 +75,16 @@ CREATE TABLE IF NOT EXISTS vrp_srv_report_player
     was_online BOOLEAN,
     close boolean,
     CONSTRAINT vrp_srv_report_player_pk PRIMARY KEY (report_id, user_id),
-    CONSTRAINT vrp_srv_report_player_vrp_users_id_fk FOREIGN KEY (user_id) REFERENCES vrp_users (id) ON DELETE CASCADE
+    CONSTRAINT vrp_srv_report_player_vrp_users_id_fk FOREIGN KEY (user_id) REFERENCES vrp_users (id) ON DELETE CASCADE,
+    CONSTRAINT vrp_srv_report_send_vrp_users_id_fk FOREIGN KEY (report_player) REFERENCES vrp_users (id) ON DELETE CASCADE
+
 
 );
  ]])
-vRP.prepare("vRP/create_srv_ticket", "INSERT INTO vrp_srv_ticket(user_id,ticket,date,ingame_accept,solved) VALUES(@user_id,@ticket,@date,@ingame_accept,@solved)")
+vRP.prepare("vRP/create_srv_ticket", "INSERT INTO vrp_srv_ticket(report_id,user_id,ticket,date,ingame_accept,solved) VALUES(@report_id,@user_id,@ticket,@date,@ingame_accept,@solved)")
 -- vRP.prepare("vRP/get_srv_ticket", "SELECT t.* FROM vrp.vrp_srv_ticket t WHERE ticket_id = 1 ") --TODO Fazer isso ter sentido!
-vRP.prepare("vRP/create_srv_report_player", "INSERT INTO vrp_srv_report_player(user_id,report,report_player,was_online,date,close) VALUE(@user_id,@report,@report_player,@was_online,@date,false)")
-vRP.prepare("vRP/create_srv_report", "INSERT INTO vrp_srv_report(user_id,report,date,close) VALUES(@user_id,@report,@date,false)")
+vRP.prepare("vRP/create_srv_report_player", "INSERT INTO vrp_srv_report_player(report_id,user_id,report,report_player,was_online,date,close) VALUE(@report_id,@user_id,@report,@report_player,@was_online,@date,false)")
+vRP.prepare("vRP/create_srv_report", "INSERT INTO vrp_srv_report(report_id,user_id,report,date,close) VALUES(@report_id,@user_id,@report,@date,false)")
 --                                        BAN SYSTEM                                  --
 
 vRP.prepare("vRP/user_bans_tables",
@@ -100,9 +103,9 @@ CREATE TABLE IF NOT EXISTS vrp_user_bans (
   CONSTRAINT fk_user_bans_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE,
   CONSTRAINT fk_user_bans_admin__users FOREIGN KEY(admin_id) REFERENCES vrp_users(id) ON DELETE CASCADE,
   CONSTRAINT fk_user_bans_appeal_admin__users FOREIGN KEY(appeal_admin_id) REFERENCES vrp_users(id) ON DELETE CASCADE
-)]])
-vRP.prepare("vRP/set_banned_adv", "INSERT INTO vrp_user_bans(UUID,user_id,admin_id,reason,ban_date,ban_expire_date) VALUES(@UUID,@user_id,@admin_id,@reason,@ban_date,@ban_expire_date)")
+);]])
 
+vRP.prepare("vRP/set_banned_adv", "INSERT INTO vrp_user_bans(UUID,user_id,admin_id,reason,ban_date,ban_expire_date) VALUES(@UUID,@user_id,@admin_id,@reason,@ban_date,@ban_expire_date)")
 vRP.prepare("vRP/get_banned_last_time", "SELECT MAX(ban_date), ban_expire_date FROM vrp_user_bans WHERE user_id = @user_id")
 vRP.prepare("vRP/get_ban_uuid", "SELECT UUID, MAX(ban_expire_date) FROM vrp_user_bans WHERE user_id = @user_id")
 --------------------------------------------------------------------------------------

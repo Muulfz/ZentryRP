@@ -389,12 +389,14 @@ local function ch_calladmin(player, choice)
     if user_id then
         local playerok = vRP.request(player, lang.admin.menu.calladmin.playeok(), 60)
         if playerok then
-            local desc = vRP.prompt(player, "Describe your problem:", "") or ""
             local answered = false
+            local desc = vRP.prompt(player, lang.admin.menu.calladmin.prompt(), "") or ""
+            print("1")
             local players = {}
             for k, v in pairs(vRP.rusers) do
                 local player = vRP.getUserSource(tonumber(k))
                 -- check user
+                print("2")
                 if vRP.hasPermission(k, "admin.tickets") and player then
                     table.insert(players, player)
                 end
@@ -402,12 +404,11 @@ local function ch_calladmin(player, choice)
 
             if not players then
                 vRP.createServerTicket(user_id, desc)
-                print("FIM")
             else
                 -- send notify and alert to all listening players
                 for k, v in pairs(players) do
                     async(function()
-                        local ok = vRP.request(v, lang.admin.menu.calladmin.admin_msg(user_id ).. htmlEntities.encode(desc), 60)
+                        local ok = vRP.request(v,"Admin ticket (user_id = "..user_id..") take/TP to ?: "..htmlEntities.encode(desc), 60)
                         if not ok then
                             vRP.createServerTicket(user_id, desc, answered)
                         end
@@ -418,6 +419,7 @@ local function ch_calladmin(player, choice)
                                 vRPclient._notify(player, lang.admin.menu.calladmin.player_msg())
                                 vRPclient._teleport(v, vRPclient.getPosition(player))
                                 answered = true
+                                vRP.createServerTicket(user_id, desc, answered)
                             else
                                 vRPclient._notify(v, lang.admin.menu.calladmin.sec_admin_msg())
                             end

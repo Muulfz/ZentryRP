@@ -230,7 +230,7 @@ vRP.prepare("vRP/set_whitelisted", "UPDATE vrp_users SET whitelisted = @whitelis
 vRP.prepare("vRP/set_last_login", "UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id")
 vRP.prepare("vRP/get_last_login", "SELECT last_login FROM vrp_users WHERE id = @user_id")
 
-module("modules/utils/mysql")
+local mysql = module("modules/utils/mysql")
 -- init tables
 print(slang.db.table_int({ servertag }))
 async(function()
@@ -507,6 +507,7 @@ AddEventHandler("playerConnecting", function(name, setMessage, deferrals)
                 if vRP.isBanned(user_id) then
                     if vRP.isBanExired(user_id) then
                         vRP.setBanned(user_id, false)
+                        deferrals.update("Seu ban acabou")
                     end
                 end
             -----------------------------------------------------

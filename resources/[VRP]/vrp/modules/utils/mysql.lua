@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS vrp_srv_report_player
 
 );
  ]])
-vRP.prepare("vRP/create_srv_ticket", "INSERT INTO vrp_srv_ticket(report_id,user_id,ticket,date,ingame_accept,solved) VALUES(@report_id,@user_id,@ticket,@date,@ingame_accept,@solved)")
+vRP.prepare("vRP/create_srv_ticket", "INSERT INTO vrp_srv_ticket(ticket_id,user_id,ticket,date,ingame_accept,solved) VALUES(@ticket_id,@user_id,@ticket,@date,@ingame_accept,@solved)")
 -- vRP.prepare("vRP/get_srv_ticket", "SELECT t.* FROM vrp.vrp_srv_ticket t WHERE ticket_id = 1 ") --TODO Fazer isso ter sentido!
 vRP.prepare("vRP/create_srv_report_player", "INSERT INTO vrp_srv_report_player(report_id,user_id,report,report_player,was_online,date,close) VALUE(@report_id,@user_id,@report,@report_player,@was_online,@date,false)")
 vRP.prepare("vRP/create_srv_report", "INSERT INTO vrp_srv_report(report_id,user_id,report,date,close) VALUES(@report_id,@user_id,@report,@date,false)")

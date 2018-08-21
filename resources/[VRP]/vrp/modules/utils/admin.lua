@@ -130,16 +130,15 @@ end
 
 function vRP.createServerTicket(user_id, ticket, ingame_accept)
     local solved = false
-    print("FIM")
     if ingame_accept == nil then
         ingame_accept = false
-    elseif ingame_accept then
+    end
+    if ingame_accept then
         solved = false
     end
     local date = os.date("%H:%M:%S %d/%m/%Y")
-    local report_id = "Ticket_" + vRP.generateUUID()
-    print("FIM 2")
-    vRP.execute("vRP/create_srv_ticket",{report_id = report_id, user_id = user_id, ticket = ticket,
+    local report_id = vRP.generateUUID()
+    vRP.execute("vRP/create_srv_ticket",{ticket_id = ticket_id, user_id = user_id, ticket = ticket,
                                          date = date,ingame_accept = ingame_accept,solved = solved })
 end
 

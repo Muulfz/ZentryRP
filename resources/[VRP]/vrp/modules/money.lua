@@ -7,8 +7,13 @@ local lang = vRP.lang
 vRP.prepare("vRP/money_tables", [[
 CREATE TABLE IF NOT EXISTS vrp_user_moneys(
   user_id INTEGER,
-  wallet INTEGER,
+  wallet DECIMAL(19 , 4 ) NOT NULL,
   bank INTEGER,
+  wallet_usd INTEGER,
+  bank_usd INTEGER,
+  wallet_eur INTEGER,
+  bank_eur INTEGER,
+  bitcoins INTEGER,
   CONSTRAINT pk_user_moneys PRIMARY KEY(user_id),
   CONSTRAINT fk_user_moneys_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
 );

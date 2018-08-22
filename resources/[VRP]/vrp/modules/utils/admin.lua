@@ -94,6 +94,7 @@ function vRP.isBanExired(user_id)
         if #rows > 0 then
             local time = rows[1].ban_expire_date
             if tonumber(time) < os.time() then
+                vRP.execute("VRP/adv_unban",{user_id = user_id, ban_expire_date = time}) --TODO Sistema de Ban apartir de numero
                 return true
             end
         end
@@ -137,7 +138,7 @@ function vRP.createServerTicket(user_id, ticket, ingame_accept)
         solved = false
     end
     local date = os.date("%H:%M:%S %d/%m/%Y")
-    local report_id = vRP.generateUUID()
+    local ticket_id = vRP.generateUUID()
     vRP.execute("vRP/create_srv_ticket",{ticket_id = ticket_id, user_id = user_id, ticket = ticket,
                                          date = date,ingame_accept = ingame_accept,solved = solved })
 end

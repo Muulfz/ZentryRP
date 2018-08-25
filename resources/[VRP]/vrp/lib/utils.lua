@@ -170,7 +170,11 @@ function joinStrings(list, sep)
 
   return str
 end
-
+-------------------------------------------------------------------
+function decimalRound(decimal, valor)
+  local mult = 10^(decimal or 0)
+  return math.floor(valor * mult --[[ + 0.5--]]) /mult
+end
 -----------------------------------------------------------------------------------------
 local entityEnumerator = {
   __gc = function(enum)

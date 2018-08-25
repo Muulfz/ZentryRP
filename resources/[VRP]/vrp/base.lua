@@ -507,11 +507,12 @@ AddEventHandler("playerConnecting", function(name, setMessage, deferrals)
                 if vRP.isBanned(user_id) then
                     if vRP.isBanExired(user_id) then
                         vRP.setBanned(user_id, false)
-                        deferrals.update("Seu ban acabou")
+                        deferrals.update(slang.deferrals.ban_finish())
+                        Citizen.Wait(10)
                     end
                 end
             -----------------------------------------------------
-            Citizen.Wait(10)
+            Citizen.Wait(20)
             if not vRP.isBanned(user_id) then
                 deferrals.update(slang.deferrals.checking_whitelist { servertag })
                 if not config.whitelist or vRP.isWhitelisted(user_id) then

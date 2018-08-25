@@ -144,6 +144,26 @@ function vRP.hasGroup(user_id,group)
   return (user_groups[group] ~= nil)
 end
 
+-------------------------------------------------------------
+-- check if group exists
+function vRP.getGroupCheck(group)
+  if groups[group] then
+    return true
+  end
+  return false
+end
+
+-- return group code
+function vRP.getGroupCode(group)
+  local g = groups[group]
+  if g and g._config and g._config.code then
+    return g._config.code
+  end
+  return g
+end
+-------------------------------------------------------------
+
+
 local func_perms = {}
 
 -- register a special permission function

@@ -1,0 +1,186 @@
+nav {
+	display:block;
+}
+#top-meta {
+	z-index: 2;
+}
+#top-meta span {
+	color: rgba(255,255,255,0.75);
+}
+#provider {
+	float:left;
+	display:block;
+	width: 81.5%;
+	font-size: 12px;
+	padding-left: 1%;
+	line-height: 18px;
+}
+#battery, #signal {
+	float: right;
+	width: 6.5%;
+}
+#wallpaper {
+	position: absolute;
+	z-index: -1;
+}
+#wallpaper-skin {
+	position: absolute;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	background-size: cover !important;
+}
+#notifications {
+	margin-top: 45%;
+	width: 90%;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+#notifications > nav > span i {
+	line-height: 45px;
+	color: #34af23;
+	text-shadow: 0 0 2px rgba(0,0,0,0.75);
+}
+#notifications > nav > span {
+	display:block;
+	float:left;
+	margin-left: 10px;
+	margin-right: 15px;
+	color: #000;
+	text-shadow: 0 0 2px rgba(0,0,0,0.75);
+}
+#lockscreen-text {
+	position: absolute;
+	z-index: 1000;
+}
+#lockscreen-text p {
+	text-align:center;
+}
+#container {
+	position: fixed;
+}
+#container-inner {
+	position: relative;
+	width: 100%;
+}
+#screen {
+	position: absolute;
+	z-index: 2;
+}
+#desktop {
+	position: absolute;
+	width:100%;
+	z-index: 1000;
+	top: 120px;
+	left: 25px;
+}
+#desktop ul {
+	list-style: none;
+	padding: 0;
+}
+#desktop ul li {
+	float:left;
+	width: 50px;
+	margin-right: 10px;
+}
+#desktop ul li .app-icon i {
+	line-height: 52px;
+}
+#desktop ul li .app-icon {
+	background: red;
+	height: 50px;
+	width: 50px;
+	font-size: 32px;
+	text-align:center;
+}
+.clearfix  {
+	float: none;
+	clear:both;
+}
+.home-button {
+	position: absolute;
+}
+
+.hidden { display: none; }
+
+
+body {
+	font-family: helvetica, sans-serif;
+}
+
+/** --- IPHONE --- **/
+/*
+
+nav {
+	border-top: 1px solid rgba(255,255,255,0.20);
+	line-height: 45px;
+	color: rgba(255,255,255,0.60);
+	font-weight: normal;
+	font-size: 14px;
+	margin-bottom: 4px;
+}
+
+#wallpaper.lockscreen {
+	-webkit-filter: blur(5px);
+	-moz-filter: blur(5px);
+	-o-filter: blur(5px);
+	-ms-filter: blur(5px);
+	filter: blur(5px);
+}
+
+#lockscreen-text p {
+	color: rgba(255,255,255,0.25);
+}
+
+.home-button {
+	border-radius: 25px;
+	background: transparent;
+	cursor:pointer;
+	height: 50px;
+	width: 50px;
+}*/
+
+/** --- ANDROID --- **/
+nav {
+	background: rgba(255,255,255,0.25);
+	box-shadow: 0 0 4px #010101;
+	line-height: 45px;
+	color: #000;
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+#phone-device:after {
+    display: block;
+    position: absolute;
+	border-radius: 30px;
+    top: 0;
+    left: 0;
+	z-index: 3;
+    background: url(./phones/android/android-front.png);
+    background-repeat: no-repeat;
+    background-size: 338px;
+    height: 718px;
+    width: 338px;
+    content: ' ';
+}
+#top-meta {
+	margin: 25px 15px;
+	width: 100%;
+}
+#notifications {
+	margin-left: 25px;
+}
+#lockscreen-text {
+	bottom: 80px !important;
+	color: rgba(255,255,255,0.35);
+	left: 54px !important;
+}
+.home-button {
+	border-radius: 25px;
+	background: transparent;
+	cursor:pointer;
+	height: 25px;
+	width: 25px;
+	z-index: 9999;
+}

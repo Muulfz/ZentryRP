@@ -78,6 +78,9 @@ server_scripts{
   "modules/utils/phone.lua",
   "modules/utils/police.lua",
   "modules/utils/uuid.lua",
+  "modules/currency/manager.lua"
+
+
 }
 
 -- client scripts
@@ -113,6 +116,7 @@ client_scripts{
   "client/utils/npc_control.lua",
   "client/vehicle/carwash.lua",
   "client/utils/commands.lua"
+
 }
 
 -- client files

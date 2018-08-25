@@ -1,0 +1,49 @@
+{
+	"phone": {
+		"name": "android",
+		"left": 0,
+		"top": 0,
+		"width": "100%",
+		"phoneImage": {
+			"file":"./phones/android/android-back.png",
+			"width":"338px",
+			"height":"718px",
+			"backgroundSize":"338px"		
+		},
+		"wallpaper": {
+			"width": "322px",
+			"height": "643px"
+		},
+		"screen": {
+			"width": "300px",
+			"top": "23px",
+			"left": "8px"
+		},
+		"metaWidgets": {
+			"carrier": true,
+			"signal": true,
+			"battery": {
+				"class": "fa fa-bath"
+			}
+		},
+		"template": {
+			"scss": "./phones/android/android.scss",
+			"scripts": []
+		},
+		"homeButton": {
+			"enabled": true,
+			"id":"android-home-btn",
+			"left": "156px",
+			"bottom":"64px"
+		},
+		"lockScreen": {
+			"ctaType": "click",
+			"ctaText": "Aperte Botao para desbloquear",
+			"ctaClickToUnlockElement": "android-home-btn",
+			"offset": {
+				"bottom":"25px",
+				"left":"39px"
+			}
+		}
+	}
+}

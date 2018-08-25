@@ -93,8 +93,14 @@ function vRP.isBanExired(user_id)
         local rows = vRP.query("vRP/get_banned_last_time", { user_id = user_id })
         if #rows > 0 then
             local time = rows[1].ban_expire_date
-            if tonumber(time) < os.time() then
-                vRP.execute("VRP/adv_unban",{user_id = user_id, ban_expire_date = time}) --TODO Sistema de Ban apartir de numero
+            local UUID = tostring(rows[1].UUID)
+            local ban_finish = rows[1].ban_finish
+            if not ban_finish then
+                if tonumber(time) < os.time() then
+                    vRP.execute("vRP/adv_unban",{ban_finish = true, UUID = UUID}) --TODO Sistema de Ban apartir de numero
+                    return true
+                end
+            else
                 return true
             end
         end

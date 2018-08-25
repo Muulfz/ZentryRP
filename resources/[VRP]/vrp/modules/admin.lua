@@ -584,7 +584,7 @@ local function ch_player_givemoney_BTC(player, choice)
             local amount = vRP.prompt(player, lang.admin.menu.givemoney_to.prompt_amount(), "")
             amount = parseDouble(amount)
             if amount <= 2147483647 then
-                vRP.giveMoneyBTC(player_id, amount)
+                vRP.giveBitcoin(player_id, amount)
                 vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
             else
                 vRPclient._notify(player, lang.admin.menu.givemoney_to.max_value())
@@ -763,6 +763,37 @@ vRP.registerMenuBuilder("main", function(add, data)
             end
             if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
                 menu["@Call admin"] = { ch_calladmin }
+            end
+--------------------------------------------------------------------------------------------------------
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
+                menu["@Give Money USD"] = { ch_givemoney_USD }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
+                menu["@Give Money EUR"] = { ch_givemoney_EUR }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
+                menu["@Give Bitcoins"] = { ch_givemoney_BTC }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
+                menu["@Give Player Money"] = { ch_player_givemoney }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
+                menu["@Give Player Money USD"] = { ch_player_givemoney_USD }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
+                menu["@Give Player Money EUR"] = { ch_player_givemoney_EUR }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
+                menu["@Give Player Money BTC"] = { ch_player_givemoney_BTC }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
+                menu["@Report"] = { ch_report }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
+                menu["@Add Group Perm"] = { ch_addgroupperm }
+            end
+            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
+                menu["Remove Grou Perm"] = { ch_removegroupperm }
             end
 
             vRP.openMenu(player, menu)

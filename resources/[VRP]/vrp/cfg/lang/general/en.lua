@@ -515,7 +515,7 @@ local lang = {
         prompt_uuid = "Type UUID",
         appeal_true ="TRUE",
         appeal_false = "FALSE",
-        info = "<em>Ban UUID: </em>{1}<br /><em>User Banned: </em>{2}<br /><em>Admin that banned : </em>{3}<br /><em>Reason: </em>{4}<br /><em>Ban create date: </em>{5}<br /><em>Ban expire date: </em>{6}<br /><em>Was Appeal: </em>{7} <br /><em>Apeal Reason: </em>{9}<br /><em>Admin that appeal: </em>{8}",
+        info = "<em>Ban UUID: </em>{1}<br /><em>User Banned: </em>{2}<br /><em>Admin that banned : </em>{3}<br /><em>Reason: </em>{4}<br /><em>Ban create date: </em>{5}<br /><em>Ban expire date: </em>{6}<br /><em>Was Appeal: </em>{7} <br /><em>Apeal Reason: </em>{8}<br /><em>Admin that appeal: </em>{9}",
         request_hide = "HIDE INFO"
 
       }

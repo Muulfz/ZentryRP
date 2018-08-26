@@ -1,16 +1,22 @@
 -- a basic market implementation
 
 local lang = vRP.lang
+local money = module("modules/currency/money")
+local currency = module("modules/currency/manager")
 local cfg = module("cfg/markets")
 local market_types = cfg.market_types
 local markets = cfg.markets
-
 local market_menus = {}
 
 
 -- build market menus
 local function build_market_menus()
-  for gtype,mitems in pairs(market_types) do
+  local config = module("cfg/markets")
+  local market_types_ = config.market_types
+  local icms = vRP.getICMS()
+  local tax = vRP.getIPI()
+  local dolar = vRP.getUSDtoBRL()
+  for gtype,mitems in pairs(market_types_) do
     local market_menu = {
       name=lang.market.title({gtype}),
       css={top = "75px", header_color="rgba(0,255,125,0.75)"}
@@ -24,6 +30,9 @@ local function build_market_menus()
       local idname = kitems[choice][1]
       local item_name, item_desc, item_weight = vRP.getItemDefinition(idname)
       local price = kitems[choice][2]
+      price = price * dolar
+      price = (price * tax)*icms
+      price = format_num(price,2)
 
       if item_name then
         -- prompt amount
@@ -31,12 +40,16 @@ local function build_market_menus()
         if user_id then
           local amount = vRP.prompt(player,lang.market.prompt({item_name}),"")
           local amount = parseInt(amount)
+          print(amount)
           if amount > 0 then
             -- weight check
             local new_weight = vRP.getInventoryWeight(user_id)+item_weight*amount
             if new_weight <= vRP.getInventoryMaxWeight(user_id) then
               -- payment
+              print("PAGAMENTO")
+              print(price)
               if vRP.tryPayment(user_id,amount*price) then
+                print("CONSEGUIU")
                 vRP.giveInventoryItem(user_id,idname,amount,true)
                 vRPclient._notify(player,lang.money.paid({amount*price}))
               else
@@ -57,6 +70,8 @@ local function build_market_menus()
       local item_name, item_desc, item_weight = vRP.getItemDefinition(k)
       if item_name then
         kitems[item_name] = {k,math.max(v,0)} -- idname/price
+        v =  ((v * dolar)* tax) * icms
+        v = format_num(v,2)
         market_menu[item_name] = {market_choice,lang.market.info({v,item_desc})}
       end
     end

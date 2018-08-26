@@ -233,6 +233,7 @@ vRP.prepare("vRP/get_last_login", "SELECT last_login FROM vrp_users WHERE id = @
 local mysql = module("modules/utils/mysql")
 -- init tables
 print(slang.db.table_int({ servertag }))
+local currency = module("modules/currency/manager")
 async(function()
     vRP.execute("vRP/base_tables")
     -----------------------------------------------+
@@ -242,7 +243,15 @@ async(function()
     vRP.execute("vRP/srv_report_player_tables")
     vRP.execute("vRP/user_bans_tables")
     -------------------------------------------------
+    vRP.getCurrency()
 
+end)
+Citizen.CreateThread(function()
+    local loop = 1
+    while loop > 0 do
+        vRP.currencyUpdater()
+        Citizen.Wait(600000)
+    end
 end)
 
 -- identification system

@@ -71,3 +71,29 @@ function vRP.getSCurrencyTime(key, cbr)
         return false
     end
 end
+
+function vRP.getCurrency()
+    vRP.getCurrencyEspecialTable()
+    vRP.getCurrencyTable()
+end
+
+function vRP.getCurrencyTable()
+    local data = vRP.getSCurrency("vRP:currency")
+    vRP.currency = json.decode(data) or {}
+end
+
+function vRP.getCurrencyEspecialTable()
+    local data = vRP.getSCurrency("vRP:currencyspecial")
+    print(data)
+    vRP.currencySpecial = json.decode(data) or {}
+end
+
+--[[
+Citizen.CreateThread(function()
+    local loop = 1
+    while loop > 0 do
+        vRP.currencyUpdater()
+        Citizen.Wait(600000)
+    end
+end)
+]]

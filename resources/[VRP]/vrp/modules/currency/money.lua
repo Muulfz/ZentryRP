@@ -3,3 +3,112 @@
 --- Created by Muulfz.
 --- DateTime: 8/24/2018 10:46
 ---
+
+----- CURRENCY INFOS
+function vRP.getTableCurrency()
+    return vRP.currency
+end
+
+function vRP.getTableCurrencySpecial()
+    return vRP.currencySpecial
+end
+
+function vRP.getUSDtoBRL()
+    local cur = vRP.currency.usd.inverseRate
+    return format_num(cur,2)
+end
+
+function vRP.getBRLtoUSD()
+    local cur = vRP.currency.usd.rate
+    return format_num(cur,2)
+end
+
+function vRP.getEURtoBRL()
+    local cur = vRP.currency.eur.inverseRate
+    return  format_num(cur,2)
+end
+
+function vRP.getBRLtoEUR()
+    local cur = vRP.currency.eur.rate
+    return format_num(cur,2)
+end
+
+function vRP.getGBPtoBRL()
+    local cur = vRP.currency.gbp.inverseRate
+    return format_num(cur,2)
+end
+
+function vRP.getBRLtoGBP()
+    local cur = vRP.currency.gbp.rate
+    return format_num(cur,2)
+end
+
+function vRP.getEURtoUSD()
+    local cur = vRP.currencySpecial.rates.USD
+    return format_num(cur,2)
+end
+
+function vRP.getUSDtoEUR()
+    local cur = (1/vRP.currencySpecial.rates.USD)
+    return format_num(cur,2)
+end
+
+function vRP.getXAUGramstoEUR()
+    local cur = (vRP.currencySpecial.rates.XAU/28.3495)*1000000
+    return format_num(cur,2)
+end
+
+function vRP.getXAUGramstoBR()
+    local cur = ((vRP.currencySpecial.rates.XAU/28.3495)*1000000)*vRP.currency.eur.inverseRate
+    return format_num(cur,2)
+end
+
+function vRP.getXAUGramstoUSD()
+    local cur = ((vRP.currencySpecial.rates.XAU/28.3495)*1000000)*(1/vRP.currencySpecial.rates.USD)
+    return format_num(cur,2)
+end
+
+function vRP.getXAGGramstoEUR()
+    local cur = (vRP.currencySpecial.rates.XAG/28.3495)*1000000
+    return format_num(cur,2)
+end
+
+function vRP.getXAGGramstoBR()
+    local cur = ((vRP.currencySpecial.rates.XAG/28.3495)*1000000)*vRP.currency.eur.inverseRate
+    return format_num(cur,2)
+end
+
+function vRP.getXAGGramstoUSD()
+    local cur = ((vRP.currencySpecial.rates.XAG/28.3495)*1000000)*(1/vRP.currencySpecial.rates.USD)
+    return format_num(cur,2)
+end
+
+function vRP.getBTCtoEUR()
+    local cur = (1/vRP.currencySpecial.rates.BTC)
+    return format_num(cur,2)
+end
+
+function vRP.getBTCtoBR()
+    local cur = (1/vRP.currencySpecial.rates.BTC)*vRP.currency.eur.inverseRate
+    return format_num(cur,2)
+end
+
+function vRP.getBTCtoUSD()
+    local cur = (1/vRP.currencySpecial.rates.BTC)*(1/vRP.currencySpecial.rates.USD)
+    return format_num(cur,2)
+end
+
+function vRP.getXDRtoEUR()
+    local cur = (1/vRP.currencySpecial.rates.XDR)
+    return format_num(cur,2)
+end
+
+function vRP.getXDRtoBR()
+    local cur = (1/vRP.currencySpecial.rates.XDR)*vRP.currency.eur.inverseRate
+    return format_num(cur,2)
+end
+
+function vRP.getXDRtoUSD()
+    local cur = (1/vRP.currencySpecial.rates.XDR)*(1/vRP.currencySpecial.rates.USD)
+    return format_num(cur,2)
+end

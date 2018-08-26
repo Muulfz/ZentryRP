@@ -1,8 +1,10 @@
-
+local economy = module("modules/utils/economy")
 local cfg = {}
 
 -- define market types like garages and weapons
 -- _config: blipid, blipcolor, permissions (optional, only users with the permission will have access to the market)
+
+local importado = vRP.getII()
 
 cfg.market_types = {
   ["food"] = {
@@ -19,7 +21,7 @@ cfg.market_types = {
     ["gocagola"] = 12,
     ["redgull"] = 12,
     ["lemonlimonad"] = 14,
-    ["vodka"] = 30,
+    ["vodka"] = 15*importado,
 
     --Food
     ["bread"] = 2,

@@ -79,7 +79,7 @@ end
 
 -- set money
 function vRP.setMoney(user_id,value)
-  amount = decimalRound(2,value)
+  value = format_num(value,2)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.wallet = value
@@ -94,7 +94,7 @@ end
 
 -- set money usd
 function vRP.setMoneyUSD(user_id,value)
-  amount = decimalRound(2,value)
+  value = format_num(value,2)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.wallet_usd = value
@@ -103,7 +103,7 @@ end
 
 -- set money eur
 function vRP.setMoneyEUR(user_id,value)
-  amount = decimalRound(2,value)
+  value = format_num(value,2)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.wallet_eur = value
@@ -112,7 +112,7 @@ end
 
 -- set money eur
 function vRP.setBitcoin(user_id,value)
-  amount = decimalRound(8,value)
+  value = parseDouble(value)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.bitcoin = value
@@ -122,8 +122,8 @@ end
 -- try a payment
 -- return true or false (debited if true)
 function vRP.tryPayment(user_id,amount)
-  amount = decimalRound(2,amount)
-  local money = vRP.getMoney(user_id)
+  local money = parseDouble(vRP.getMoney(user_id))
+  amount = parseDouble(amount)
   if amount >= 0 and money >= amount then
     vRP.setMoney(user_id,money-amount)
     return true
@@ -173,7 +173,6 @@ end
 
 -- give money
 function vRP.giveMoney(user_id,amount)
-  amount = decimalRound(3,amount)
   if amount > 0 then
     local money = vRP.getMoney(user_id)
     vRP.setMoney(user_id,money+amount)
@@ -182,10 +181,10 @@ end
 
 -- give money
 function vRP.giveMoneyUSD(user_id,amount)
-  amount = decimalRound(2,amount)
   if amount > 0 then
     local money = vRP.getMoneyUSD(user_id)
     vRP.setMoneyUSD(user_id,money+amount)
+    print(amount)
   end
 end
 -- give money
@@ -194,6 +193,7 @@ function vRP.giveMoneyEUR(user_id,amount)
   if amount > 0 then
     local money = vRP.getMoneyEUR(user_id)
     vRP.setMoneyEUR(user_id,money+amount)
+    print(amount)
   end
 end
 -- give money
@@ -202,6 +202,7 @@ function vRP.giveBitcoin(user_id,amount)
   if amount > 0 then
     local money = vRP.getBitcoin(user_id)
     vRP.setBitcoin(user_id,money+amount)
+    print(amount)
   end
 end
 -- get bank money
@@ -236,7 +237,6 @@ end
 
 -- set bank money
 function vRP.setBankMoney(user_id,value)
-  amount = decimalRound(2,value)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.bank = value
@@ -245,7 +245,6 @@ end
 
 -- set bank money
 function vRP.setBankMoneyUSD(user_id,value)
-  amount = decimalRound(2,value)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.bank_usd = value
@@ -254,7 +253,6 @@ end
 
 -- set bank money
 function vRP.setBankMoneyEUR(user_id,value)
-  amount = decimalRound(2,value)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.bank_eur = value

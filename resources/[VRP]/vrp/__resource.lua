@@ -78,7 +78,10 @@ server_scripts{
   "modules/utils/phone.lua",
   "modules/utils/police.lua",
   "modules/utils/uuid.lua",
-  "modules/currency/manager.lua"
+  "modules/currency/manager.lua",
+  "modules/utils/economy.lua",
+  "modules/currency/manager.lua",
+  "modules/currency/money.lua"
 
 
 }
@@ -112,7 +115,7 @@ client_scripts{
   "client/stores/tattoos.lua",
   "client/utils/voice_display.lua",
   "client/player/show_weapons.lua",
-  "client/vehicle/speedometer.lua",
+ -- "client/vehicle/speedometer.lua",
   "client/utils/npc_control.lua",
   "client/vehicle/carwash.lua",
   "client/utils/commands.lua"

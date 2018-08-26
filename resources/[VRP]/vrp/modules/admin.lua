@@ -368,7 +368,7 @@ local function ch_givemoney(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
         local amount = vRP.prompt(player, lang.admim.menu.givemoney.prompt(), "")
-        amount = parseInt(amount)
+        amount = decimalRound(2,parseDouble(amount))
         vRP.giveMoney(user_id, amount)
     end
 end
@@ -477,9 +477,10 @@ local function ch_givemoney_USD(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
         local amount = vRP.prompt(player, lang.admin.menu.givemoney.prompt(), "")
-        amount = parseDouble(amount)
+        amount = decimalRound(2,parseDouble(amount))
         if amount <= 2147483647 then
             vRP.giveMoneyUSD(user_id, amount)
+            print(amount)
             vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
         else
             vRPclient._notify(player, lang.admin.menu.givemoney.max_value())
@@ -491,9 +492,10 @@ local function ch_givemoney_EUR(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
         local amount = vRP.prompt(player, lang.admin.menu.givemoney.prompt(), "")
-        amount = parseDouble(amount)
+        amount = decimalRound(2,parseDouble(amount))
         if amount <= 2147483647 then
             vRP.giveMoneyEUR(user_id, amount)
+            print(amount)
             vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
         else
             vRPclient._notify(player, lang.admin.menu.givemoney.max_value())
@@ -505,9 +507,10 @@ local function ch_givemoney_BTC(player, choice)
     local user_id = vRP.getUserId(player)
     if user_id then
         local amount = vRP.prompt(player, lang.admin.menu.givemoney.prompt(), "")
-        amount = parseDouble(amount)
+        amount = decimalRound(8,parseDouble(amount))
         if amount <= 2147483647 then
-            vRP.giveMoneyBTC(user_id, amount)
+            vRP.givebitcoin(user_id, amount)
+            print(amount)
             vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
         else
             vRPclient._notify(player, lang.admin.menu.givemoney.max_value())
@@ -524,6 +527,7 @@ local function ch_player_givemoney(player, choice)
             amount = parseDouble(amount)
             if amount <= 2147483647 then
                 vRP.giveMoney(player_id, amount) --TODO implementar logs
+                print(amount)
                 vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
             else
                 vRPclient._notify(player, lang.admin.menu.givemoney_to.max_value())
@@ -545,6 +549,7 @@ local function ch_player_givemoney_USD(player, choice)
             amount = parseDouble(amount)
             if amount <= 2147483647 then
                 vRP.giveMoneyUSD(player_id, amount)
+                print(amount)
                 vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
             else
                 vRPclient._notify(player, lang.admin.menu.givemoney_to.max_value())
@@ -565,6 +570,7 @@ local function ch_player_givemoney_EUR(player, choice)
             amount = parseDouble(amount)
             if amount <= 2147483647 then
                 vRP.giveMoneyEUR(player_id, amount)
+                print(amount)
                 vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
             else
                 vRPclient._notify(player, lang.admin.menu.givemoney_to.max_value())
@@ -585,6 +591,7 @@ local function ch_player_givemoney_BTC(player, choice)
             amount = parseDouble(amount)
             if amount <= 2147483647 then
                 vRP.giveBitcoin(player_id, amount)
+                print(amount)
                 vRPclient._notify(player, lang.admin.menu.givemoney.notify({ amount }))
             else
                 vRPclient._notify(player, lang.admin.menu.givemoney_to.max_value())

@@ -39,8 +39,8 @@ nav {
 }
 #notifications > nav > span i {
 	line-height: 45px;
-	color: #34af23;
-	text-shadow: 0 0 2px rgba(0,0,0,0.75);
+	color: rgb(81, 140, 42);
+	text-shadow: 0 0 2px rgba(175, 0, 7, 0.75);
 }
 #notifications > nav > span {
 	display:block;
@@ -157,9 +157,8 @@ nav {
     top: 0;
     left: 0;
 	z-index: 3;
-    background: url(./phones/android/android-front.png);
-    background-repeat: no-repeat;
-    background-size: 338px;
+	background: url(./phones/android/android-front.png) no-repeat;
+	background-size: 338px;
     height: 718px;
     width: 338px;
     content: ' ';
@@ -172,7 +171,7 @@ nav {
 	margin-left: 25px;
 }
 #lockscreen-text {
-	bottom: 80px !important;
+	bottom: 85px !important;
 	color: rgba(255,255,255,0.35);
 	left: 54px !important;
 }

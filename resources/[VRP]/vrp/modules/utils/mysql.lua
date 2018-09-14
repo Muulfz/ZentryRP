@@ -40,7 +40,7 @@ vRP.prepare("vRP/srv_ticket_tables",[[
 
 CREATE TABLE IF NOT EXISTS vrp_srv_ticket
 (
-    ticket_id varchar(50),
+    ticket_id char(36),
     user_id integer,
     ticket varchar(255),
     date varchar(255),
@@ -54,7 +54,7 @@ vRP.prepare("vRP/srv_report_tables",[[
 
 CREATE TABLE IF NOT EXISTS vrp_srv_report
 (
-    report_id varchar(50),
+    report_id char(36),
     user_id integer,
     report varchar(255),
     date varchar(255),
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS vrp_srv_report
 vRP.prepare("vRP/srv_report_player_tables",[[
 CREATE TABLE IF NOT EXISTS vrp_srv_report_player
 (
-    report_id varchar(50),
+    report_id char(36),
     user_id INTEGER,
     report varchar(255),
     date varchar(255),
@@ -90,7 +90,7 @@ vRP.prepare("vRP/create_srv_report", "INSERT INTO vrp_srv_report(report_id,user_
 vRP.prepare("vRP/user_bans_tables",
 [[
 CREATE TABLE IF NOT EXISTS vrp_user_bans (
-	`UUID` varchar(100),
+	`UUID` char(36),
 	`user_id` integer,
 	`admin_id` integer,
 	`reason` varchar(255),

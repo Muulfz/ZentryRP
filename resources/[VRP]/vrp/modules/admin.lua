@@ -608,7 +608,7 @@ local function ch_report(player, choice)
         local playerok = vRP.request(player, lang.admin.menu.report.playerok(), 60)
         if playerok then
             local desc = vRP.prompt(player, lang.admin.menu.report.prompt(), "")
-            local date = os.date("%H:%M:%S %d/%m/%Y")
+            local date = os.date(lang.common.date_format())
             local playerReport = vRP.request(player, lang.admin.menu.report.rep_type(), 60)
             if playerReport then
                 local player_id = vRP.prompt(player, lang.admin.menu.report.report_id(), "")

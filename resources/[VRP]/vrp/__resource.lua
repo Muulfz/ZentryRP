@@ -57,7 +57,8 @@ server_scripts{
   --MISSIONS
   "modules/missions/robbery.lua",
   "modules/missions/basic.lua",
-  --STORE
+  --STORE,
+  "modules/stores/market_usd.lua",
   "modules/stores/barbershop.lua",
   "modules/stores/tattoos.lua",
   --VEHICLE

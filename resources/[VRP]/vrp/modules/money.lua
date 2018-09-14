@@ -49,6 +49,7 @@ end
 function vRP.getMoneyUSD(user_id)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
+    print(tmp.wallet_usd)
     return tmp.wallet_usd or 0
   else
     return 0
@@ -94,16 +95,17 @@ end
 
 -- set money usd
 function vRP.setMoneyUSD(user_id,value)
-  value = format_num(value,2)
+  value = parseDouble(value)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
+    print(value)
     tmp.wallet_usd = value
   end
 end
 
 -- set money eur
 function vRP.setMoneyEUR(user_id,value)
-  value = format_num(value,2)
+  value = parseDouble(value)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.wallet_eur = value
@@ -135,8 +137,8 @@ end
 -- try a payment
 -- return true or false (debited if true)
 function vRP.tryPaymentUSD(user_id,amount)
-  amount = decimalRound(2,amount)
-  local money = vRP.getMoneyUSD(user_id)
+  local money = parseDouble(vRP.getMoneyUSD(user_id))
+  amount = parseDouble(amount)
   if amount >= 0 and money >= amount then
     vRP.setMoneyUSD(user_id,money-amount)
     return true
@@ -148,8 +150,8 @@ end
 -- try a payment
 -- return true or false (debited if true)
 function vRP.tryPaymentEUR(user_id,amount)
-  amount = decimalRound(2,amount)
-  local money = vRP.getMoneyEUR(user_id)
+  local money = parseDouble(vRP.getMoneyEUR(user_id))
+  amount = parseDouble(amount)
   if amount >= 0 and money >= amount then
     vRP.setMoneyEUR(user_id,money-amount)
     return true

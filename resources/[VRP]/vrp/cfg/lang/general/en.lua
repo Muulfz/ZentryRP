@@ -19,7 +19,8 @@ local lang = {
     not_found = "~r~Not found.",
     request_refused = "~r~Request refused.",
     wearing_uniform = "~r~Be careful, you are wearing a uniform.",
-    not_allowed = "~r~Not allowed."
+    not_allowed = "~r~Not allowed.",
+    date_format = "%H:%M:%S %d/%m/%Y"
   },
   weapon = {
     pistol = "Pistol"

@@ -9,7 +9,7 @@ local player_lists = {}
 
 local function ch_list(player, choice)
     local user_id = vRP.getUserId(player)
-    if user_id and vRP.hasPermission(user_id, "player.list") then
+    if user_id and vRP.hasPermission(user_id, perm.admin.menu.player_list()) then
         if player_lists[player] then
             -- hide
             player_lists[player] = nil

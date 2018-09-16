@@ -397,7 +397,7 @@ local function ch_calladmin(player, choice)
                 local player = vRP.getUserSource(tonumber(k))
                 -- check user
                 print("2")
-                if vRP.hasPermission(k, "admin.tickets") and player then
+                if vRP.hasPermission(k, perm.admin.admin_ticket()) and player then
                     table.insert(players, player)
                 end
             end
@@ -409,7 +409,7 @@ local function ch_calladmin(player, choice)
                 for k, v in pairs(players) do
                     async(function()
                         --Isso estava dando alguns problemas por isso deixei desativado TODO Ajustar isso para lang
-                        local ok = vRP.request(v,"Admin ticket (user_id = "..user_id..") take/TP to ?: "..htmlEntities.encode(desc), 60)
+                        local ok = vRP.request(v,lang.admin.menu.admin_msg({user_id,}..htmlEntities.encode(desc)), 60)
                         if not ok then
                             vRP.createServerTicket(user_id, desc, answered)
                         end
@@ -457,7 +457,7 @@ local function ch_noclip(player, choice)
 end
 
 local function ch_audiosource(player, choice)
-    local infos = splitString(vRP.prompt(player, "Audio source: name=url, omit url to delete the named source.", ""), "=")
+    local infos = splitString(vRP.prompt(player, lang.admin.menu.audiosource.prompt(), ""), "=")
     local name = infos[1]
     local url = infos[2]
 
@@ -703,104 +703,104 @@ vRP.registerMenuBuilder("main", function(add, data)
             end -- nest menu
 
             if vRP.hasPermission(user_id, perm.admin.menu.player_list()) then
-                menu["@User list"] = { ch_list, "Show/hide user list." }
+                menu[lang.menu.admin.user_list.menu_name()] = { ch_list, lang.menu.admin.user_list.menu_desc() }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.whitelist()) then
-                menu["@Whitelist user"] = { ch_whitelist }
+                menu[lang.menu.admin.whitelist.menu_name()] = { ch_whitelist }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.addgroup()) then
-                menu["@Add group"] = { ch_addgroup }
+                menu[lang.menu.admin.addgroup.menu_name()] = { ch_addgroup }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.removegroup()) then
-                menu["@Remove group"] = { ch_removegroup }
+                menu[lang.menu.admin.removegroup.menu_name()] = { ch_removegroup }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.unwhitelist()) then
-                menu["@Un-whitelist user"] = { ch_unwhitelist }
+                menu[lang.menu.admin.unwhitelist.menu_name()] = { ch_unwhitelist }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.kick()) then
-                menu["@Kick"] = { ch_kick }
+                menu[lang.menu.admin.kick.menu_name()] = { ch_kick }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.ban()) then
-                menu["@Ban"] = { ch_ban }
+                menu[lang.menu.admin.ban.menu_name()] = { ch_ban }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.adv_ban()) then
-                menu["@Ban Advanced"] = { ch_ban_adv }
+                menu[lang.menu.admin.banadv.menu_name()] = { ch_ban_adv }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.ban_check()) then
-                menu["@BanCHECK"] = { ch_ban_check }
+                menu[lang.menu.admin.bancheck.menu_name()] = { ch_ban_check }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.appeal()) then
-                menu["@Appeal"] = { ch_appeal }
+                menu[lang.menu.admin.appeal.menu_name()] = { ch_appeal }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.unban()) then
-                menu["@Unban"] = { ch_unban }
+                menu[lang.menu.admin.unban.menu_name()] = { ch_unban }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.noclip()) then
-                menu["@Noclip"] = { ch_noclip }
+                menu[lang.menu.admin.noclip.menu_name()] = { ch_noclip }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.custom_sound()) then
-                menu["@Custom emote"] = { ch_emote }
+                menu[lang.menu.admin.emote.menu_name()] = { ch_emote }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.custom_sound()) then
-                menu["@Custom sound"] = { ch_sound }
+                menu[lang.menu.admin.sound.menu_name()] = { ch_sound }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.custom_audiosource()) then
-                menu["@Custom audiosource"] = { ch_audiosource }
+                menu[lang.menu.admin.audiosource.menu_name()] = { ch_audiosource }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.coords()) then
-                menu["@Coords"] = { ch_coords }
+                menu[lang.menu.admin.coords.menu_name()] = { ch_coords }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.tptome()) then
-                menu["@TpToMe"] = { ch_tptome }
+                menu[lang.menu.admin.tptome.menu_name()] = { ch_tptome }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.tpto()) then
-                menu["@TpTo"] = { ch_tpto }
+                menu[lang.menu.admin.tpto.menu_name()] = { ch_tpto }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.tptocoords()) then
-                menu["@TpToCoords"] = { ch_tptocoords }
+                menu[lang.menu.admin.tptocoords.menu_name()] = { ch_tptocoords }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.givemoney()) then
-                menu["@Give money"] = { ch_givemoney }
+                menu[lang.menu.admin.givemoney.menu_name()] = { ch_givemoney }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.giveitem()) then
-                menu["@Give item"] = { ch_giveitem }
+                menu[lang.menu.admin.giveitem.menu_name()] = { ch_giveitem }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.display_custom()) then
-                menu["@Display customization"] = { ch_display_custom }
+                menu[lang.menu.admin.displaycustom.menu_name()] = { ch_display_custom }
             end
             if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
-                menu["@Call admin"] = { ch_calladmin }
+                menu[lang.menu.admin.calladmin.menu_name()] = { ch_calladmin }
             end
 --------------------------------------------------------------------------------------------------------
-            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
-                menu["@Give Money USD"] = { ch_givemoney_USD }
+            if vRP.hasPermission(user_id, perm.admin.givemoney_usd()) then
+                menu[lang.menu.admin.givemoney.menu_name_usd()] = { ch_givemoney_USD }
             end
-            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
-                menu["@Give Money EUR"] = { ch_givemoney_EUR }
+            if vRP.hasPermission(user_id, perm.admin.givemoney_eur()) then
+                menu[lang.menu.admin.givemoney.menu_name_eur()] = { ch_givemoney_EUR }
             end
-            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
-                menu["@Give Bitcoins"] = { ch_givemoney_BTC }
+            if vRP.hasPermission(user_id, perm.admin.givemoney_btc()) then
+                menu[lang.menu.admin.givemoney.menu_name_btc()] = { ch_givemoney_BTC }
             end
-            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
-                menu["@Give Player Money"] = { ch_player_givemoney }
+            if vRP.hasPermission(user_id, perm.admin.givemoney_to()) then
+                menu[lang.menu.admin.givemoney_to.menu_name()] = { ch_player_givemoney }
             end
-            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
-                menu["@Give Player Money USD"] = { ch_player_givemoney_USD }
+            if vRP.hasPermission(user_id, perm.admin.givemoney_to_usd()) then
+                menu[lang.menu.admin.givemoney_to.menu_name_usd()] = { ch_player_givemoney_USD }
             end
-            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
-                menu["@Give Player Money EUR"] = { ch_player_givemoney_EUR }
+            if vRP.hasPermission(user_id, perm.admin.givemoney_to_eur()) then
+                menu[lang.menu.admin.givemoney_to.menu_name_eur()] = { ch_player_givemoney_EUR }
             end
-            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
-                menu["@Give Player Money BTC"] = { ch_player_givemoney_BTC }
+            if vRP.hasPermission(user_id, perm.admin.givemoney_to_btc()) then
+                menu[lang.menu.admin.givemoney_to.menu_name_btc()] = { ch_player_givemoney_BTC }
             end
-            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
-                menu["@Report"] = { ch_report }
+            if vRP.hasPermission(user_id, perm.admin.report()) then
+                menu[lang.menu.admin.report.menu_name()] = { ch_report }
             end
-            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
-                menu["@Add Group Perm"] = { ch_addgroupperm }
+            if vRP.hasPermission(user_id, perm.admin.addgroup_perm()) then
+                menu[lang.menu.admin.addgroup.menu_name_perm()] = { ch_addgroupperm }
             end
-            if vRP.hasPermission(user_id, perm.admin.menu.calladmin()) then
-                menu["Remove Grou Perm"] = { ch_removegroupperm }
+            if vRP.hasPermission(user_id, perm.admin.removegroup_perm()) then
+                menu[lang.menu.admin.removegroup.menu_name_perm()] = { ch_removegroupperm }
             end
 
             vRP.openMenu(player, menu)

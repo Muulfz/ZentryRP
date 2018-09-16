@@ -32,6 +32,7 @@ local permlang = {
         emote = "player.custom_emote",
         sound = "player.custom_sound",
         god ="admin.god",
+        admin_ticket = "admin.tickets",
         menu = {
             player_list = "player.list",
             whitelist = "player.whitelist",
@@ -72,9 +73,7 @@ local permlang = {
             deleteveh = "player.givemoney",
             godmode = "player.givemoney",
             spawnveh = "player.givemoney",
-
         }
-
     }
 }
 

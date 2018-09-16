@@ -570,6 +570,12 @@ local lang = {
         time = "time of ban in days",
         menu_name = "@Ban"
       },
+      banadv = {
+        menu_name = "@Ban Advanced",
+      },
+      bancheck = {
+        menu_name = "@BanCheck",
+      },
       appeal = {
         ban_UUID_prompt = "UUID Ban"  ,
         request = "The appeal was accept?",

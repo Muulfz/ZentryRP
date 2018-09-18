@@ -12,8 +12,25 @@ local permlang = {
         removegroup =  "player.group.remove",
         removegroup_code = "add.group.{1}"
     },
-    police = {},
-    emergency = {},
+    police = {
+        menu = "police.menu",
+        handcuff = "police.handcuff",
+        drag = "police.drag",
+        putinveh = "police.putinveh",
+        getoutveh = "police.getoutveh",
+        check = "police.check",
+        seizable = "police.seizable",
+        seize_weapons = "police.seize.weapons",
+        seize_itens = "police.seize.items",
+        jail = "police.jail",
+        fine = "police.fine",
+        ask_id = "police.askid",
+        store_weapons = "police.store_weapons",
+        wanted = "police.wanted"
+    },
+    emergency = {
+        revive = "emergency.revive",
+    },
     dev = {
         menu = "player.givemoney",
         crun = "player.givemoney",

@@ -1,6 +1,7 @@
 
 -- this module define some police tools and functions
 local lang = vRP.lang
+local perm = vRP.permlang
 local cfg = module("cfg/police")
 
 -- police records
@@ -326,7 +327,7 @@ local choice_seize_weapons = {function(player, choice)
   if user_id then
     local nplayer = vRPclient.getNearestPlayer(player, 5)
     local nuser_id = vRP.getUserId(nplayer)
-    if nuser_id and vRP.hasPermission(nuser_id, "police.seizable") then
+    if nuser_id and vRP.hasPermission(nuser_id, perm.police.seizable()) then
       if vRPclient.isHandcuffed(nplayer) then  -- check handcuffed
         local weapons = vRPclient.replaceWeapons(nplayer, {})
         for k,v in pairs(weapons) do -- display seized weapons
@@ -353,7 +354,7 @@ local choice_seize_items = {function(player, choice)
   if user_id then
     local nplayer = vRPclient.getNearestPlayer(player, 5)
     local nuser_id = vRP.getUserId(nplayer)
-    if nuser_id and vRP.hasPermission(nuser_id, "police.seizable") then
+    if nuser_id and vRP.hasPermission(nuser_id, perm.police.wanted()) then
       if vRPclient.isHandcuffed(nplayer) then  -- check handcuffed
         local inv = vRP.getInventory(user_id)
 
@@ -495,46 +496,46 @@ vRP.registerMenuBuilder("main", function(add, data)
   if user_id then
     local choices = {}
 
-    if vRP.hasPermission(user_id,"police.menu") then
+    if vRP.hasPermission(user_id,perm.police.menu()) then
       -- build police menu
       choices[lang.police.title()] = {function(player,choice)
         local menu = vRP.buildMenu("police", {player = player})
         menu.name = lang.police.title()
         menu.css = {top="75px",header_color="rgba(0,125,255,0.75)"}
 
-        if vRP.hasPermission(user_id,"police.handcuff") then
+        if vRP.hasPermission(user_id,perm.police.handcuff()) then
           menu[lang.police.menu.handcuff.title()] = choice_handcuff
         end
 
-        if vRP.hasPermission(user_id,"police.drag") then
+        if vRP.hasPermission(user_id,perm.police.drag()) then
           menu[lang.police.menu.drag.title()] = choice_drag
         end
 
-        if vRP.hasPermission(user_id,"police.putinveh") then
+        if vRP.hasPermission(user_id,perm.police.putinveh()) then
           menu[lang.police.menu.putinveh.title()] = choice_putinveh
         end
 
-        if vRP.hasPermission(user_id,"police.getoutveh") then
+        if vRP.hasPermission(user_id,perm.police.getoutveh()) then
           menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
         end
 
-        if vRP.hasPermission(user_id,"police.check") then
+        if vRP.hasPermission(user_id,perm.police.check()) then
           menu[lang.police.menu.check.title()] = choice_check
         end
 
-        if vRP.hasPermission(user_id,"police.seize.weapons") then
+        if vRP.hasPermission(user_id,perm.police.seize_weapons()) then
           menu[lang.police.menu.seize.weapons.title()] = choice_seize_weapons
         end
 
-        if vRP.hasPermission(user_id,"police.seize.items") then
+        if vRP.hasPermission(user_id,perm.police.seize_items()) then
           menu[lang.police.menu.seize.items.title()] = choice_seize_items
         end
 
-        if vRP.hasPermission(user_id,"police.jail") then
+        if vRP.hasPermission(user_id,perm.police.jail()) then
           menu[lang.police.menu.jail.title()] = choice_jail
         end
 
-        if vRP.hasPermission(user_id,"police.fine") then
+        if vRP.hasPermission(user_id,perm.police.fine()) then
           menu[lang.police.menu.fine.title()] = choice_fine
         end
 
@@ -542,11 +543,11 @@ vRP.registerMenuBuilder("main", function(add, data)
       end}
     end
 
-    if vRP.hasPermission(user_id,"police.askid") then
+    if vRP.hasPermission(user_id,perm.police.ask_id()) then
       choices[lang.police.menu.askid.title()] = choice_askid
     end
 
-    if vRP.hasPermission(user_id, "police.store_weapons") then
+    if vRP.hasPermission(user_id, perm.police.store_weapons()) then
       choices[lang.police.menu.store_weapons.title()] = choice_store_weapons
     end
 
@@ -607,7 +608,7 @@ end)
 
 -- display wanted positions
 local function task_wanted_positions()
-  local listeners = vRP.getUsersByPermission("police.wanted")
+  local listeners = vRP.getUsersByPermission(perm.police.wanted())
   for k,v in pairs(wantedlvl_players) do -- each wanted player
     local player = vRP.getUserSource(tonumber(k))
     if player and v and v > 0 then

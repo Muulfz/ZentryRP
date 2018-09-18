@@ -1,5 +1,6 @@
 local cfg = module("cfg/survival")
 local lang = vRP.lang
+local perm = vRP.permlang
 
 -- api
 
@@ -209,7 +210,7 @@ vRP.registerMenuBuilder("main", function(add, data)
   local user_id = vRP.getUserId(data.player)
   if user_id then
     local choices = {}
-    if vRP.hasPermission(user_id,"emergency.revive") then
+    if vRP.hasPermission(user_id,perm.emergency.revive()) then
       choices[lang.emergency.menu.revive.title()] = choice_revive
     end
 

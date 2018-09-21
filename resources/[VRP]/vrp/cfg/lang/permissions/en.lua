@@ -10,7 +10,8 @@ local permlang = {
         addgroup = "player.group.addperm",
         addgroup_code =  "add.group.{1}",
         removegroup =  "player.group.remove",
-        removegroup_code = "add.group.{1}"
+        removegroup_code = "add.group.{1}",
+        gps = "gps.use"
     },
     police = {
         menu = "police.menu",

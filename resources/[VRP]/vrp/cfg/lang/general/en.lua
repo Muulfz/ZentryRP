@@ -267,6 +267,9 @@ local lang = {
       }
     }
   },
+  gps = {
+    title = "GPS"
+  },
   phone = {
     title = "Phone",
     directory = {

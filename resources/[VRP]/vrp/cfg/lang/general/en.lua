@@ -580,6 +580,7 @@ local lang = {
         menu_name = "@BanCheck",
       },
       appeal = {
+        menu_name = "@Ban Appeal",
         ban_UUID_prompt = "UUID Ban"  ,
         request = "The appeal was accept?",
         reason = "Appeal Reason: ",

@@ -10,7 +10,6 @@ local lang = vRP.lang
 -- total exp for a specific level, exp = step*lvl*(lvl+1)/2
 -- level for a specific exp amount, lvl = (sqrt(1+8*exp/step)-1)/2
 
-
 local exp_step = 5
 
 local gaptitudes = {}

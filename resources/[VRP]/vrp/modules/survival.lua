@@ -70,7 +70,7 @@ function vRP.varyHunger(user_id, variation)
     -- apply overflow as damage
     local overflow = data.hunger-100
     if overflow > 0 then
-      --vRPclient._varyHealth(vRP.getUserSource(user_id),-overflow*cfg.overflow_damage_factor)
+      vRPclient._varyHealth(vRP.getUserSource(user_id),-overflow*cfg.overflow_damage_factor)
     end
 
     if data.hunger < 0 then data.hunger = 0
@@ -98,7 +98,7 @@ function vRP.varyThirst(user_id, variation)
     -- apply overflow as damage
     local overflow = data.thirst-100
     if overflow > 0 then
-      --vRPclient._varyHealth(vRP.getUserSource(user_id),-overflow*cfg.overflow_damage_factor)
+      vRPclient._varyHealth(vRP.getUserSource(user_id),-overflow*cfg.overflow_damage_factor)
     end
 
     if data.thirst < 0 then data.thirst = 0
@@ -132,9 +132,6 @@ function tvRP.varyThirst(variation)
   end
 end
 
--- Load utils
-local utils = module("utils/survival")
-
 -- tasks
 
 -- hunger/thirst increase
@@ -142,9 +139,6 @@ function task_update()
   for k,v in pairs(vRP.users) do
     vRP.varyHunger(v,cfg.hunger_per_minute)
     vRP.varyThirst(v,cfg.thirst_per_minute)
-    vRP.varyPee(v,cfg.pee_per_minute)
-    vRP.varySleep(v,cfg.sleep_per_minute)
-    vRP.varyHealthScale(v,cfg.health_scale_per_minute)
   end
 
   SetTimeout(60000,task_update)
@@ -162,10 +156,6 @@ AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
   if data.hunger == nil then
     data.hunger = 0
     data.thirst = 0
-    data.health_scale = 200
-    data.pee = 0
-    data.sleep = 0
-    data.happiness = 100
   end
 end)
 
@@ -180,13 +170,8 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
 
   vRPclient._setProgressBar(source,"vRP:hunger","minimap",htxt,255,153,0,0)
   vRPclient._setProgressBar(source,"vRP:thirst","minimap",ttxt,0,125,255,0)
-  vRPclient._setProgressBar(source,"vRP:pee","minimap",btxt,0,125,255,0)
   vRP.setHunger(user_id, data.hunger)
   vRP.setThirst(user_id, data.thirst)
-  vRP.setPee(user_id, data.pee)
-  vRP.setHappiness(user_id,data.happiness)
-  vRP.setHealthScale(user_id, data.health_scale)
-  vRP.setSleep(user_id, data.sleep)
 end)
 
 -- EMERGENCY

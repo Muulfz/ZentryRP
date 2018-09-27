@@ -2,9 +2,11 @@
 
 function tvRP.varyHealth(variation)
   local ped = GetPlayerPed(-1)
-
+  print(variation)
   local n = math.floor(GetEntityHealth(ped)+variation)
+  print(n)
   SetEntityHealth(ped,n)
+  print("VIDA FINAL AGORA "..GetEntityHealth(ped) )
 end
 
 function tvRP.getHealth()
@@ -38,6 +40,9 @@ Citizen.CreateThread(function()
       -- variations for one minute
       local vthirst = 0
       local vhunger = 0
+      local vsleep = 0
+      local vhappy = 0
+      local vhealth_scale = 0
 
       -- on foot, increase thirst/hunger in function of velocity
       if IsPedOnFoot(ped) and not tvRP.isNoclip() then
@@ -45,18 +50,23 @@ Citizen.CreateThread(function()
 
         vthirst = vthirst+1*factor
         vhunger = vhunger+0.5*factor
+        vsleep = vsleep+0.5*factor
       end
 
       -- in melee combat, increase
       if IsPedInMeleeCombat(ped) then
         vthirst = vthirst+10
         vhunger = vhunger+5
+        vhappy = vhappy+3
       end
 
       -- injured, hurt, increase
       if IsPedHurt(ped) or IsPedInjured(ped) then
         vthirst = vthirst+2
         vhunger = vhunger+1
+        vsleep = vsleep+2
+        vhappy = vhappy-5
+        vhealth_scale = vhealth_scale - 4
       end
 
       -- do variation
@@ -67,6 +77,19 @@ Citizen.CreateThread(function()
       if vhunger ~= 0 then
         vRPserver._varyHunger(vhunger/12.0)
       end
+
+      if vhappy ~= 0 then
+        vRPserver._varyHappiness(vhappy/12.0)
+      end
+
+      if vsleep ~= 0 then
+        vRPserver._varySleep(vsleep/12.0)
+      end
+
+      if vhealth_scale ~= 0 then
+        vRPserver._varyHealthScale(vhealth_scale/12.0)
+      end
+
     end
   end
 end)

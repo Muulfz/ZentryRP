@@ -55,6 +55,7 @@ vRP.user_extras = {}
 vRP.user_tmp_extras = {} --TODO sistema para salvar informacoes do roleplay como por exemplo uso de drogas nas ultimas 24 horas quantas mortes e tals
 
 
+
 -- db/SQL API
 local db_drivers = {}
 local db_driver
@@ -234,6 +235,7 @@ local mysql = module("modules/utils/mysql")
 -- init tables
 print(slang.db.table_int({ servertag }))
 local currency = module("modules/currency/manager")
+
 async(function()
     vRP.execute("vRP/base_tables")
     -----------------------------------------------+
@@ -244,8 +246,8 @@ async(function()
     vRP.execute("vRP/user_bans_tables")
     -------------------------------------------------
     vRP.getCurrency()
-
 end)
+
 Citizen.CreateThread(function()
     local loop = 1
     while loop > 0 do

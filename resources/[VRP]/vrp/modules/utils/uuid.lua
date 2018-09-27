@@ -9,3 +9,4 @@ function vRP.generateUUID()
     local uuid4 = module("lib/uuid4")
     return uuid4.getUUID()
 end
+

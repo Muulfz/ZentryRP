@@ -27,7 +27,9 @@ local lang = {
   },
   survival = {
     starving = "starving",
-    thirsty = "thirsty"
+    thirsty = "thirsty",
+    sleepy = "sleepy",
+    peeing = "peeing"
   },
   money = {
     display = "{1} <span class=\"symbol\">$</span>",

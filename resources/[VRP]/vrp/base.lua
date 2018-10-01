@@ -244,6 +244,8 @@ async(function()
     vRP.execute("vRP/srv_report_tables")
     vRP.execute("vRP/srv_report_player_tables")
     vRP.execute("vRP/user_bans_tables")
+    -- tmp data
+    vRP.execute("vRP/srv_tmp_data")
     -------------------------------------------------
     vRP.getCurrency()
 end)
@@ -539,11 +541,23 @@ AddEventHandler("playerConnecting", function(name, setMessage, deferrals)
                         vRP.user_tables[user_id] = {}
                         vRP.user_tmp_tables[user_id] = {}
                         vRP.user_sources[user_id] = source
-
                         local data = json.decode(sdata)
                         if type(data) == "table" then
                             vRP.user_tables[user_id] = data
                         end
+                        -------------------------------
+                        -- init user tmp extras data --
+                        -------------------------------
+                        local vdata = vRP.getUTmpExtrasData(user_id, "vRP:tempdata")
+                        vRP.user_tmp_extras[user_id] = {}
+
+                        local tmpExtraData = json.decode(vdata)
+                        if type(tmpExtraData) == "table" then
+                            vRP.user_tmp_extras[user_id] = tmpExtraData
+                        end
+                        -------------------------------
+                        -- end user tmp extras data --
+                        -------------------------------
 
                         -- init user tmp table
                         local tmpdata = vRP.getUserTmpTable(user_id)

@@ -25,6 +25,7 @@ server_scripts{
   "modules/mission.lua",
   "modules/aptitude.lua",
   "modules/gps.lua",
+  "modules/temp.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",

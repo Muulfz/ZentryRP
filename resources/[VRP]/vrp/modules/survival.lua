@@ -166,6 +166,7 @@ end)
 -- init values
 AddEventHandler("vRP:playerJoin", function(user_id, source, name, last_login)
     local data = vRP.getUserDataTable(user_id)
+    local tempData = vRP.getUserTmpExtrasTable(user_id)
     local sleeping = {
         is = false,
         time  = 0,
@@ -183,6 +184,7 @@ AddEventHandler("vRP:playerJoin", function(user_id, source, name, last_login)
         data.health_scale = 200
         data.sleeping = sleeping
         data.peeing = peeing
+        tempData.alcohol = 0
     end
 end)
 

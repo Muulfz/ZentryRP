@@ -80,12 +80,13 @@ end
 
 -- set money
 function vRP.setMoney(user_id,value)
-  value = format_num(value,2)
+  value = parseDouble(value)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.wallet = value
   end
 
+  value = format_num(value,2)
   -- update client display
   local source = vRP.getUserSource(user_id)
   if source then

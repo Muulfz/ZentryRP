@@ -68,14 +68,32 @@ function vRP.getAlcohol(user_id)
     return 0
 end
 
+function vRP.varyAlcohol(user_id, variation)
+    local data = vRP.getUserTmpExtrasTable(user_id)
+    if data then
+        data.alcohol = data.alcohol + variation
+        if data.alcohol >= 0 then
+            vRP.varyHealthScale(user_id, data.alcohol * -100)
+        elseif  data.alcohol < 0.350 then
+            vRP.setHealthScale(user_id, 0)
+        end
+
+        if data.alcohol < 0 then
+            data.alcohol = 0
+        elseif data.alcohol > 0.350 then
+            data.alcohol = 0.350
+        end
+    end
+end
+
 function vRP.setAlcohol(user_id, value)
     local data = vRP.getUserTmpExtrasTable(user_id)
     if data then
         data.alcohol = value
         if value < 0 then
             data.alcohol = 0
-        elseif value > 100 then
-            data.alcohol = 100
+        elseif value > 0.350 then
+            data.alcohol = 0.350
         end
     end
 end

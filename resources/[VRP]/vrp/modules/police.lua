@@ -60,15 +60,20 @@ local function ch_searchreg(player,choice)
   end
 end
 
+local function ch_searchreg(player,choice)
+  local nplayer = vRPclient.getNearestPlayer(player,5)
+  local user_id = vRP.getUserId(nplayer)
+  if user_id then
+    vRPclient._setDiv(player,"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content)
+  end
+end
+
 -- show police records by registration
-local function ch_show_police_records(player,choice)
-  local reg = vRP.prompt(player,lang.police.pc.searchreg.prompt(),"")
+local function ch_show_temp_alcohol(player,choice)
   local user_id = vRP.getUserByRegistration(reg)
   if user_id then
-    local content = vRP.getUData(user_id, "vRP:police_records")
-    vRPclient._setDiv(player,"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content)
-  else
-    vRPclient._notify(player,lang.common.not_found())
+    local data = vRP.getUserTmpExtrasTable(user_id)
+    vRPclient._setDiv(player,"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",json.encode(data.alcohol))
   end
 end
 
@@ -136,6 +141,7 @@ menu_pc[lang.police.pc.trackveh.title()] = {ch_trackveh,lang.police.pc.trackveh.
 menu_pc[lang.police.pc.records.show.title()] = {ch_show_police_records,lang.police.pc.records.show.description()}
 menu_pc[lang.police.pc.records.delete.title()] = {ch_delete_police_records, lang.police.pc.records.delete.description()}
 menu_pc[lang.police.pc.closebusiness.title()] = {ch_closebusiness,lang.police.pc.closebusiness.description()}
+menu_pc["ABCDEFG"] = {ch_show_temp_alcohol,"ABC"}
 
 menu_pc.onclose = function(player) -- close pc gui
   vRPclient._removeDiv(player,"police_pc")

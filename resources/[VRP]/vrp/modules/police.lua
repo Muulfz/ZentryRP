@@ -69,13 +69,6 @@ local function ch_searchreg(player,choice)
 end
 
 -- show police records by registration
-local function ch_show_temp_alcohol(player,choice)
-  local user_id = vRP.getUserByRegistration(reg)
-  if user_id then
-    local data = vRP.getUserTmpExtrasTable(user_id)
-    vRPclient._setDiv(player,"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",json.encode(data.alcohol))
-  end
-end
 
 -- delete police records by registration
 local function ch_delete_police_records(player,choice)
@@ -141,7 +134,6 @@ menu_pc[lang.police.pc.trackveh.title()] = {ch_trackveh,lang.police.pc.trackveh.
 menu_pc[lang.police.pc.records.show.title()] = {ch_show_police_records,lang.police.pc.records.show.description()}
 menu_pc[lang.police.pc.records.delete.title()] = {ch_delete_police_records, lang.police.pc.records.delete.description()}
 menu_pc[lang.police.pc.closebusiness.title()] = {ch_closebusiness,lang.police.pc.closebusiness.description()}
-menu_pc["ABCDEFG"] = {ch_show_temp_alcohol,"ABC"}
 
 menu_pc.onclose = function(player) -- close pc gui
   vRPclient._removeDiv(player,"police_pc")
@@ -494,6 +486,25 @@ local choice_store_weapons = {function(player, choice)
   end
 end, lang.police.menu.store_weapons.description()}
 
+local ch_police_breathalyzer = {function(player, choice)
+  local nplayer = vRPclient.getNearestPlayer(player, 5)
+  local user_id = vRP.getUserId(nplayer)
+  if user_id then
+    local tempData = vRP.getUserTmpExtrasTable(user_id)
+    if vRP.request(user_id,lang.police.menu.breathalyzer.requestPlayer(), 60) then
+      vRPclient._setDiv(player,"police_breathalyzer",".div_police_breathalyzer{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }","Nome: " .. vRP.getUserIdentity(user_id).name .."<br>Nivel de alcool: " .. tempData.alcohol .. " %BAC")
+      local ok = vRP.request(vRP.getUserId(player), lang.police.menu.breathalyzer.close(), 999)
+      if ok then
+        vRPclient._removeDiv(player,"police_breathalyzer")
+      end
+    else
+      vRPclient._notify(player, lang.police.menu.breathalyzer.notAccepted())
+    end
+  else
+    vRPclient._notify(player, lang.police.menu.breathalyzer.anyNearPeople())
+  end
+end, lang.police.menu.breathalyzer.description()}
+
 ---------------------QUICK MENU
 -- add choices to the menu
 vRP.registerMenuBuilder("quick_menu", function(add, data)
@@ -513,6 +524,9 @@ vRP.registerMenuBuilder("quick_menu", function(add, data)
         menu.name = lang.police.title()
         menu.css = {top="75px",header_color="rgba(0,125,255,0.75)"}
 ]]
+    if vRP.hasPermission(user_id, perm.police.breathalyzer) then
+      choices[lang.police.menu.breathalyzer.title()] = ch_police_breathalyzer
+    end
 
     if vRP.hasPermission(user_id,perm.police.handcuff()) then
       choices[lang.police.menu.handcuff.title()] = choice_handcuff
@@ -565,12 +579,6 @@ vRP.registerMenuBuilder("quick_menu", function(add, data)
 end
 end)
 
-
-
--------------------------
-
-
-
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
   local player = data.player
@@ -620,6 +628,10 @@ vRP.registerMenuBuilder("main", function(add, data)
 
         if vRP.hasPermission(user_id,perm.police.fine()) then
           menu[lang.police.menu.fine.title()] = choice_fine
+        end
+
+        if vRP.hasPermission(user_id, perm.police.breathalyzer) then
+          choices[lang.police.menu.breathalyzer.title()] = ch_police_breathalyzer
         end
 
         vRP.openMenu(player,menu)

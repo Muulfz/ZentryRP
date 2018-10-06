@@ -115,6 +115,7 @@ cfg.groups = {
     "police.jail",
     "police.fine",
     "police.announce",
+    "police.breathalyzer",
     "-police.store_weapons",
     "-police.seizable" -- negative permission, police can't seize itself, even if another group add the permission
   },

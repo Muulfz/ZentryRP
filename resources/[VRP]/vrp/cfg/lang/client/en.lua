@@ -188,6 +188,7 @@ local lang = {
 			}
 		},
 		menu = {
+
 			handcuff = {
 				title = "Handcuff",
 				description = "Handcuff/unhandcuff nearest player."
@@ -239,6 +240,14 @@ local lang = {
 				unjailed = "~b~Unjailed.",
 				notify_jailed = "~b~You have been jailed.",
 				notify_unjailed = "~b~You have been unjailed."
+			},
+			breathalyzer = {
+				title = "Bafometro",
+				requestPlayer = "Fazer teste de bafometro?",
+				close = "Fechar bafometro.",
+				notAccepted = "Ele nao aceitou fazer o teste de bafometro!",
+				anyNearPeople = "Nenhuma pessoa perto de voce!",
+				description = "Teste de bafometro."
 			},
 			fine = {
 				title = "Fine",

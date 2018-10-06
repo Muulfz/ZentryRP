@@ -27,7 +27,8 @@ local permlang = {
         fine = "police.fine",
         ask_id = "police.askid",
         store_weapons = "police.store_weapons",
-        wanted = "police.wanted"
+        wanted = "police.wanted",
+        breathalyzer = "police.breathalyzer"
     },
     emergency = {
         revive = "emergency.revive",

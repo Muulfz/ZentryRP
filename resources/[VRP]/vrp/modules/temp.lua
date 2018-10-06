@@ -74,14 +74,14 @@ function vRP.varyAlcohol(user_id, variation)
         data.alcohol = data.alcohol + variation
         if data.alcohol >= 0 then
             vRP.varyHealthScale(user_id, data.alcohol * -100)
-        elseif  data.alcohol < 0.350 then
+        elseif  data.alcohol < 0.4 then
             vRP.setHealthScale(user_id, 0)
         end
 
         if data.alcohol < 0 then
             data.alcohol = 0
-        elseif data.alcohol > 0.350 then
-            data.alcohol = 0.350
+        elseif data.alcohol > 0.4 then
+            data.alcohol = 0.4
         end
     end
 end

@@ -12,3 +12,11 @@ function vRP.hasNearByPlayer(player)
     end
     return false
 end
+
+function vRP.playerIsCitizen(nplayer)
+    local player = vRP.getUserId(nplayer)
+    if vRP.hasPermission(player, "police.menu") then
+        return false
+    end
+    return true
+end

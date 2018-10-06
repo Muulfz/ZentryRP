@@ -514,17 +514,7 @@ vRP.registerMenuBuilder("quick_menu", function(add, data)
   if user_id then
     local choices = {}
 
-    --[[
-        if ]]
-    --[[vRP.hasPermission(user_id,perm.police.menu()) and -]]--[[
- vRP.hasNearByPlayer(player) then
-      -- build police menu
-      choices[lang.police.title()] = {function(player,choice)
-        local menu = vRP.buildMenu("police", {player = player})
-        menu.name = lang.police.title()
-        menu.css = {top="75px",header_color="rgba(0,125,255,0.75)"}
-]]
-    if vRP.hasPermission(user_id, perm.police.breathalyzer) then
+    if vRP.hasPermission(user_id, perm.police.breathalyzer) and vRP.hasNearByPlayer(player) and vRP.playerIsCitizen(vRPclient.getNearestPlayer(player, 5)) then
       choices[lang.police.menu.breathalyzer.title()] = ch_police_breathalyzer
     end
 

@@ -76,7 +76,7 @@ items["orangejuice"] = {"Orange Juice.","", gen("drink",0,-25, 0 ,0, 0, 0, 0),0.
 items["gocagola"] = {"Goca Gola","", gen("drink",0,-35, 0 ,0, 0, 0, 0),0.3}
 items["redgull"] = {"RedGull","", gen("drink",0,-40, 0 ,0, 0, 0, 0),0.3}
 items["lemonlimonad"] = {"Lemon limonad","", gen("drink",0,-45, 0 ,0, 0, 0, 0),0.3}
-items["vodka"] = {"Vodka","", gen("drink",15,-65, 0 ,0, 0, 0, 0.10),0.5}
+items["vodka"] = {"Vodka","", gen("drink",15,-65, 0 ,0, 0, 0, 0.02),0.5}
 
 --FOOD
 

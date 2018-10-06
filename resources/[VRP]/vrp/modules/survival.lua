@@ -184,7 +184,7 @@ AddEventHandler("vRP:playerJoin", function(user_id, source, name, last_login)
         data.health_scale = 200
         data.sleeping = sleeping
         data.peeing = peeing
-        tempData.alcohol = 0
+        tempData.alcohol = 0.00
     end
 end)
 

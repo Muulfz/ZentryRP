@@ -38,6 +38,7 @@ server_scripts{
   "modules/cloakroom.lua",
   "modules/basic_radio.lua",
   "modules/base_checks.lua",
+  "modules/menus/ActionMenus/PoliceMenu.lua",
 
   -- basic menu
   --BUTTONS

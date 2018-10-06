@@ -164,6 +164,16 @@ function vRP.openMainMenu(source)
   vRP.openMenu(source,menudata) -- open the generated menu
 end
 
+-- QUICK MENU
+
+-- open the player main menu
+function vRP.openQuickMenu(source)
+  local menudata = vRP.buildMenu("quick_menu", {player = source})
+  menudata.name = "Quick Menu"
+  menudata.css = {top="75px",header_color="rgba(0,125,255,0.75)"}
+  vRP.openMenu(source,menudata) -- open the generated menu
+end
+
 -- SERVER TUNNEL API
 
 function tvRP.closeMenu(id)
@@ -226,6 +236,10 @@ function tvRP.openMainMenu()
   vRP.openMainMenu(source)
 end
 
+-- open the quick player menu
+function tvRP.openQuickMenu()
+  vRP.openQuickMenu(source)
+end
 
 -- STATIC MENUS
 

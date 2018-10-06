@@ -61,6 +61,23 @@ cfg.groups = {
     "unjail.admin",
     "player.userlist",
     "store.weapons",
+    "police.menu",
+    "police.cloakroom",
+    "police.pc",
+    "police.handcuff",
+    "police.drag",
+    "police.putinveh",
+    "police.getoutveh",
+    "police.check",
+    "police.service",
+    "police.wanted",
+    "police.seize.weapons",
+    "police.seize.items",
+    "police.jail",
+    "police.fine",
+    "police.announce",
+    "-police.store_weapons",
+    "-police.seizable" -- negative permission, police can't seize itself, even if another group add the permission
 
   },
   ["god"] = {

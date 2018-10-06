@@ -494,6 +494,83 @@ local choice_store_weapons = {function(player, choice)
   end
 end, lang.police.menu.store_weapons.description()}
 
+---------------------QUICK MENU
+-- add choices to the menu
+vRP.registerMenuBuilder("quick_menu", function(add, data)
+  local player = data.player
+
+  local user_id = vRP.getUserId(player)
+  if user_id then
+    local choices = {}
+
+    --[[
+        if ]]
+    --[[vRP.hasPermission(user_id,perm.police.menu()) and -]]--[[
+ vRP.hasNearByPlayer(player) then
+      -- build police menu
+      choices[lang.police.title()] = {function(player,choice)
+        local menu = vRP.buildMenu("police", {player = player})
+        menu.name = lang.police.title()
+        menu.css = {top="75px",header_color="rgba(0,125,255,0.75)"}
+]]
+
+    if vRP.hasPermission(user_id,perm.police.handcuff()) then
+      choices[lang.police.menu.handcuff.title()] = choice_handcuff
+    end
+
+    if vRP.hasPermission(user_id,perm.police.drag()) then
+      choices[lang.police.menu.drag.title()] = choice_drag
+    end
+
+    if vRP.hasPermission(user_id,perm.police.putinveh()) then
+      choices[lang.police.menu.putinveh.title()] = choice_putinveh
+    end
+
+    if vRP.hasPermission(user_id,perm.police.getoutveh()) then
+      choices[lang.police.menu.getoutveh.title()] = choice_getoutveh
+    end
+
+    if vRP.hasPermission(user_id,perm.police.check()) then
+      choices[lang.police.menu.check.title()] = choice_check
+    end
+
+    if vRP.hasPermission(user_id,perm.police.seize_weapons()) then
+      choices[lang.police.menu.seize.weapons.title()] = choice_seize_weapons
+    end
+
+    if vRP.hasPermission(user_id,perm.police.seize_items()) then
+      choices[lang.police.menu.seize.items.title()] = choice_seize_items
+    end
+
+    if vRP.hasPermission(user_id,perm.police.jail()) then
+      choices[lang.police.menu.jail.title()] = choice_jail
+    end
+
+    if vRP.hasPermission(user_id,perm.police.fine()) then
+      choices[lang.police.menu.fine.title()] = choice_fine
+    end
+
+    -- vRP.openMenu(player,menu)
+    --end}
+
+    if vRP.hasPermission(user_id,perm.police.ask_id()) then
+      choices[lang.police.menu.askid.title()] = choice_askid
+    end
+
+    if vRP.hasPermission(user_id, perm.police.store_weapons()) then
+      choices[lang.police.menu.store_weapons.title()] = choice_store_weapons
+    end
+
+    add(choices)
+end
+end)
+
+
+
+-------------------------
+
+
+
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
   local player = data.player
@@ -502,7 +579,7 @@ vRP.registerMenuBuilder("main", function(add, data)
   if user_id then
     local choices = {}
 
-    if vRP.hasPermission(user_id,perm.police.menu()) then
+    if --[[vRP.hasPermission(user_id,perm.police.menu()) and -]] vRP.hasNearByPlayer(player) then
       -- build police menu
       choices[lang.police.title()] = {function(player,choice)
         local menu = vRP.buildMenu("police", {player = player})

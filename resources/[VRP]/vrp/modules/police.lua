@@ -491,7 +491,7 @@ local ch_police_breathalyzer = {function(player, choice)
   local user_id = vRP.getUserId(nplayer)
   if user_id then
     local tempData = vRP.getUserTmpExtrasTable(user_id)
-    if vRP.request(user_id,lang.police.menu.breathalyzer.requestPlayer(), 60) then
+    if vRP.request(nplayer,lang.police.menu.breathalyzer.requestPlayer(), 60) then
       vRPclient._setDiv(player,"police_breathalyzer",".div_police_breathalyzer{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }","Nome: " .. vRP.getUserIdentity(user_id).name .."<br>Nivel de alcool: " .. tempData.alcohol .. " %BAC")
       local ok = vRP.request(vRP.getUserId(player), lang.police.menu.breathalyzer.close(), 999)
       if ok then

@@ -1,9 +1,9 @@
-var clamp = function(val, min, max){ return Math.min(Math.max(min, val), max); }
+var clamp = function(val, min, max){ return Math.min(Math.max(min, val), max); };
 
 var is_playing = function(media)
 {
   return media.currentTime > 0 && !media.paused && !media.ended && media.readyState > 2;
-}
+};
 
 function AudioEngine()
 {
@@ -31,7 +31,7 @@ function AudioEngine()
   libopus.onload = function(){
     //encoder
     _this.mic_enc = new libopus.Encoder(1,48000,24000,true);
-  }
+  };
   if(libopus.loaded) //force loading if already loaded
     libopus.onload();
 
@@ -66,7 +66,7 @@ function AudioEngine()
         }
       }
     }
-  }
+  };
 
 
   this.mic_processor = this.c.createScriptProcessor(this.processor_buffer_size,1,1);
@@ -108,7 +108,7 @@ function AudioEngine()
     var out = e.outputBuffer.getChannelData(0);
     for(var k = 0; k < out.length; k++)
       out[k] = 0;
-  }
+  };
 
   this.mic_processor.connect(this.c.destination); //make the processor running
 
@@ -163,7 +163,7 @@ AudioEngine.prototype.setListenerData = function(data)
       }
     }
   }
-}
+};
 
 // return [audio, node, panner]
 AudioEngine.prototype.setupAudioSource = function(data)
@@ -197,7 +197,7 @@ AudioEngine.prototype.setupAudioSource = function(data)
   }
 
   return [audio, node, panner, spatialized];
-}
+};
 
 AudioEngine.prototype.playAudioSource = function(data)
 {
@@ -228,7 +228,7 @@ AudioEngine.prototype.playAudioSource = function(data)
     // play
     source[0].play();
   }
-}
+};
 
 AudioEngine.prototype.setAudioSource = function(data)
 {
@@ -251,7 +251,7 @@ AudioEngine.prototype.setAudioSource = function(data)
 
   if(!source[3] || dist <= active_dist)
     source[0].play();
-}
+};
 
 AudioEngine.prototype.removeAudioSource = function(data)
 {
@@ -265,14 +265,14 @@ AudioEngine.prototype.removeAudioSource = function(data)
     if(source[3]) //spatialized
       source[2].disconnect(this.c.destination);
   }
-}
+};
 
 //VoIP
 
 AudioEngine.prototype.setPeerConfiguration = function(data)
 {
   this.peer_config = data.config;
-}
+};
 
 AudioEngine.prototype.setPlayerPositions = function(data)
 {
@@ -295,7 +295,7 @@ AudioEngine.prototype.setPlayerPositions = function(data)
       }
     }
   }
-}
+};
 
 AudioEngine.prototype.setupPeer = function(peer)
 {
@@ -337,7 +337,7 @@ AudioEngine.prototype.setupPeer = function(peer)
     //silent last samples
     for(var k = nsamples; k < out.length; k++)
       out[k] = 0;
-  }
+  };
 
 
   //add peer effects
@@ -384,12 +384,12 @@ AudioEngine.prototype.setupPeer = function(peer)
   peer.data_channel.onopen = function(){
     $.post("http://vrp/audio",JSON.stringify({act: "voice_connected", player: peer.player, channel: peer.channel, origin: peer.origin})); 
     peer.connected = true;
-  }
+  };
 
   peer.data_channel.onclose = function(){
     $.post("http://vrp/audio",JSON.stringify({act: "voice_disconnected", player: peer.player, channel: peer.channel})); 
     _this.disconnectVoice({channel: peer.channel, player: peer.player});
-  }
+  };
 
   peer.data_channel.onmessage = function(e){
     if(peer.dec){
@@ -430,13 +430,13 @@ AudioEngine.prototype.setupPeer = function(peer)
           peer.psamples.push(samples);
       }
     }
-  }
+  };
 
   //ice
   peer.conn.onicecandidate = function(e){
     $.post("http://vrp/audio",JSON.stringify({act: "voice_peer_signal", player: peer.player, data: {channel: peer.channel, candidate: e.candidate}})); 
   }
-}
+};
 
 AudioEngine.prototype.getChannel = function(channel)
 {
@@ -447,7 +447,7 @@ AudioEngine.prototype.getChannel = function(channel)
   }
 
   return r;
-}
+};
 
 AudioEngine.prototype.connectVoice = function(data)
 {
@@ -463,7 +463,7 @@ AudioEngine.prototype.connectVoice = function(data)
     player: data.player,
     origin: true,
     candidate_queue: []
-  }
+  };
   channel[data.player] = peer;
 
   //create data channel
@@ -474,7 +474,7 @@ AudioEngine.prototype.connectVoice = function(data)
     $.post("http://vrp/audio",JSON.stringify({act: "voice_peer_signal", player: data.player, data: {channel: data.channel, sdp_offer: sdp}})); 
     peer.conn.setLocalDescription(sdp);
   });
-}
+};
 
 AudioEngine.prototype.disconnectVoice = function(data)
 {
@@ -513,7 +513,7 @@ AudioEngine.prototype.disconnectVoice = function(data)
 
   //update indicator
   this.updateVoiceIndicator();
-}
+};
 
 AudioEngine.prototype.voicePeerSignal = function(data)
 {
@@ -536,7 +536,7 @@ AudioEngine.prototype.voicePeerSignal = function(data)
       conn: new RTCPeerConnection(this.peer_config),
       channel: data.data.channel,
       player: data.player
-    }
+    };
 
     channel[data.player] = peer;
     this.setupPeer(peer);
@@ -560,7 +560,7 @@ AudioEngine.prototype.voicePeerSignal = function(data)
       peer.candidate_queue = [];
     }
   }
-}
+};
 
 AudioEngine.prototype.setVoiceState = function(data)
 {
@@ -579,7 +579,7 @@ AudioEngine.prototype.setVoiceState = function(data)
 
   //update indicator
   this.updateVoiceIndicator();
-}
+};
 
 AudioEngine.prototype.configureVoice = function(data)
 {
@@ -630,7 +630,7 @@ AudioEngine.prototype.configureVoice = function(data)
   //connect final node to output
   if(node) 
     node.connect(this.c.destination);
-}
+};
 
 AudioEngine.prototype.isVoiceActive = function()
 {
@@ -645,7 +645,7 @@ AudioEngine.prototype.isVoiceActive = function()
   }
 
   return false;
-}
+};
 
 AudioEngine.prototype.updateVoiceIndicator = function()
 {
@@ -653,4 +653,4 @@ AudioEngine.prototype.updateVoiceIndicator = function()
     this.voice_indicator_div.classList.add("active");
   else
     this.voice_indicator_div.classList.remove("active");
-}
+};

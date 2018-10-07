@@ -12,7 +12,7 @@ window.addEventListener("load",function(){
   log = function(txt)
   {
     errdiv.innerHTML += "<br />log: "+txt;
-  }
+  };
 
   //init dynamic menu
   var dynamic_menu = new Menu();
@@ -21,17 +21,17 @@ window.addEventListener("load",function(){
   var announcemgr = new AnnounceManager();
   var aengine = new AudioEngine();
 
-  requestmgr.onResponse = function(id,ok){ $.post("http://vrp/request",JSON.stringify({act: "response", id: id, ok: ok})); }
-  wprompt.onClose = function(){ $.post("http://vrp/prompt",JSON.stringify({act: "close", result: wprompt.result})); }
-  dynamic_menu.onClose = function(){ $.post("http://vrp/menu",JSON.stringify({act: "close", id: dynamic_menu.id})); }
-  dynamic_menu.onValid = function(choice,mod){ $.post("http://vrp/menu",JSON.stringify({act: "valid", id: dynamic_menu.id, choice: choice, mod: mod})); }
+  requestmgr.onResponse = function(id,ok){ $.post("http://vrp/request",JSON.stringify({act: "response", id: id, ok: ok})); };
+  wprompt.onClose = function(){ $.post("http://vrp/prompt",JSON.stringify({act: "close", result: wprompt.result})); };
+  dynamic_menu.onClose = function(){ $.post("http://vrp/menu",JSON.stringify({act: "close", id: dynamic_menu.id})); };
+  dynamic_menu.onValid = function(choice,mod){ $.post("http://vrp/menu",JSON.stringify({act: "valid", id: dynamic_menu.id, choice: choice, mod: mod})); };
 
   //init
   $.post("http://vrp/init",""); 
 
   var current_menu = dynamic_menu;
-  var pbars = {}
-  var divs = {}
+  var pbars = {};
+  var divs = {};
 
   //progress bar ticks (25fps)
   setInterval(function(){
@@ -60,7 +60,7 @@ window.addEventListener("load",function(){
       dynamic_menu.id = data.menudata.id;
 
       //customize menu
-      var css = data.menudata.css
+      var css = data.menudata.css;
       if(css.top)
         dynamic_menu.div.style.top = css.top;
       if(css.header_color)
@@ -91,7 +91,7 @@ window.addEventListener("load",function(){
         pbar.setText(data.text);
     }
     else if(data.act == "remove_pbar"){
-      var pbar = pbars[data.name]
+      var pbar = pbars[data.name];
       if(pbar){
         pbar.removeDom();
         delete pbars[data.name];
@@ -115,7 +115,7 @@ window.addEventListener("load",function(){
       if(div)
         div.removeDom();
 
-      divs[data.name] = new Div(data)
+      divs[data.name] = new Div(data);
       divs[data.name].addDom();
     }
     else if(data.act == "set_div_css"){

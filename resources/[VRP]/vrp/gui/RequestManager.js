@@ -4,7 +4,7 @@ function RequestManager()
   var _this = this;
   setInterval(function(){ _this.tick(); },1000);
 
-  this.requests = []
+  this.requests = [];
   this.div = document.createElement("div");
   this.div.classList.add("request_manager");
 
@@ -14,11 +14,11 @@ function RequestManager()
 RequestManager.prototype.buildText = function(text,time)
 {
   return "<span>"+text+" <span class=\"yes\">[F5]</span><span class=\"no\">[F6]</span>["+time+"s]</span>";
-}
+};
 
 RequestManager.prototype.addRequest = function(id,text,time)
 {
-  var request = {}
+  var request = {};
   request.div = document.createElement("div");
   request.id = id;
   request.time = time-1; //sub 1 second to prevent server timeout done before client timeout
@@ -27,7 +27,7 @@ RequestManager.prototype.addRequest = function(id,text,time)
 
   this.requests.push(request);
   this.div.appendChild(request.div);
-}
+};
 
 RequestManager.prototype.respond = function(ok)  //respond to the first request
 {
@@ -40,7 +40,7 @@ RequestManager.prototype.respond = function(ok)  //respond to the first request
     this.div.removeChild(request.div);
     this.requests.splice(0,1);
   }
-}
+};
 
 RequestManager.prototype.tick = function()
 {
@@ -56,4 +56,4 @@ RequestManager.prototype.tick = function()
       this.requests.splice(i,1);
     }
   }
-}
+};

@@ -4,7 +4,7 @@ function AnnounceManager()
   var _this = this;
   setInterval(function(){ _this.tick(); }, 30000);
 
-  this.announces = []
+  this.announces = [];
   this.div = document.createElement("div");
   this.div.classList.add("announce");
 
@@ -13,9 +13,9 @@ function AnnounceManager()
 
 AnnounceManager.prototype.addAnnounce = function(background, content)
 {
-  var announce = {background: background, content: content}
+  var announce = {background: background, content: content};
   this.announces.push(announce);
-}
+};
 
 AnnounceManager.prototype.tick = function()
 {
@@ -34,5 +34,5 @@ AnnounceManager.prototype.tick = function()
       }
     }, 2000);
   });
-}
+};
 

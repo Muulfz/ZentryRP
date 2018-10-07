@@ -48,6 +48,6 @@ const yarnBuildTask = {
 			});
 		});
 	}
-}
+};
 
 RegisterResourceBuildTaskFactory('yarn', () => yarnBuildTask);

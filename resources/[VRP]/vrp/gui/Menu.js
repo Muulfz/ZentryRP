@@ -35,7 +35,7 @@ function Menu()
 Menu.prototype.updateState = function()
 {
   $.post("http://vrp/menu_state",JSON.stringify({opened: this.opened}));
-}
+};
 
 Menu.prototype.open = function(name,choices) //menu name and choices as [name,desc] array
 {
@@ -64,7 +64,7 @@ Menu.prototype.open = function(name,choices) //menu name and choices as [name,de
   this.div_choices.style.height = (this.div.offsetHeight-this.div_choices.offsetTop)+"px";
 
   this.setSelected(0);
-}
+};
 
 Menu.prototype.setSelected = function(i)
 {
@@ -88,8 +88,8 @@ Menu.prototype.setSelected = function(i)
     this.el_choices[this.selected].classList.add("selected");
 
     //scroll to selected
-    var scrollto = $(this.el_choices[this.selected])
-    var container = $(this.div_choices)
+    var scrollto = $(this.el_choices[this.selected]);
+    var container = $(this.div_choices);
     if(scrollto.offset().top < container.offset().top || scrollto.offset().top + scrollto.height() >= container.offset().top+container.height())
       container.scrollTop(scrollto.offset().top - container.offset().top + container.scrollTop());
 
@@ -103,7 +103,7 @@ Menu.prototype.setSelected = function(i)
       this.div_desc.style.top = (this.div.offsetTop+this.div_header.offsetHeight)+"px";
     }
   }
-}
+};
 
 Menu.prototype.close = function()
 {
@@ -118,19 +118,19 @@ Menu.prototype.close = function()
 
     if(this.onClose) this.onClose();
   }
-}
+};
 
 Menu.prototype.moveUp = function()
 {
   if(this.opened)
     this.setSelected(this.selected-1);
-}
+};
 
 Menu.prototype.moveDown = function()
 {
   if(this.opened)
     this.setSelected(this.selected+1);
-}
+};
 
 Menu.prototype.valid = function(mod)
 {
@@ -138,4 +138,4 @@ Menu.prototype.valid = function(mod)
     if(this.onValid && this.opened)
       this.onValid(this.choices[this.selected][0], mod)
   }
-}
+};

@@ -8,7 +8,7 @@ function WPrompt()
   this.div_title = document.createElement("h1");
   this.div_area = document.createElement("textarea");
   var _this = this;
-  this.div_area.onblur = function(){ _this.close(); }
+  this.div_area.onblur = function(){ _this.close(); };
 
   this.div_help = document.createElement("div");
   this.div_help.classList.add("help");
@@ -39,7 +39,7 @@ WPrompt.prototype.open = function(title,text)
   this.div.style.top = Math.round(document.body.offsetHeight/2.0-this.div.offsetHeight/2.0)+"px";
 
   this.div_area.focus();
-}
+};
 
 WPrompt.prototype.close = function()
 {
@@ -52,4 +52,4 @@ WPrompt.prototype.close = function()
     this.opened = false;
     this.div.style.display = "none";
   }
-}
+};

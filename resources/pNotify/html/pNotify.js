@@ -6,6 +6,6 @@ $(function(){
         }else{
           var maxNotifications = event.data.maxNotifications;
           Noty.setMaxVisible(maxNotifications.max, maxNotifications.queue);
-        };
+        }
     });
 });

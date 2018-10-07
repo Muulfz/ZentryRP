@@ -1,4 +1,4 @@
-var anchors = {}
+var anchors = {};
 anchors["minimap"] = [];
 anchors["center"] = [];
 anchors["botright"] = [];
@@ -32,12 +32,12 @@ function ProgressBar(data)
 ProgressBar.prototype.setValue = function(val)
 {
   this.value = val;
-}
+};
 
 ProgressBar.prototype.setText = function(text)
 {
   this.div_label.innerHTML = text;
-}
+};
 
 ProgressBar.prototype.frame = function(time)
 {
@@ -96,7 +96,7 @@ ProgressBar.prototype.frame = function(time)
 
   //update inner bar
   this.div_inner.style.width = Math.round(this.div.offsetWidth*this.disp_value/100.0)+"px";
-}
+};
 
 ProgressBar.prototype.addDom = function()
 {
@@ -106,7 +106,7 @@ ProgressBar.prototype.addDom = function()
   var anchor = anchors[this.data.anchor];
   if(anchor)
     anchor.push(this);
-}
+};
 
 ProgressBar.prototype.removeDom = function()
 {
@@ -119,7 +119,7 @@ ProgressBar.prototype.removeDom = function()
     if(i >= 0)
       anchor.splice(i,1);
   }
-}
+};
 
 // PROGRESS BAR DYNAMIC CLASS
 

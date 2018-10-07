@@ -1,4 +1,4 @@
-var dynamic_classes = {}
+var dynamic_classes = {};
 
 //define a dynamic class (every elements with this class will trigger the callback passing themselves when added)
 function defineDynamicClass(classname, callback)
@@ -22,7 +22,7 @@ var handle_inserted_element = function(el){
     for(var i = 0; i < children.length; i++)
       handle_inserted_element(children[i]);
   }
-}
+};
 
 var observer = new MutationObserver(function(mutations){
   mutations.forEach(function(mutation){

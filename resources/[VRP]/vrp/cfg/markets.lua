@@ -9,7 +9,7 @@ local importado = vRP.getII()
 
 cfg.market_types = {
   ["food"] = {
-    _config = {blipid=52, blipcolor=2, money_type = "default"},
+    _config = {blipid=52, blipcolor=2, money_type = "USD"},
 
     -- list itemid => price
     -- Drinks

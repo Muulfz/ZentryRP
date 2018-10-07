@@ -31,6 +31,7 @@ server_scripts{
   "modules/basic_phone.lua",
   "modules/basic_atm.lua",
   "modules/basic_market.lua",
+  "modules/basic_sales.lua",
   "modules/basic_gunshop.lua",
   "modules/basic_garage.lua",
   "modules/basic_items.lua",
@@ -61,7 +62,7 @@ server_scripts{
   "modules/missions/robbery.lua",
   "modules/missions/basic.lua",
   --STORE,
-  "modules/stores/market_usd.lua",
+ -- "modules/stores/market_usd.lua",
   "modules/stores/barbershop.lua",
   "modules/stores/tattoos.lua",
   --VEHICLE

@@ -48,12 +48,15 @@ local function build_market_menus()
               -- payment
               print("PAGAMENTO")
               print(price)
-              if vRP.tryPayment(user_id,amount*price) then
-                print("CONSEGUIU")
-                vRP.giveInventoryItem(user_id,idname,amount,true)
-                vRPclient._notify(player,lang.money.paid({amount*price}))
-              else
-                vRPclient._notify(player,lang.money.not_enough())
+              print(market_types_[gtype]._config.money_type)
+              if market_types_[gtype]._config.money_type == "default" then
+                if vRP.tryPayment(user_id,amount*price) then
+                  print("CONSEGUIU")
+                  vRP.giveInventoryItem(user_id,idname,amount,true)
+                  vRPclient._notify(player,lang.money.paid({amount*price}))
+                else
+                  vRPclient._notify(player,lang.money.not_enough())
+                end
               end
             else
               vRPclient._notify(player,lang.inventory.full())

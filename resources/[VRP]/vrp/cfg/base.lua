@@ -4,10 +4,10 @@ local cfg = {}
 -- mysql credentials
 cfg.db = {
   driver = "ghmattimysql",
-  host = "127.0.0.1:3306",
+  host = "127.0.0.1:3311",
   database = "vRP",
-  user = "root",
-  password = ""
+  user = "fivem",
+  password = "macaco123"
 }
 
 cfg.framework = {

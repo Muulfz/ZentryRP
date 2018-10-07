@@ -25,7 +25,6 @@ end
 
 --ToDo Quando o player logar, criar uma pasta de log dele.
 
-
 function vRP.logInfoToFile(file,info)
     file = io.open(file,"a")
     if file then

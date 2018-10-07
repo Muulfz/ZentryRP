@@ -63,6 +63,7 @@ AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
     vRP.setHappiness(user_id, 100)
     vRP.clearInventory(user_id)
 
+
     if cfg.clear_phone_directory_on_death then
       data.phone_directory = {} -- clear phone directory after death
     end
@@ -72,6 +73,9 @@ AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
     end
 
     vRP.setMoney(user_id,0)
+    vRP.setMoneyEUR(user_id, 0)
+    vRP.setMoneyUSD(user_id, 0)
+    vRP.setBitcoin(user_id, 0)
 
     -- disable handcuff
     vRPclient._setHandcuffed(player,false)

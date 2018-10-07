@@ -110,6 +110,7 @@ client_scripts{
   "client/utils/admin.lua",
   "client/utils/player.lua",
   "client/utils/police.lua",
+  "client/text.lua",
   "client/missions/basic.lua",
   "client/stores/barbershop.lua",
   "client/utils/moviment.lua",
@@ -158,6 +159,8 @@ files{
     -- CFGS
    ---DEFAULT
   "cfg/client.lua",
+  -- Client
+  "cfg/client/text.lua",
   ---LANG
 
   "cfg/lang/client/en.lua",

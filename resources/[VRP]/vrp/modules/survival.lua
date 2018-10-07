@@ -191,6 +191,7 @@ end)
 -- add survival progress bars on spawn
 AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
     local data = vRP.getUserDataTable(user_id)
+    local tempData = vRP.getUserTmpExtrasTable(user_id)
 
     -- disable police
     vRPclient._setPolice(source, cfg.police)
@@ -207,6 +208,7 @@ AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
     vRP.setSleep(user_id, data.sleep)
     vRP.setHealthScale(user_id, data.health_scale)
     vRP.setHappiness(user_id, data.happiness)
+    vRP.setAlcohol(user_id, tempData.alcohol)
 end)
 
 -- EMERGENCY

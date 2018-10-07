@@ -67,7 +67,7 @@ end
 
 -- DRINKS --
 
-items["water"] = {"Water bottle","", gen("drink",0,-25, 0 ,0, 0, 0, 0),0.5}
+items["water"] = {"Water bottle","", gen("drink",0,-25, 0 ,0, 0, 0, -0.01),0.5}
 items["milk"] = {"Milk","", gen("drink",0,-5, 0 ,0, 0, 0, 0),0.5}
 items["coffee"] = {"Coffee","", gen("drink",0,-10, 0 ,0, 0, 0, 0),0.2}
 items["tea"] = {"Tea","", gen("drink",0,-15, 0 ,0, 0, 0, 0),0.2}
@@ -75,8 +75,8 @@ items["icetea"] = {"ice-Tea","", gen("drink",0,-20, 0 ,0, 0, 0, 0), 0.5}
 items["orangejuice"] = {"Orange Juice.","", gen("drink",0,-25, 0 ,0, 0, 0, 0),0.5}
 items["gocagola"] = {"Goca Gola","", gen("drink",0,-35, 0 ,0, 0, 0, 0),0.3}
 items["redgull"] = {"RedGull","", gen("drink",0,-40, 0 ,0, 0, 0, 0),0.3}
-items["lemonlimonad"] = {"Lemon limonad","", gen("drink",0,-45, 0 ,0, 0, 0, 0),0.3}
-items["vodka"] = {"Vodka","", gen("drink",15,-65, 0 ,0, 0, 0, 0.02),0.5}
+items["lemonlimonad"] = {"Lemon limonad","", gen("drink",0,-45, 0 ,0, 0, 0, -0.02),0.3}
+items["vodka"] = {"Vodka","", gen("drink",15,-65, 0 ,0, 0, 0, 0.03),0.5}
 
 --FOOD
 

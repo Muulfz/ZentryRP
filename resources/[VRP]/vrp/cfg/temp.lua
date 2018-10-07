@@ -4,6 +4,4 @@ local cfg = {}
 
 cfg.resetTimer = 24 -- TIME IN HOURS
 
-
-
 return cfg
